@@ -5,12 +5,10 @@
  * Date: 08/04/19
  * Time: 18:40
  */
-
 namespace App\Controller;
 
 class HomeController extends AbstractController
 {
-
     /**
      * Display home page
      *
@@ -21,6 +19,7 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->twig->render('Home/index.html.twig');
+        $menu = ['menu1', 'menu2', 'menu3', 'menu4', 'menu5'];
+        return $this->twig->render('Home/index.html.twig', ['menu' => $menu]);
     }
 }

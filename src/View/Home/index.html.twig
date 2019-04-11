@@ -1,5 +1,77 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %}
+    Index
+{% endblock %}
+
 {% block content %}
-    <h1>Hello Wilder !</h1>
+    <img src="https://via.placeholder.com/1400x400" alt="placeholder">
+    <hr>
+    <div class="container">
+        <div class="row p-5">
+            <div class="col-md-12 text-center">
+                <h2>Présentation</h2>
+            </div>
+        </div>
+        <div class="row p-5">
+            <div class="col-md-4 text-center">
+                <p>Coucou Strass'Cook</p>
+            </div>
+            <div class="col-md-4">
+                <p class="text-center"><img src="https://via.placeholder.com/200"  alt="placeholder"></p>
+            </div>
+            <div class="col-md-4 text-center">
+                <p>Coucou Strass'Cook</p>
+            </div>
+        </div>
+    </div>
+<hr>
+    <div class="container">
+        <div class="row p-5">
+            <div class="col-md-12 text-center">
+                <h2>Menu</h2>
+            </div>
+        </div>
+
+        <div class="row p-5">
+            {% for menu in menu %}
+            <div class="col-md-2 mx-auto">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="placeholder">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row p-5">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-outline-secondary">Réservations</button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row p-5">
+            <div class="col-md-12 text-center">
+                <h2>Partenariats</h2>
+            </div>
+        </div>
+        <div class="row p-5 text-center">
+            <div class="col-md-4 mx-auto">
+                <div>
+                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                </div>
+            </div>
+            <div class="col-md-4 mx-auto">
+                <div>
+                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                </div>
+            </div>
+            <div class="col-md-4 mx-auto">
+                <div>
+                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
 {% endblock %}
