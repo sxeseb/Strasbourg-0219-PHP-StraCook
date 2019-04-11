@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Stras'Cook - Menu {{ menu.name }} {% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-10 offset-1 col-sm-4 offset-sm-0">
+                <img src="{{ menu.thumb_src }}" alt="">
+            </div>
+            <div class="col-12 col-sm-8">
+                <div class="row">
+                    <h3>{{ menu.name }}</h3>
+                    <p class="">Le menu :</p>
+                    <ul class="">
+                        <li><h4>Entrée : </h4> {{ menu.starter }}</li>
+                        <li><h4>Plat : </h4> {{ menu.main_course }}</li>
+                        <li><h4>Dessert : </h4> {{ menu.dessert }}</li>
+                    </ul>
+                    <h4>{{ menu.name }}</h4>
+                    <p>{{ menu.description }}</p>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4 btn-classique">
+                        <p>Classique : 20 €</p>
+                    </div>
+                    <div class="col-4 btn-local">
+                        <p>Classique : 20 €</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="/reservation/add/{{ menu.id }}" class="btn"><span class="btn-inner">Réservation</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
