@@ -3,9 +3,9 @@
 
 namespace App\Controller;
 
-use App\Model\ReservationsManager;
+use App\Model\ReservationManager;
 
-class ReservationsController extends AbstractController
+class ReservationController extends AbstractController
 {
     public function reserver()
     {
@@ -14,14 +14,14 @@ class ReservationsController extends AbstractController
 
     public function list()
     {
-        $resaManager = new ReservationsManager();
+        $resaManager = new ReservationManager();
         $reservations = $resaManager->selectAll();
         return $this->twig->render('Reservations/list.html.twig', ['reservations' => $reservations]);
     }
 
     public function show(int $id)
     {
-        $resaManager = new ReservationsManager();
+        $resaManager = new ReservationManager();
         $reservation =  $resaManager->selectOneById($id);
         return $this->twig->render('Reservations/show.html.twig', ['reservation' => $reservation]);
     }

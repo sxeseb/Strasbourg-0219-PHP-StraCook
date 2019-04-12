@@ -3,7 +3,7 @@
 
 namespace App\Model;
 
-class ReservationsManager extends AbstractManager
+class ReservationManager extends AbstractManager
 {
 
     const TABLE = 'reservations';
