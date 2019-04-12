@@ -3,37 +3,43 @@
 {% block title %}
     Index
 {% endblock %}
-
+{% block image_url %}/assets/images/index.jpg{%  endblock %}
 {% block content %}
-    <img src="https://via.placeholder.com/1400x400" alt="placeholder">
-    <hr>
-    <div class="container">
-        <div class="row p-5">
+    <div class="container py-5">
+        <div class="row">
             <div class="col-md-12 text-center">
-                <h2>Présentation</h2>
+                <div class="titre_index"><h1>Présentation</h1></div>
             </div>
         </div>
-        <div class="row p-5">
-            <div class="col-md-4 text-center">
-                <p>Coucou Strass'Cook</p>
+        <div class="row py-5">
+            <div class="col-md-4 text-justify">
+                <p>Bienvenue chez Stras'Cook nous sommes une entreprise qui vous propose un service de restaurations à
+                domicile pour la plus grande joie de vos papilles. Diverses menu vous sont proposer, avec nos
+                producteurs locaux d'alsace les plats seront encore meilleurs. N'hésitez pas à nous faire part de vos
+                envies et de vos goûts.
+                </p>
             </div>
             <div class="col-md-4">
-                <p class="text-center"><img src="https://via.placeholder.com/200"  alt="placeholder"></p>
+                <p class="text-center"><img src="/assets/images/presentation.jpg"  alt="presentation" height="200"
+                                            width="200"></p>
             </div>
-            <div class="col-md-4 text-center">
-                <p>Coucou Strass'Cook</p>
+            <div class="col-md-4 text-justify">
+                <p>Tout sera pris en compte pour que votre soirée soit la plus agréable possible. Des plats divers et
+                    variés selon votre régime alimentaire nous pensons à tout. Vous souhaitez un repas calme en petit
+                    commité où un repas rempli de folie et de show il suffit de nous le demander dans les commentaires
+                    de votre réservation.</p>
             </div>
         </div>
     </div>
-<hr>
-    <div class="container">
-        <div class="row p-5">
+    <div class="menu">
+    <div class="container py-5">
+        <div class="row">
             <div class="col-md-12 text-center">
-                <h2>Menu</h2>
+                <div class="titre_menu"><h1>Menus</h1></div>
             </div>
         </div>
 
-        <div class="row p-5">
+        <div class="row py-5">
             {% for menu in menu %}
             <div class="col-md-2 mx-auto">
                 <div class="card">
@@ -44,34 +50,33 @@
         </div>
         <div class="row p-5">
             <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-outline-secondary">Réservations</button>
+                <button type="button" class="btn btn-outline-light">Réservations</button>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="container">
-        <div class="row p-5">
+    </div>
+    <div class="container py-5">
+        <div class="row">
             <div class="col-md-12 text-center">
-                <h2>Partenariats</h2>
+                <div class="titre_index"><h1>Partenariats</h1></div>
             </div>
         </div>
-        <div class="row p-5 text-center">
+        <div class="row text-center">
             <div class="col-md-4 mx-auto">
                 <div>
-                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                    <img src="/assets/images/amap1.png" alt="amap1" width="100" height="100">
                 </div>
             </div>
             <div class="col-md-4 mx-auto">
                 <div>
-                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                    <img src="/assets/images/amap2.png" alt="amap2" width="200" height="200">
                 </div>
             </div>
             <div class="col-md-4 mx-auto">
                 <div>
-                    <img src="https://via.placeholder.com/100x100" alt="placeholder">
+                    <img src="/assets/images/amap3.png" alt="amap3" width="100" height="100">
                 </div>
             </div>
         </div>
     </div>
-    <hr>
 {% endblock %}
