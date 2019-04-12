@@ -1,14 +1,70 @@
 {%  extends 'layout.html.twig' %}
 
+{% block title %} Stras'Cook - Reserver une prestation {% endblock %}
+
 {% block content %}
     <section>
         <div class="container py-5">
             <div class="row">
-                <div class="form">
+                <div class="form col-12 col-sm-6">
                     <form action="/reservation/control" method="POST">
+                        <!-- selection date -->
+                        <h4>Ma réservation</h4>
+                        <div class="form-group">
+                            <input class="form-control" name="selected_date" type="date">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="arrival_time">
+                                <option selected disabled>Heure d'arrivée</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                            </select>
+                        </div>
+
+                        <!-- Selection des plats -->
+                        <!-- Le contenu sera placé dans un panier via Javacript -->
+                        <h4>Mon choix de menus</h4>
+                        <div class="form-row">
+                            {% for menu in menus %}
+                                <input type="hidden" value="{{ menu.id }}">
+                                <div class="form-group col-4">
+                                    <img src="{{ menu.img }}" alt="{{ menu.name }}">
+                                    <p>Menu {{ menu.name }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <legend class="col-form-label col-sm-2 pt-0">Catégorie</legend>
+                                <div class="col-sm-10 pl-5">
+                                    <div class="form-check-inline col-4">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="1" checked>
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Normal
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline col-4">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="2">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Local
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <input class="form-control" type="number" min="2" max="15" id="menu_numb">
+                            </div>
+                            <div class="form-group col-5 offset-2">
+                                <button class="btn btn-dark" id="addToCart">Ajouter au panier</button>
+                            </div>
+                        </div>
 
                         <!-- coordonnées -->
-                        <h4>Coordonnées</h4>
+                        <h4>Mes coordonnées</h4>
                         <!-- nom, prénom -->
                         <div class="form-row">
                             <div class="form-group col-6">
@@ -60,13 +116,18 @@
                                 {% endif %}
                             </div>
                         </div>
+
+                        <div class="form-group text-center py-3">
+                            <button type="submit" class="btn btn-primary">Valider ma réservation</button>
+                        </div>
                     </form>
                 </div>
-                <div class="col">
-
+                <div class="col-6">
+                    <div>
+                        <h4>Mon panier</h4>
+                    </div>
                 </div>
             </div>
-
         </div>
     </section>
 {% endblock %}
