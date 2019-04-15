@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Model\ReservationManager;
+use App\Service\ValidationController;
 
 class ReservationController extends AbstractController
 {
@@ -24,5 +25,11 @@ class ReservationController extends AbstractController
         $resaManager = new ReservationManager();
         $reservation =  $resaManager->selectOneById($id);
         return $this->twig->render('Reservations/show.html.twig', ['reservation' => $reservation]);
+    }
+
+    public function control(array $post)
+    {
+        $validator = new ValidationController();
+        $data = $validator->checkResa($post);
     }
 }
