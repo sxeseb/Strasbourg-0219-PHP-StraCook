@@ -58,4 +58,9 @@ class MenuManager extends AbstractManager
 
         return $statement->execute();
     }
+
+    public function selectAllMenus(): array
+    {
+        $statement = $this->pdo->query("SELECT * FROM $this->table   ")
+    }
 }
