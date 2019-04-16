@@ -1,0 +1,95 @@
+body
+{
+    background-color: seashell;
+}
+
+.container
+{
+    position: relative;
+}
+
+
+header
+{
+    background-color: #171c22;
+    color: seashell;
+}
+
+footer
+{
+    background-image: linear-gradient(to bottom right, #31363e, #171c22);
+    color: seashell;
+}
+footer p
+{
+    color: seashell;
+}
+
+footer .nav-link
+{
+    color: seashell;
+    transition: ease-in-out .25s;
+}
+
+footer .nav-link:hover
+{
+    color: #ebc1a8;
+}
+
+header .nav-link
+{
+    color: seashell;
+    transition: ease-in-out .25s;
+}
+
+header .nav-link:hover
+{
+    color: #ebc1a8;
+}
+
+/*
+header .nav-link:hover::after
+{
+    content: "";
+    display:block;
+    width: 100%;
+    height: 3px;
+    margin: 0px;
+    pading: 0;
+}
+*/
+
+.dropdown-menu
+{
+    background-color: #171c22;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dropdown-item
+{
+    color: seashell;
+    transition: ease-in-out .25s;
+}
+
+.dropdown-item:hover
+{
+    color: #ebc1a8;
+    background-color: #171c22;
+}
+
+.menu{
+    background-image: url(../images/background_menu.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.titre_index{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+}
+
+.titre_menu{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+    color: seashell;
+}
