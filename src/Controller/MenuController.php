@@ -9,7 +9,9 @@ class MenuController extends AbstractController
 {
     public function menus()
     {
-        return $this->twig->render('Menu/menus.html.twig');
+        $menumanager = new MenuManager();
+        $menus = $menumanager ->selectAll();
+        return $this->twig->render('Menu/menus.html.twig', ['menus' => $menus]);
     }
 
     public function show(int $id)
