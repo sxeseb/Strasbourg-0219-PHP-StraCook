@@ -14,16 +14,16 @@ class MenuController extends AbstractController
 
     public function show(int $id)
     {
-        $MenuManager = new MenuManager();
-        $menu = $MenuManager->selectOneById($id);
+        $menuManager = new MenuManager();
+        $menu = $menuManager->selectOneById($id);
 
         return $this->twig->render('Menu/show.html.twig', ['menu' => $menu]);
     }
 
     public function list()
     {
-        $MenuManager = new MenuManager();
-        $menus = $MenuManager->selectAll();
+        $menuManager = new MenuManager();
+        $menus = $menuManager->selectAll();
 
         return $this->twig->render('Menu/list.html.twig', ['menus' => $menus]);
     }
