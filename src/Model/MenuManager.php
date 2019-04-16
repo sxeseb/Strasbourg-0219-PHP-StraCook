@@ -61,6 +61,8 @@ class MenuManager extends AbstractManager
 
     public function selectAllMenus(): array
     {
-        $statement = $this->pdo->query("SELECT * FROM $this->table   ")
+        $statement = $this->pdo->query("SELECT * FROM $this->table JOIN images ON menus.id = images.menus_id");
+
+        return $statement = $statement ->fetchAll();
     }
 }
