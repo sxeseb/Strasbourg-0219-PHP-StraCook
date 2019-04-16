@@ -16,12 +16,14 @@ class ReservationManager extends AbstractManager
         parent::__construct(self::TABLE);
     }
 
-    public function insert(array $reservation): int
+    public function insert(array $reservation, int $user_id): int
     {
         // prepared request
-        $statement = $this->pdo->prepare("INSERT INTO $this->table (`title`) VALUES (:title)");
-        $statement->bindValue('title', $reservation['title'], \PDO::PARAM_STR);
-
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (status, user_id, date_booked) VALUES (
+            :status, :user_id, :date_booked)");
+        $statement->bindValue(':status', false, \PDO::PARAM_BOOL);
+        $statement->bindValue(':user_id', $user_id, \PDO::PARAM_INT);
+        $statement->bindValue(':date_booked', $reservation['date_booked'], \PDO::PARAM_STR);
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
         }
