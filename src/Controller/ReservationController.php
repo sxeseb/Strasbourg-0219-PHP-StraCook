@@ -10,6 +10,7 @@ class ReservationController extends AbstractController
 {
     public function reserver()
     {
+
         // select all menus pour affichage dynamique
         /*
         $menuManager = new MenuManager();
