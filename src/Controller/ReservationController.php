@@ -21,22 +21,32 @@ class ReservationController extends AbstractController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationController();
             $output = $validator->checkResa();
-            list($errors, $datas) = $output;
+            list($errors, $userDatas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
                     'Reservations/reserver.html.twig',
-                    ['menus' => $menus, 'errors' => $errors, 'datas' => $datas]
+                    ['menus' => $menus, 'errors' => $errors, 'user_datas' => $userDatas]
                 );
             } else {
-                // insertion user
-                // récupérer id pour insertion reservation
-
-                $user_id = '';
                 /*
+                 * TODO création des manager et controller pour Order et User
+                // insertion user
+                $userManager = new UserManager();
+                $userId = $userManager->insert($userDatas);
+
                 // insertion reservation
                 $resaManager = new ReservationManager();
-                $resaManager->insert($_POST, $user_id);
-                header('location: /home/index');*/
+                $resaId = $resaManager->insert($resaDatas, $userId);
+
+
+                // insertion orders
+                $orderManager = new OrderManager();
+                $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
+
+                if ($userID && $resaId && $orderId) {
+                    header('location: /reservation/success');
+                }
+                */
             }
         }
         return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus]);
@@ -54,5 +64,10 @@ class ReservationController extends AbstractController
         $resaManager = new ReservationManager();
         $reservation =  $resaManager->selectOneById($id);
         return $this->twig->render('Reservations/show.html.twig', ['reservation' => $reservation]);
+    }
+
+    public function success()
+    {
+        return $this->twig->render('Reservations/success.html.twig');
     }
 }

@@ -9,7 +9,8 @@ class ValidationController
     public function checkResa()
     {
         $errors = [];
-        $datas = [];
+        $userDatas = [];
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['user_lastname']) || empty($_POST['user_lastname'])) {
@@ -17,7 +18,7 @@ class ValidationController
             } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez saisir un nom valide';
             } else {
-                $datas['lastname'] = $this->testInput($_POST['user_lastname']);
+                $userDatas['lastname'] = $this->testInput($_POST['user_lastname']);
             }
 
             if (!isset($_POST['user_firstname']) || empty($_POST['user_firstname'])) {
@@ -25,7 +26,7 @@ class ValidationController
             } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez saisir un prénom valide';
             } else {
-                $datas['firstname'] = $this->testInput($_POST['user_firstname']);
+                $userDatas['firstname'] = $this->testInput($_POST['user_firstname']);
             }
 
             // pregmatch à changer !! //
@@ -39,7 +40,7 @@ class ValidationController
             )) {
                 $errors['email'] = 'Veuillez saisir un email valide';
             } else {
-                $datas['email'] = $this->testInput($_POST['user_mail']);
+                $userDatas['email'] = $this->testInput($_POST['user_mail']);
             }
 
             if (!isset($_POST['user_phone']) || empty($_POST['user_phone'])) {
@@ -47,7 +48,7 @@ class ValidationController
             } elseif (!preg_match("/^0[1367][0-9]{8}$/", $_POST['user_phone'])) {
                 $errors['phone'] = 'Veuillez saisir un numéro valide';
             } else {
-                $datas['phone'] = $this->testInput($_POST['user_phone']);
+                $userDatas['phone'] = $this->testInput($_POST['user_phone']);
             }
 
             if (!isset($_POST['user_adress']) || empty($_POST['user_adress'])) {
@@ -55,7 +56,7 @@ class ValidationController
             } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez saisir une adresse valide';
             } else {
-                $datas['adress'] = $this->testInput($_POST['user_adress']);
+                $userDatas['adress'] = $this->testInput($_POST['user_adress']);
             }
 
             if (!isset($_POST['user_zip']) || empty($_POST['user_zip'])) {
@@ -63,7 +64,7 @@ class ValidationController
             } elseif (!preg_match("/^^6[78][0-9]{3}$/", $_POST['user_zip'])) {
                 $errors['zip'] = 'Veuillez saisir un code postal valide';
             } else {
-                $datas['zip'] = $this->testInput($_POST['user_zip']);
+                $userDatas['zip'] = $this->testInput($_POST['user_zip']);
             }
 
             if (!isset($_POST['user_city']) || empty($_POST['user_city'])) {
@@ -71,11 +72,11 @@ class ValidationController
             } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_city'])) {
                 $errors['city'] = 'Veuillez saisir une ville valide';
             } else {
-                $datas['city'] = $this->testInput($_POST['user_city']);
+                $userDatas['city'] = $this->testInput($_POST['user_city']);
             }
         }
 
-        return array($errors, $datas);
+        return array($errors, $userDatas);
     }
 
     public function testInput($input)
