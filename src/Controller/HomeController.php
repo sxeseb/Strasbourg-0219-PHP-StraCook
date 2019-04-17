@@ -27,7 +27,6 @@ class HomeController extends AbstractController
         $part = ['part1', 'part2', 'part3'];
         return $this->twig->render('Home/index.html.twig', ['part' => $part]);
     }
-
     public function about()
     {
         return $this->twig->render('Home/propos.html.twig');

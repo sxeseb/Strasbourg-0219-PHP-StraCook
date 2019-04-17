@@ -101,3 +101,26 @@ header .nav-link:hover::after
     src: url("../typo/Delimax.ttf");
     color: seashell;
 }
+
+.navbar-toggler-icon
+{
+    color: white;
+}
+
+.insta
+{
+    width: 75px;
+    height: 75px;
+}
+
+.logo
+{
+    width: 150px;
+    height: 150px;
+}
+
+.logotop
+{
+    width: 250px ;
+    height: 75px;
+}
