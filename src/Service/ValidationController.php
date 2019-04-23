@@ -29,9 +29,6 @@ class ValidationController
                 $userDatas['firstname'] = $this->testInput($_POST['user_firstname']);
             }
 
-            // pregmatch à changer !! //
-
-
             if (!isset($_POST['user_mail']) || empty($_POST['user_mail'])) {
                 $errors['email'] = 'Veuillez renseigner le champs email';
             } elseif (!preg_match(

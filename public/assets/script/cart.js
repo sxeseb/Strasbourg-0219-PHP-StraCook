@@ -8,3 +8,7 @@ $('.clickable').click(function() {
     }
 });
 
+// function d'ajout d'une selection dans le panier
+
+
+

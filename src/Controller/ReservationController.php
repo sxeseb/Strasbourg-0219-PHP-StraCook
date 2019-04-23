@@ -11,12 +11,11 @@ class ReservationController extends AbstractController
     public function reserver()
     {
 
-        // select all menus pour affichage dynamique
         /*
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAllMenus();
         */
-        $menus ='';
+        $menus = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationController();
@@ -25,7 +24,7 @@ class ReservationController extends AbstractController
             if (!empty($errors)) {
                 return $this->twig->render(
                     'Reservations/reserver.html.twig',
-                    ['menus' => $menus, 'errors' => $errors, 'user_datas' => $userDatas]
+                    ['menus' => $menus, 'errors' => $errors, 'datas' => $userDatas]
                 );
             } else {
                 /*
@@ -43,7 +42,7 @@ class ReservationController extends AbstractController
                 $orderManager = new OrderManager();
                 $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
 
-                if ($userID && $resaId && $orderId) {
+                if ($userId && $resaId && $orderId) {
                     header('location: /reservation/success');
                 }
                 */
