@@ -4,167 +4,159 @@
 {% block stylesheet %}<link href="/assets/css/cart.css" rel="stylesheet" type="text/css"> {% endblock %}
 
 {% block content %}
-    <section>
+    <div>
         <div class="container py-5">
-            <div class="row">
-                <div class="form col-12 col-sm-5 offset-sm-1">
-                    <form action="/reservation/reserver" method="POST">
-                        <!-- selection date -->
-                        <h4>Ma réservation</h4>
-                        <div class="form-group">
-                            <input class="form-control" name="selected_date" type="date">
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" name="arrival_time">
-                                <option selected disabled>Heure d'arrivée</option>
-                                <option value="18">18:00</option>
-                                <option value="19">19:00</option>
-                                <option value="20">20:00</option>
-                                <option value="21">21:00</option>
-                            </select>
-                        </div>
+            <form action="/reservation/reserver" method="POST">
+                <div class="row">
+                    <div class="form col-12 col-sm-7 offset-sm-1">
 
-
-
-                        <!-- Selection des plats -->
-                        <!-- Le contenu sera placé dans un panier via Javacript -->
-                        <!--
-                        <h4>Mon choix de menus</h4>
-                        {% for menu in menus %}
+                            <!-- selection date -->
+                            <h4>Ma réservation</h4>
                             <div class="form-group">
-                                <div class="card mb-2">
-                                    <div class="row no-gutters">
-                                        <div class="col-sm-4">
-                                            <img src="https://via.placeholder.com/80">
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <div class="card-body">
-                                                <h5>Menu {{ menu.name }}</h5>
-                                                <ul class="list-group">
-                                                    <li class="list-group-item">Entrée : {{ menu.starter }}</li>
-                                                    <li class="list-group-item">Plat : {{ menu.main_course }}</li>
-                                                    <li class="list-group-item">Dessert : {{ menu.dessert }}</li>
-                                                </ul>
-                                                <p>{{ menu.description }}</p>
+                                <input class="form-control" name="selected_date" type="date">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="arrival_time">
+                                    <option selected disabled>Heure d'arrivée</option>
+                                    <option value="18">18:00</option>
+                                    <option value="19">19:00</option>
+                                    <option value="20">20:00</option>
+                                    <option value="21">21:00</option>
+                                </select>
+                            </div>
+
+
+
+                            <!-- Selection des plats -->
+                            <!-- Le contenu sera placé dans un panier via Javacript -->
+
+                            <h4>Mon choix de menus</h4>
+                            <div class="form-group row">
+                                {% for menu in menus %}
+                                        <div class="card mb-2 col-8">
+                                            <div class="row no-gutters">
+                                                <div class="col-sm-4">
+                                                    <img src="{{ menu.img_src }}" alt="menu {{ menu.name }}" class="card-img">
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="card-body">
+                                                        <h5>Menu {{ menu.name }}</h5>
+                                                        <p class="card-text"><small class="text-muted">{{ menu.starter }}, {{ menu.main_course }}, {{ menu.dessert }}</small></p>
+                                                        <p class="card-text">{{ menu.description }}</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+
+                                            <div class="col-3  mb-2 mx-2 py-3 bg-dark text-white row">
+                                                <div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="1" checked>
+                                                        <label class="form-check-label" for="gridRadios1">
+                                                            Normal (20€)
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="2">
+                                                        <label class="form-check-label" for="gridRadios2">
+                                                            Local (30€)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="number" min="2" max="15" id="menu_numb">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-primary btn-sm" id="addToCart-{{ menu.id }}">Ajouter au panier</button>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- coordonnées -->
+                            <h4>Mes coordonnées</h4>
+                            <!-- nom, prénom -->
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                   <input type="text" class="form-control" id="user_lastname" name="user_lastname"
+                                          placeholder="Nom" value="{% if datas.lastname %}{{ datas.lastname }}{% endif %}">
+                                    {% if errors.lastname %}
+                                    <small id="user_lastname_help" class="form-text text-danger">{{ errors.lastname }}</small>
+                                    {% endif %}
                                 </div>
-                             </div>
-                        {% endfor %}
-                        -->
-
-
-
-                        <div class="form-group">
-                            <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0">Catégorie</legend>
-                                <div class="col-sm-10 pl-5">
-                                    <div class="form-check-inline col-4">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-                                            Normal (20€)
-                                        </label>
-                                    </div>
-                                    <div class="form-check-inline col-4">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            Local (30€)
-                                        </label>
-                                    </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="user_firstname" name="user_firstname"
+                                           placeholder="Prénom" value="{% if datas.firstname %}{{ datas.firstname }}{% endif %}">
+                                    {% if errors.firstname %}
+                                        <small id="user_firstname_help" class="form-text text-danger">{{ errors.firstname }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- email -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="user_mail" name="user_mail"
+                                       placeholder="nom@monmail.com" value="{% if datas.email %}{{ datas.email }}{% endif %}">
+                                {% if errors.email %}
+                                    <small id="user_email_help" class="form-text text-danger">{{ errors.email }}</small>
+                                {% endif %}
+                            </div>
+                            <!-- phone -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="user_phone" name="user_phone"
+                                       placeholder="0642464869" value="{% if datas.phone %}{{ datas.phone }}{% endif %}">
+                                {% if errors.phone %}
+                                    <small id="user_phone_help" class="form-text text-danger">{{ errors.phone }}</small>
+                                {% endif %}
+                            </div>
+                            <!-- adresse -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="user_adress" name="user_adress"
+                                       placeholder="1 rue d'Erstein" value="{% if datas.adress %}{{ datas.adress }}{% endif %}">
+                                {% if errors.adress %}
+                                    <small id="user_adress_help" class="form-text text-danger">{{ errors.adress }}</small>
+                                {% endif %}
+                            </div>
+                            <!-- code postal, ville -->
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="user_zip" name="user_zip"
+                                           placeholder="67000" value="{% if datas.zip %}{{ datas.zip }}{% endif %}">
+                                    {% if errors.zip %}
+                                        <small id="user_zip_help" class="form-text text-danger">{{ errors.zip }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group col-6">
+                                    <input type="text" class="form-control" id="user_city" name="user_city"
+                                           placeholder="Strasbourg" value="{% if datas.city %}{{ datas.city }}{% endif %}">
+                                    {% if errors.city %}
+                                        <small id="user_city_help" class="form-text text-danger">{{ errors.city }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-6 col-md-3 h-100 container-fluid bg-dark text-white py-3">
+                        <div class="row">
+                            <div class="col-12" id="cart">
+                                <div class="py-4 px-2" id="cart_details">
+                                    <h4 id="cart_header">Votre panier est vide</h4>
+                                    <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
+                                </div>
+                                <hr>
+                                <div class="col-12">
+                                    <p>Total : <span id="total_cart">0</span> €</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-5">
-                                <input class="form-control" type="number" min="2" max="15" id="menu_numb">
-                            </div>
-                            <div class="form-group col-5 offset-2">
-                                <button class="btn btn-dark" id="addToCart">Ajouter au panier</button>
-                            </div>
-                        </div>
-
-                        <!-- coordonnées -->
-                        <h4>Mes coordonnées</h4>
-                        <!-- nom, prénom -->
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                               <input type="text" class="form-control" id="user_lastname" name="user_lastname"
-                                      placeholder="Nom" value="{% if datas.lastname %}{{ datas.lastname }}{% endif %}">
-                                {% if errors.lastname %}
-                                <small id="user_lastname_help" class="form-text text-danger">{{ errors.lastname }}</small>
-                                {% endif %}
-                            </div>
-                            <div class="form-group col-6">
-                                <input type="text" class="form-control" id="user_firstname" name="user_firstname"
-                                       placeholder="Prénom" value="{% if datas.firstname %}{{ datas.firstname }}{% endif %}">
-                                {% if errors.firstname %}
-                                    <small id="user_firstname_help" class="form-text text-danger">{{ errors.firstname }}</small>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <!-- email -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="user_mail" name="user_mail"
-                                   placeholder="nom@monmail.com" value="{% if datas.email %}{{ datas.email }}{% endif %}">
-                            {% if errors.email %}
-                                <small id="user_email_help" class="form-text text-danger">{{ errors.email }}</small>
-                            {% endif %}
-                        </div>
-                        <!-- phone -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="user_phone" name="user_phone"
-                                   placeholder="0642464869" value="{% if datas.phone %}{{ datas.phone }}{% endif %}">
-                            {% if errors.phone %}
-                                <small id="user_phone_help" class="form-text text-danger">{{ errors.phone }}</small>
-                            {% endif %}
-                        </div>
-                        <!-- adresse -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="user_adress" name="user_adress"
-                                   placeholder="1 rue d'Erstein" value="{% if datas.adress %}{{ datas.adress }}{% endif %}">
-                            {% if errors.adress %}
-                                <small id="user_adress_help" class="form-text text-danger">{{ errors.adress }}</small>
-                            {% endif %}
-                        </div>
-                        <!-- code postal, ville -->
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <input type="text" class="form-control" id="user_zip" name="user_zip"
-                                       placeholder="67000" value="{% if datas.zip %}{{ datas.zip }}{% endif %}">
-                                {% if errors.zip %}
-                                    <small id="user_zip_help" class="form-text text-danger">{{ errors.zip }}</small>
-                                {% endif %}
-                            </div>
-                            <div class="form-group col-6">
-                                <input type="text" class="form-control" id="user_city" name="user_city"
-                                       placeholder="Strasbourg" value="{% if datas.city %}{{ datas.city }}{% endif %}">
-                                {% if errors.city %}
-                                    <small id="user_city_help" class="form-text text-danger">{{ errors.city }}</small>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="form-group text-center py-3">
-                            <button type="submit" class="btn btn-primary">Valider ma réservation</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-6 col-md-4 h-100">
-                    <div class="row">
-                        <div class="col-sm-10 offset-sm-3 bg-dark text-white" id="cart">
-                            <div class="py-4 px-2" id="cart_details">
-                                <h4 id="cart_header">Votre panier est vide</h4>
-                                <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
-                            </div>
-                            <hr>
-                            <div class="col-12">
-                                <p>Total : <span id="total_cart">0</span> €</p>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-warning" name="submit">Valider ma réservation</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
 {% endblock %}

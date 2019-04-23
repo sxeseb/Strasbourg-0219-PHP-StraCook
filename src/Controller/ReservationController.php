@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Model\MenuManager;
 use App\Model\ReservationManager;
 use App\Service\ValidationController;
 
@@ -11,11 +12,9 @@ class ReservationController extends AbstractController
     public function reserver()
     {
 
-        /*
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAllMenus();
-        */
-        $menus = '';
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationController();
