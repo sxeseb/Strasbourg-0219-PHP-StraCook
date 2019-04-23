@@ -124,3 +124,9 @@ header .nav-link:hover::after
     width: 250px ;
     height: 75px;
 }
+
+.menusimage
+{
+    width: 150px;
+    height: 150px;
+}
