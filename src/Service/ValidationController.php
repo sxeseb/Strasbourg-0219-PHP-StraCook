@@ -6,7 +6,7 @@ namespace App\Service;
 class ValidationController
 {
 
-    public function checkResa()
+    public function checkCoord()
     {
         $errors = [];
         $userDatas = [];
