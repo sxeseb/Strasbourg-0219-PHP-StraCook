@@ -5,50 +5,51 @@ namespace App\Controller;
 
 use App\Model\MenuManager;
 use App\Model\ReservationManager;
-use App\Service\ValidationController;
+use App\Service\CartController;
 
 class ReservationController extends AbstractController
 {
     public function reserver()
     {
-
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAllMenus();
 
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $validator = new ValidationController();
-            $output = $validator->checkResa();
-            list($errors, $userDatas) = $output;
-            if (!empty($errors)) {
-                return $this->twig->render(
-                    'Reservations/reserver.html.twig',
-                    ['menus' => $menus, 'errors' => $errors, 'datas' => $userDatas]
-                );
-            } else {
-                /*
-                 * TODO création des manager et controller pour Order et User
-                // insertion user
-                $userManager = new UserManager();
-                $userId = $userManager->insert($userDatas);
-
-                // insertion reservation
-                $resaManager = new ReservationManager();
-                $resaId = $resaManager->insert($resaDatas, $userId);
-
-
-                // insertion orders
-                $orderManager = new OrderManager();
-                $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
-
-                if ($userId && $resaId && $orderId) {
-                    header('location: /reservation/success');
-                }
-                */
+            $validator = new CartController();
+            $output = $validator->addToCart();
+            list($errors, $datas) = $output;
+            if (empty($errors)) {
+                $_SESSION['cart'][] = $datas;
             }
         }
-        return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus]);
+
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $panier = $_SESSION['cart'];
+
+
+
+
+            return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus, 'panier' => $panier]);
+        } else {
+            return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus]);
+        }
     }
+
+
+    public function addToCart()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validator = new CartController();
+            $output = $validator->addToCart();
+            list($errors, $datas) = $output;
+            if (empty($errors)) {
+                $_SESSION['cart'][] = $datas;
+            }
+            return $this->reserver();
+        }
+    }
+
+
 
     public function list()
     {

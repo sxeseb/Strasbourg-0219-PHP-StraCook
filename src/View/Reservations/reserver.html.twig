@@ -35,7 +35,9 @@
                                     </div>
                                 </div>
 
-                                <form class="col-3  mb-2  py-4 bg-dark text-white row" action="/reservation/addToCart/" method="POST">
+                                <form class="col-3  mb-2  py-4 bg-dark text-white row" action="/reservation/reserver/" method="POST">
+                                    <input type="hidden" value="{{ menu.id }}" name="menu_id">
+                                    <input type="hidden" value="{{ menu.name }}" name="menu_name">
                                     <div class="form-group">
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="1" checked>
@@ -51,7 +53,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="number" min="2" max="15" id="menu_numb">
+                                        <input class="form-control" type="number" min="2" max="15" id="menu_numb" name="menu_q">
                                     </div>
                                     <div class="form-group text-center">
                                         <button type="submit" name="addToCart" value="addToCart" class="btn btn-primary btn-sm btn-add-cart" id="addToCart-{{ menu.id }}">Ajouter au panier</button>
@@ -81,11 +83,18 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row bg-dark text-white py-3">
                             <div class="col-12" id="cart">
                                 <div class="py-4 px-2" id="cart_details">
                                     <h4 id="cart_header">Votre panier</h4>
+                                    {% if panier is defined %}
+                                        {% for article in panier %}
+                                            <p>{{ article.menuName }}</p>
+                                        {% endfor %}
+                                    {% else %}
                                     <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
+                                    {% endif %}
                                 </div>
                                 <hr>
                                 <div class="col-12">
