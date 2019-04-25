@@ -7,6 +7,8 @@
  */
 namespace App\Controller;
 
+use App\Model\PartenaireManager;
+
 class PartenaireController extends AbstractController
 {
     /**
@@ -19,7 +21,8 @@ class PartenaireController extends AbstractController
      */
     public function partenaire()
     {
-        $partenaire new partenaire;
+        $partManager = new PartenaireManager();
+        $partenaire = $partManager -> selectAllPart();
         return $this->twig->render('Partenaire/partenaire.html.twig', ['partenaires' => $partenaire]);
     }
 }
