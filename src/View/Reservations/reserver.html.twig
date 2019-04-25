@@ -4,6 +4,8 @@
 {% block stylesheet %}<link href="/assets/css/cart.css" rel="stylesheet" type="text/css"> {% endblock %}
 
 {% block content %}
+    {{ dump(test) }}
+    {{ dump(panier) }}
     <section>
         <div class="container py-5">
             <div class="py-5">
@@ -87,18 +89,35 @@
                         <div class="row bg-dark text-white py-3">
                             <div class="col-12" id="cart">
                                 <div class="py-4 px-2" id="cart_details">
-                                    <h4 id="cart_header">Votre panier</h4>
+                                    <h4 id="cart_header" class="mb-3">Votre panier</h4>
                                     {% if panier is defined %}
-                                        {% for article in panier %}
-                                            <p>{{ article.menuName }}</p>
-                                        {% endfor %}
+                                        <table class="table table-borderless border-bottom text-white">
+                                            <tbody class="">
+                                            <tr class="border-top">
+                                                <td>Menu local</td>
+                                                <td>{{ count.local }} x 30</td>
+                                            </tr>
+                                            <tr class="border-bottom border-light">
+                                                <td>Menu normal</td>
+                                                <td>{{ count.normal }} x 20</td>
+                                            </tr>
+                                            </tbody>
+                                            <tbody>
+                                            {% for article in panier %}
+                                            <tr>
+                                                <td>{{ article.menuName }} {% if article.price == '1' %} normal{% else %} local{% endif %}</td>
+                                                <td>{{ article.quantity }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        </table>
                                     {% else %}
                                     <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
                                     {% endif %}
                                 </div>
                                 <hr>
                                 <div class="col-12">
-                                    <p>Total : <span id="total_cart">0</span> €</p>
+                                    <p>Total : <span id="total_cart">{{ count.total }}</span> €</p>
                                 </div>
                             </div>
                             <div class="col-12 text-center">

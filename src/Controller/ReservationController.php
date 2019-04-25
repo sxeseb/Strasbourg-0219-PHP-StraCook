@@ -5,7 +5,7 @@ namespace App\Controller;
 
 use App\Model\MenuManager;
 use App\Model\ReservationManager;
-use App\Service\CartController;
+use App\Service\CartService;
 
 class ReservationController extends AbstractController
 {
@@ -15,41 +15,24 @@ class ReservationController extends AbstractController
         $menus = $menuManager->selectAllMenus();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $validator = new CartController();
+            $validator = new CartService();
             $output = $validator->addToCart();
             list($errors, $datas) = $output;
-            if (empty($errors)) {
-                $_SESSION['cart'][] = $datas;
-            }
         }
 
         if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $cartService = new CartService();
             $panier = $_SESSION['cart'];
+            $count = $cartService->calculTotal($panier);
 
-
-
-
-            return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus, 'panier' => $panier]);
+            return $this->twig->render(
+                'Reservations/reserver.html.twig',
+                ['menus' => $menus, 'panier' => $panier, 'count' => $count]
+            );
         } else {
             return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus]);
         }
     }
-
-
-    public function addToCart()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $validator = new CartController();
-            $output = $validator->addToCart();
-            list($errors, $datas) = $output;
-            if (empty($errors)) {
-                $_SESSION['cart'][] = $datas;
-            }
-            return $this->reserver();
-        }
-    }
-
-
 
     public function list()
     {

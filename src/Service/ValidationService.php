@@ -3,7 +3,7 @@
 
 namespace App\Service;
 
-class ValidationController
+class ValidationService
 {
 
     public function checkCoord()

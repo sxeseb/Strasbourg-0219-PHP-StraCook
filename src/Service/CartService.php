@@ -3,7 +3,7 @@
 
 namespace App\Service;
 
-class CartController
+class CartService
 {
     public function addToCart()
     {
@@ -35,8 +35,45 @@ class CartController
             }
         }
 
+        if (empty($errors)) {
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'][] = $datas;
+            } else {
+                $match = 0;
+                for ($i = 0; $i < count($_SESSION['cart']); $i++) {
+                    if ($_SESSION['cart'][$i]['menuId'] == $datas['menuId']
+                        && $_SESSION['cart'][$i]['price'] == $datas['price']) {
+                        $_SESSION['cart'][$i]['quantity'] += $datas['quantity'];
+                        $match++;
+                    }
+                }
+                if ($match == 0) {
+                    $_SESSION['cart'][] = $datas;
+                }
+            }
+        }
+
         return array($errors, $datas);
     }
+
+    public function calculTotal($datas) :array
+    {
+        $localCount = 0;
+        $normalCount = 0;
+        $total = 0;
+        foreach ($datas as $row) {
+            if ($row['price'] == 1) {
+                $normalCount += $row['quantity'];
+            } else {
+                $localCount += $row['quantity'];
+            }
+        }
+
+        $total = $localCount * 30 + $normalCount * 20;
+        return array('normal' => $normalCount, 'local' => $localCount, 'total' => $total);
+    }
+
+
 
     public function testInput($input)
     {

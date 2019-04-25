@@ -3,14 +3,14 @@
 
 namespace App\Controller;
 
-use App\Service\ValidationController;
+use App\Service\ValidationService;
 
 class UsersController extends AbstractController
 {
     public function infos()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $validator = new ValidationController();
+            $validator = new ValidationService();
             $output = $validator->checkCoord();
             list($errors, $userDatas) = $output;
             if (!empty($errors)) {
