@@ -130,3 +130,19 @@ header .nav-link:hover::after
     width: 150px;
     height: 150px;
 }
+
+.souligner
+{
+    text-decoration:underline;
+    font-weight: bold;
+}
+
+.propos1
+{
+    padding-top: 120px;
+}
+
+.propos2
+{
+    padding-top: 20px;
+}
