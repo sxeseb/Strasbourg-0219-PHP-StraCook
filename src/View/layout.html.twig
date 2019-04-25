@@ -42,11 +42,9 @@
                     Menu
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Vegan</a>
-                    <a class="dropdown-item" href="#">Vegetarien</a>
-                    <a class="dropdown-item" href="#">Poisson</a>
-                    <a class="dropdown-item" href="#">Viande Blanche</a>
-                    <a class="dropdown-item" href="#">Viande Rouge</a>
+                    {% for menu in menus %}
+                    <a class="dropdown-item" href="menu/show/{{ menus.id }}">{{ menus.name }}</a>
+                    {% endfor %}
                 </div>
             </li>
             <li class="nav-item">
