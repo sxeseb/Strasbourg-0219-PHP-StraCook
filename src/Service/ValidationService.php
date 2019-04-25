@@ -50,7 +50,7 @@ class ValidationService
 
             if (!isset($_POST['user_adress']) || empty($_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez renseigner le champs adresse';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_adress'])) {
+            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez saisir une adresse valide';
             } else {
                 $userDatas['adress'] = $this->testInput($_POST['user_adress']);
@@ -66,7 +66,7 @@ class ValidationService
 
             if (!isset($_POST['user_city']) || empty($_POST['user_city'])) {
                 $errors['city'] ='Veuillez renseigner la ville';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_city'])) {
+            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_city'])) {
                 $errors['city'] = 'Veuillez saisir une ville valide';
             } else {
                 $userDatas['city'] = $this->testInput($_POST['user_city']);

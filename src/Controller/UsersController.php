@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Model\ReservationManager;
+use App\Model\UsersManager;
 use App\Service\ValidationService;
 
 class UsersController extends AbstractController
@@ -21,15 +23,32 @@ class UsersController extends AbstractController
             } else {
                 /*
                  * TODO création des manager et controller pour Order et User
+                 *
+                */
+                // insertion email
+
+                $userManager = new UsersManager();
+                $emailId = $userManager->insertMail($userDatas);
+
                 // insertion user
-                $userManager = new UserManager();
-                $userId = $userManager->insert($userDatas);
+                $userId = $userManager->insert($userDatas, $emailId);
 
                 // insertion reservation
+                $date = new \DateTime($_SESSION['resaDatas']['date']);
+                $date = $date->format('Y-m-d');
+                $_SESSION['resaDatas']['date_booked'] = $date;
+                $resaDatas = $_SESSION['resaDatas'];
+
                 $resaManager = new ReservationManager();
                 $resaId = $resaManager->insert($resaDatas, $userId);
 
+                if ($emailId && $userId && $resaId) {
+                    unset($_SESSION);
+                    unset($_POST);
+                    header('location: /reservation/success');
+                }
 
+                /*
                 // insertion orders
                 $orderManager = new OrderManager();
                 $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
