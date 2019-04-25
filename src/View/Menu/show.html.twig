@@ -1,0 +1,55 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Stras'Cook - Menu {{ menu.name }} {% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-10 offset-1 col-sm-4 offset-sm-0 align-self-baseline">
+                <div class="">
+                    <img src="https://via.placeholder.com/250" alt="">
+                </div>
+                <div class="container row mt-5 justify-content-around">
+                    <div class="col-sm-4">
+                        <img src="https://via.placeholder.com/80" alt="">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="https://via.placeholder.com/80" alt="">
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="https://via.placeholder.com/80" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-7 offset-sm-1">
+                <div class="row">
+                    <div>
+                    <h3>{{ menu.name }}</h3>
+                    <div>
+                    <p class="">Le menu :</p>
+                    <ul class="">
+                        <li><h4>Entrée : </h4> {{ menu.starter }}</li>
+                        <li><h4>Plat : </h4> {{ menu.main_course }}</li>
+                        <li><h4>Dessert : </h4> {{ menu.dessert }}</li>
+                    </ul>
+                    <h4>{{ menu.name }}</h4>
+                    <p>{{ menu.description }}</p>
+
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4 btn-classique">
+                        <p>Classique : 20 €</p>
+                    </div>
+                    <div class="col-4 btn-local">
+                        <p>Local : 30 €</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="/reservation/reserver" class="btn"><span class="btn-inner">Réservation</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
