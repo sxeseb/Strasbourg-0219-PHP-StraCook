@@ -7,6 +7,8 @@
  */
 namespace App\Controller;
 
+use App\Model\MenuManager;
+
 class HomeController extends AbstractController
 {
     /**
@@ -19,8 +21,9 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        $menu = ['menu1', 'menu2', 'menu3', 'menu4', 'menu5'];
-        return $this->twig->render('Home/index.html.twig', ['menu' => $menu]);
+        $menumanager= new MenuManager();
+        $menus=$menumanager -> selectAllMenus();
+        return $this->twig->render('Home/index.html.twig', ['menus' => $menus]);
     }
     public function index1()
     {
