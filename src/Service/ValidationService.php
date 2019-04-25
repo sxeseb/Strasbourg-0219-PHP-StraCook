@@ -76,6 +76,39 @@ class ValidationService
         return array($errors, $userDatas);
     }
 
+    public function checkCart()
+    {
+        $errors = [];
+        $resaDatas = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['selected_date']) || empty($_POST['selected_date'])) {
+                $errors['date'] = 'Veuillez selectionner une date pour votre réservation';
+            } else {
+                if ($this->checkDate($_POST['selected_date'])) {
+                 /*   $errors['date'] = 'Date indisponible';
+                } else {*/
+                    $resaDatas['date'] = $this->testInput($_POST['selected_date']);
+                }
+            }
+
+            if (!isset($_POST['arrival_time']) || empty($_POST['arrival_time'])) {
+                $errors['arrival'] = 'Veuillez selectionner une heure d\'arrivée';
+            } else {
+                if (!$_POST['arrival_time']) {
+                    $errors['arrival'] = 'Erreur format de l\'heure d\'arrivée';
+                } else {
+                    $resaDatas['arrival'] = $this->testInput($_POST['arrival_time']);
+                }
+            }
+        }
+        return array($errors, $resaDatas);
+    }
+
+    public function checkDate($selected)
+    {
+        return 1;
+    }
+
     public function testInput($input)
     {
         $input = trim($input);

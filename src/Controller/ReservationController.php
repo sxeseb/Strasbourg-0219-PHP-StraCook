@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\MenuManager;
 use App\Model\ReservationManager;
 use App\Service\CartService;
+use App\Service\ValidationService;
 
 class ReservationController extends AbstractController
 {
@@ -51,5 +52,20 @@ class ReservationController extends AbstractController
     public function success()
     {
         return $this->twig->render('Reservations/success.html.twig');
+    }
+
+    public function checkCart()
+    {
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $validator = new ValidationService();
+            $output = $validator->checkCart();
+            list($errors, $resaDatas) = $output;
+            if (empty($errors)) {
+                $_SESSION['resaDatas'] = $resaDatas;
+                header('location: /users/infos');
+            } else {
+                header('location: /reservation/reserver');
+            }
+        }
     }
 }

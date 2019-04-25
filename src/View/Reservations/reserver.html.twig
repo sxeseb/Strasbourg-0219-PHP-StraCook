@@ -4,8 +4,6 @@
 {% block stylesheet %}<link href="/assets/css/cart.css" rel="stylesheet" type="text/css"> {% endblock %}
 
 {% block content %}
-    {{ dump(test) }}
-    {{ dump(panier) }}
     <section>
         <div class="container py-5">
             <div class="py-5">
@@ -106,10 +104,10 @@
                                             {% for article in panier %}
                                             <tr>
                                                 <td>{{ article.menuName }} {% if article.price == '1' %} normal{% else %} local{% endif %}</td>
-                                                <td>{{ article.quantity }}</td>
+                                                <td class="text-center">{{ article.quantity }}</td>
                                             </tr>
                                             {% endfor %}
-                                        </tbody>
+                                            </tbody>
                                         </table>
                                     {% else %}
                                     <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
