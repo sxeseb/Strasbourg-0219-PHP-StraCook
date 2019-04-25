@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Model\MenuManager;
 use App\Model\ReservationManager;
+use App\Model\UsersManager;
 use App\Service\CartService;
 use App\Service\ValidationService;
 
@@ -12,6 +13,10 @@ class ReservationController extends AbstractController
 {
     public function reserver()
     {
+        if (isset($_SESSION['emailConfirmation'])) {
+            unset($_SESSION['emailConfirmation']);
+        }
+
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAllMenus();
 
@@ -51,7 +56,12 @@ class ReservationController extends AbstractController
 
     public function success()
     {
-        return $this->twig->render('Reservations/success.html.twig');
+        if (isset($_SESSION['emailConfirmation'])) {
+            $email = $_SESSION['emailConfirmation'];
+            return $this->twig->render('Reservations/success.html.twig', ['email' => $email]);
+        } else {
+            header('location: /reservation/reserver');
+        }
     }
 
     public function checkCart()

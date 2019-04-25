@@ -29,6 +29,7 @@ class UsersController extends AbstractController
 
                 $userManager = new UsersManager();
                 $emailId = $userManager->insertMail($userDatas);
+                $_SESSION['emailConfirmation'] = $userDatas['email'];
 
                 // insertion user
                 $userId = $userManager->insert($userDatas, $emailId);
@@ -43,8 +44,10 @@ class UsersController extends AbstractController
                 $resaId = $resaManager->insert($resaDatas, $userId);
 
                 if ($emailId && $userId && $resaId) {
-                    unset($_SESSION);
+                    unset($_SESSION['cart']);
+                    unset($_SESSION['resaDatas']);
                     unset($_POST);
+
                     header('location: /reservation/success');
                 }
 
