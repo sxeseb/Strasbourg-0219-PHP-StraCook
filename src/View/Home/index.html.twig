@@ -43,7 +43,7 @@
             {% for menu in menus %}
             <div class="col-md-2 mx-auto">
                 <div class="card">
-                    <img class="menusimage" href="menu/show/{{ menu.id }}" src="{{ menu.img_src }}" class="card-img-top" alt="menus">
+                    <a href="/menu/show/{{ menu.id }}"><img class="menusimage" src="{{ menu.img_src }}" class="card-img-top" alt="menus"></a>
                 </div>
             </div>
             {% endfor %}
