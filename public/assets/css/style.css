@@ -78,6 +78,11 @@ header .nav-link:hover
     src: url("../typo/Delimax.ttf");
 }
 
+h1, h2, h3, h4, h5{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+}
+
 .titre_menu{
     font-family: "delimax";
     src: url("../typo/Delimax.ttf");
