@@ -29,27 +29,23 @@ class UsersController extends AbstractController
 
                 $userManager = new UsersManager();
                 $emailId = $userManager->insertMail($userDatas);
-                $_SESSION['emailConfirmation'] = $userDatas['email'];
+                if ($emailId) {
+                    $_SESSION['emailConfirmation'] = $userDatas['email'];
+                }
 
                 // insertion user
                 $userId = $userManager->insert($userDatas, $emailId);
 
                 // insertion reservation
                 $date = new \DateTime($_SESSION['resaDatas']['date']);
-                $date = $date->format('Y-m-d');
+                $date = $date->setTime($_SESSION['resaDatas']['arrival'], 0, 0);
+                $date = $date->format('Y-m-d H:i:s');
                 $_SESSION['resaDatas']['date_booked'] = $date;
                 $resaDatas = $_SESSION['resaDatas'];
 
                 $resaManager = new ReservationManager();
                 $resaId = $resaManager->insert($resaDatas, $userId);
 
-                if ($emailId && $userId && $resaId) {
-                    unset($_SESSION['cart']);
-                    unset($_SESSION['resaDatas']);
-                    unset($_POST);
-
-                    header('location: /reservation/success');
-                }
 
                 /*
                 // insertion orders
@@ -60,6 +56,14 @@ class UsersController extends AbstractController
                     header('location: /reservation/success');
                 }
                 */
+
+                if ($emailId && $userId && $resaId) {
+                    unset($_SESSION['cart']);
+                    unset($_SESSION['resaDatas']);
+                    unset($_POST);
+
+                    header('location: /reservation/success');
+                }
             }
         }
         return $this->twig->render('Users/infos.html.twig');
