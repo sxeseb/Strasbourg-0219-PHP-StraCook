@@ -20,8 +20,8 @@
                 </p>
             </div>
             <div class="col-md-4">
-                <p class="text-center"><img src="/assets/images/presentation.jpg"  alt="presentation" height="200"
-                                            width="200"></p>
+                <p class="text-center"><img class = "presentation" src="/assets/images/presentation.jpg"
+                                            alt="presentation" ></p>
             </div>
             <div class="col-md-4 text-justify">
                 <p>Le chef Gilles répondra aux attentes de ses clients en mettant à disposition des plats
@@ -44,15 +44,14 @@
             {% for menu in menus %}
             <div class="col-md-2 mx-auto">
                 <div class="card">
-
-                    <a href="/menu/show/{{ menu.id }}"><img src="{{ menu.img_src }}" class="card-img-top" alt="placeholder"></a>
+                    <a href="/menu/show/{{ menu.id }}"><img class="menusimage" src="{{ menu.img_src }}" class="card-img-top" alt="menus"></a>
                 </div>
             </div>
             {% endfor %}
         </div>
         <div class="row p-5">
             <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-outline-light">Réservations</button>
+                <a href="/reservation/reserver"> <button type="button" class="btn btn-outline-light">Réservations</button> </a>
             </div>
         </div>
     </div>
