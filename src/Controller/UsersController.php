@@ -21,48 +21,12 @@ class UsersController extends AbstractController
                     ['errors' => $errors, 'datas' => $userDatas]
                 );
             } else {
-                /*
-                 * TODO création des manager et controller pour Order et User
-                 *
-                */
-                // insertion email
-
-                $userManager = new UsersManager();
-                $emailId = $userManager->insertMail($userDatas);
-                if ($emailId) {
-                    $_SESSION['emailConfirmation'] = $userDatas['email'];
-                }
-
-                // insertion user
-                $userId = $userManager->insert($userDatas, $emailId);
-
-                // insertion reservation
-                $date = new \DateTime($_SESSION['resaDatas']['date']);
-                $date = $date->setTime($_SESSION['resaDatas']['arrival'], 0, 0);
-                $date = $date->format('Y-m-d H:i:s');
-                $_SESSION['resaDatas']['date_booked'] = $date;
-                $resaDatas = $_SESSION['resaDatas'];
-
-                $resaManager = new ReservationManager();
-                $resaId = $resaManager->insert($resaDatas, $userId);
-
-
-                /*
-                // insertion orders
-                $orderManager = new OrderManager();
-                $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
-
-                if ($userId && $resaId && $orderId) {
+                // appel du controller de reservation pour lancer la procédure d'insertion
+                $insertController = new ReservationController();
+                if ($insertController->validReservation($userDatas)) {
                     header('location: /reservation/success');
-                }
-                */
-
-                if ($emailId && $userId && $resaId) {
-                    unset($_SESSION['cart']);
-                    unset($_SESSION['resaDatas']);
-                    unset($_POST);
-
-                    header('location: /reservation/success');
+                } else {
+                    header('location: /reservation/error');
                 }
             }
         }
