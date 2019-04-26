@@ -4,4 +4,4 @@
 *.cache
 db.php
 .idea
-/config/bddstrascook.sql
+/src/View/template.html.twig

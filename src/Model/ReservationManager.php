@@ -6,7 +6,7 @@ namespace App\Model;
 class ReservationManager extends AbstractManager
 {
 
-    const TABLE = 'reservations';
+    const TABLE = 'reservation';
 
     /**
      *  Initializes this class.

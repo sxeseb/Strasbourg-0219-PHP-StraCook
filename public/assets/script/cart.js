@@ -1,10 +1,9 @@
+// function d'ajout d'une selection dans le panier
 
-$('.clickable').click(function() {
-    if($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-        }
-    else {
-        $(this).addClass('selected');
-    }
-});
+let cartBody = document.getElementById('cart_details');
+
+function addToCart() {
+    let target = document.getElementById();
+}
+
 
