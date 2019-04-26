@@ -14,25 +14,7 @@ class MailController extends AbstractController
         return $this->twig->render('Home/index.html.twig', ['mail' => $mails]);
     }
 
-    public function checkMail()
-    {
-        $errors = [];
-        $datas = [];
-        $mails = [];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['email']) || empty($_POST['email'])) {
-                $errors['email'] = 'Veuillez renseigner le champs email';
-            } elseif (!preg_match(
-                "/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/",
-                $_POST['email']
-            )) {
-                $errors['email'] = 'Veuillez saisir un email valide';
-            } else {
-                $datas['email'] = $this->testInput($_POST['email']);
-            }
-        }
-        return $this->twig->render('Home/index.html.twig', ['mail' => $mails]);
-    }
+
 
     public function newsletter()
     {
@@ -40,7 +22,7 @@ class MailController extends AbstractController
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new MailController();
-            $output = $validator->checkMail();
+            $output = $validator->mail();
             list($errors, $datas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
