@@ -20,7 +20,7 @@ class MenuController extends AbstractController
         $menu = $menuManager->selectOneMenus($id);
         $images = $menuManager->selectAllImages($id);
 
-        return $this->twig->render('Menu/show.html.twig', ['menu' => $menu]);
+        return $this->twig->render('Menu/show.html.twig', ['menu' => $menu, 'images' => $images]);
     }
 
     public function list()
