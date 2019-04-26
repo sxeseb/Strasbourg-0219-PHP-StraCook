@@ -17,7 +17,8 @@ class MenuController extends AbstractController
     public function show(int $id)
     {
         $menuManager = new MenuManager();
-        $menu = $menuManager->selectOneById($id);
+        $menu = $menuManager->selectOneMenus($id);
+        $images = $menuManager->selectAllImages($id);
 
         return $this->twig->render('Menu/show.html.twig', ['menu' => $menu]);
     }
