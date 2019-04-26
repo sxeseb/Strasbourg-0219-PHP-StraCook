@@ -28,6 +28,8 @@ class HomeController extends AbstractController
 
     public function about()
     {
-        return $this->twig->render('Home/propos.html.twig');
+        $menumanager = new MenuManager();
+        $menus = $menumanager->selectAllMenus();
+        return $this->twig->render('Home/propos.html.twig', ['menus' => $menus]);
     }
 }
