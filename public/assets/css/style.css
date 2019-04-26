@@ -78,6 +78,11 @@ header .nav-link:hover
     src: url("../typo/Delimax.ttf");
 }
 
+h1, h2, h3{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+}
+
 .titre_menu{
     font-family: "delimax";
     src: url("../typo/Delimax.ttf");
@@ -136,6 +141,12 @@ header .nav-link:hover
 }
 
 .partenairecocci
+{
+    width: 200px;
+    height: 200px;
+}
+
+.presentation
 {
     width: 200px;
     height: 200px;
