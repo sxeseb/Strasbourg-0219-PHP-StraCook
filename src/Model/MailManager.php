@@ -14,7 +14,6 @@ class MailManager extends AbstractManager
     {
         parent::__construct(self::TABLE);
     }
-
     public function insertMail(array $item): int
     {
         $statement = $this->pdo->query("INSERT INTO $this->table (`email`) VALUES (:email)");
