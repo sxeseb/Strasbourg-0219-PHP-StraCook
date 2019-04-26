@@ -15,10 +15,13 @@ class MailManager extends AbstractManager
         parent::__construct(self::TABLE);
     }
 
-    public function insertMails(): array
+    public function insertMail(array $item): int
     {
         $statement = $this->pdo->query("INSERT INTO $this->table (`email`) VALUES (:email)");
+        $statement->bindValue('email', $item['email'], \PDO::PARAM_STR);
 
-        return $statement = $statement ->fetchAll();
+        if ($statement->execute()) {
+            return (int)$this->pdo->lastInsertId();
+        }
     }
 }

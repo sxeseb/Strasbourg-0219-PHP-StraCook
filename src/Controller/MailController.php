@@ -10,11 +10,9 @@ class MailController extends AbstractController
     public function mail()
     {
         $mailmanager = new MailManager();
-        $mails = $mailmanager ->selectAll();
+        $mails = $mailmanager ->insertMail();
         return $this->twig->render('Home/index.html.twig', ['mail' => $mails]);
     }
-
-
 
     public function newsletter()
     {
