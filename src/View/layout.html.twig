@@ -43,14 +43,14 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for menu in menus %}
-                    <a class="dropdown-item" href="menu/show/{{ menus.id }}">{{ menus.name }}</a>
+                    <a class="dropdown-item" href="/menu/show/{{ menu.id }}">{{ menu.name }}</a>
                     {% endfor %}
                 </div>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="#">Réservations</a>
+                    <a class="nav-link" href="/reservation/reserver">Réservations</a>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Partenariats</a>
+                    <a class="nav-link" href="/partenaire/partenaire">Partenariats</a>
                 </li>
             </li>
         </ul>
@@ -64,6 +64,7 @@
 </header>
 
 {% block content %}{% endblock %}
+
 <footer>
 <div class="footer pt-5">
     <div class="container-fluid">
@@ -73,9 +74,9 @@
                     <h5>Plan du site</h5>
                     <a class="nav-link" href="/home/index">Accueil</a>
                     <a class="nav-link" href="/home/about">A propos</a>
-                    <a class="nav-link" href="#">Menu</a>
-                    <a class="nav-link" href="#">Réservations</a>
-                    <a class="nav-link" href="#">Partenariats</a>
+                    <a class="nav-link" href="/menu/show">Menu</a>
+                    <a class="nav-link" href="/reservation/reserver">Réservations</a>
+                    <a class="nav-link" href="/partenaire/partenaire">Partenariats</a>
                 </nav>
             </div>
             <div class="col-md-3 text-center">
@@ -102,25 +103,25 @@
                         </div>
                     </div>
             </div>
+                    <form>
                     <div class="row">
-                            <div class="col-md-8 pt-4">
-                                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp"
+                            <div class="col-md-12 pt-4 row">
+                                <input type="email" class="col-8" id="Email" aria-describedby="emailHelp"
                                        placeholder="email" required>
+                                <button type="button" class="btn btn-outline-light col-4">Envoyer</button>
                             </div>
-                            <div class="col-md-4 pt-4">
-                                <button type="button" class="btn btn-outline-light">Envoyer</button>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-check pt-4">
                                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Veuillez souscrire à la newsletters
+                                <label class="form-check-label small" for="defaultCheck1">
+                                    Tenez moi informé des dernières news !
                                 </label>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </nav>
             </div>
             <div class="col-md-3 text-center">
