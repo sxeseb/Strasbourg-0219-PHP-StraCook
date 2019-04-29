@@ -13,6 +13,7 @@ header
 {
     background-color: #171c22;
     color: seashell;
+    letter-spacing: 1px;
 }
 
 footer
@@ -50,12 +51,19 @@ header .nav-link:hover
 /*
 header .nav-link:hover::after
 {
+    outline: none;
+    box-sizing: inherit;
     content: "";
-    display:block;
-    width: 100%;
-    height: 3px;
-    margin: 0px;
-    pading: 0;
+    display: block;
+    height: 2px;
+    background: #f7f7f7;
+    padding: 0;
+    top: 48px;
+    position: absolute;
+    width: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 */
 
@@ -92,4 +100,27 @@ header .nav-link:hover::after
     font-family: "delimax";
     src: url("../typo/Delimax.ttf");
     color: seashell;
+}
+
+.navbar-toggler-icon
+{
+    color: white;
+}
+
+.insta
+{
+    width: 75px;
+    height: 75px;
+}
+
+.logo
+{
+    width: 150px;
+    height: 150px;
+}
+
+.logotop
+{
+    width: 250px ;
+    height: 75px;
 }
