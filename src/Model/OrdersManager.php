@@ -30,7 +30,7 @@ class OrdersManager extends AbstractManager
 
     public function delete($id) :void
     {
-        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id= :id");
+        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE reservation_id = :id");
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
         $statement->execute();
     }

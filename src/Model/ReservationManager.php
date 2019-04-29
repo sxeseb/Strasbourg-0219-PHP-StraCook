@@ -79,14 +79,15 @@ class ReservationManager extends AbstractManager
     public function reservationConfirmed() :array
     {
         $statement = $this->pdo->query("SELECT r.id id, 
-            date_booked date_resa, 
+            status,
+            date_booked date_resa,
             SUM(o.quantity) guests, 
             concat(zip, ' ', city) place, 
             concat(lastname, ' ', firstname) client 
             FROM user u 
             JOIN reservation r ON u.id = r.user_id 
             JOIN orders o ON o.reservation_id = r.id 
-            WHERE r.status == 1
+            
             GROUP BY r.id 
             ORDER BY date_resa ASC
             ;");

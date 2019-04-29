@@ -3,7 +3,7 @@
 {% block content %}
     <section>
         <div class="container py-5">
-            <div class="row">
+            <div class="row mb-4">
                 <div class="card col-8">
                     <div class="card-body">
                         <h4 class="card-title">Réservations en attentes</h4>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             {% if confirmed is defined %}
-            <div class="card">
+            <div class="card row mb-4">
                 <div class="card-body">
                     <h4 class="card-title">Prochaines réservations</h4>
                     <table class="table">
@@ -58,21 +58,20 @@
                             <th scope="col">Arrivée</th>
                             <th scope="col">Localité</th>
                             <th scope="col">Client</th>
-                            <th scope="col">Confirmer</th>
-                            <th scope="col">Décliner</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for reservation in confirmed %}
+                            {% if reservation.status == 1 %}
                             <tr>
                                 <td>{{ reservation.date }}</td>
                                 <td>{{ reservation.guests }}</td>
                                 <td>{{ reservation.arrival }}</td>
                                 <td>{{ reservation.place }}</td>
                                 <td>{{ reservation.client }}</td>
-                                <td><a class="btn btn-danger" href="/reservation/decline/{{ reservation.id }}">Annuler</a></td>
-                                <td><a href="reservation/reservations/{{ reservation.id }}">plus d'infos</a></td>
+                                <td><a href="/reservation/reservations/{{ reservation.id }}">plus d'infos</a></td>
                             </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
@@ -81,7 +80,7 @@
             {% endif %}
 
             {% if orderDetails is defined %}
-                <div class="row">
+                <div class="row mb-4">
                     <div class="card col-12">
                         <div class="card-body row">
                            <div class="col-2">
@@ -125,7 +124,7 @@
                                            <h4>Contacts</h4>
                                                <ul class="list-group">
                                                    <a class="list-group-item list-group-item-action disabled">Téléphone : {{ clientDetails.phone }}</a>
-                                                   <a href="mailto:{{clientDetails.email }}" class="list-group-item list-group-item-action">Adresse email : {{ clientDetails.email }} </a>
+                                                   <a href="mailto:{{clientDetails.email }}" target="_blank" class="list-group-item list-group-item-action">Adresse email : {{ clientDetails.email }} </a>
                                                </ul>
                                        </div>
                                        <div class="col-6">

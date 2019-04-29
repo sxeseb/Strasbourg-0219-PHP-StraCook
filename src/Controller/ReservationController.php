@@ -124,6 +124,7 @@ class ReservationController extends AbstractController
     {
         $resaManager = new ReservationManager();
         $overviewsPending = $resaManager->reservationPending();
+        $confirmed = $resaManager->reservationConfirmed();
 
         // formatage des données date et heure
         foreach ($overviewsPending as $key => $data) {
@@ -139,11 +140,15 @@ class ReservationController extends AbstractController
             $orderDetails = $resaManager->reservationOrderDetails($id);
             return $this->twig->render(
                 'Admin/reservations.html.twig',
-                ['pending' => $overviewsPending, 'orderDetails' => $orderDetails, 'clientDetails' => $clientDetails]
+                ['pending' => $overviewsPending,
+                    'orderDetails' => $orderDetails, 'clientDetails' => $clientDetails, 'confirmed' => $confirmed]
             );
         }
 
-        return $this->twig->render('Admin/reservations.html.twig', ['pending' => $overviewsPending]);
+        return $this->twig->render(
+            'Admin/reservations.html.twig',
+            ['pending' => $overviewsPending, 'confirmed' => $confirmed]
+        );
     }
 
     public function confirm(int $id) :void
