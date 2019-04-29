@@ -2,7 +2,11 @@ body
 {
     background-color: seashell;
 }
+.alert {
+    height: 250px;
+    letter-spacing: 1px;
 
+}
 .container
 {
     position: relative;
