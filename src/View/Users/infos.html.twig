@@ -83,6 +83,20 @@
                             <button class="btn btn-primary" name="submit" value="submit">Envoyer mes données</button>
                         </div>
                     </form>
+                    <div class="col-12 col-sm-6">
+                        <div class="card px-5">
+                            <div class="card-body text-center">
+                               <!-- TODO check de la présence de l'email dans la DB -->
+                                <form action="/userCheck">
+                                    <h4 class="card-title">Déjà client ?</h4>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <button class="btn btn-primary" value="submit" type="submit" name="submit">Retrouver mes infos</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
