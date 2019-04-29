@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <div class="container py-5">
+            <div class="card">
+                {{ dump(reservations) }}
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Nombre de couverts</th>
+                                <th scope="col">Arrivée</th>
+                                <th scope="col">Localité</th>
+                                <th scope="col">Client</th>
+                                <th scope="col">Confirmer</th>
+                                <th scope="col">Décliner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in reservations %}
+                            <tr>
+                                <td>{{ reservation.date }}</td>
+                                <td>{{ reservation.guests }}</td>
+                                <td>{{ reservation.arrival }}</td>
+                                <td>{{ reservation.place }}</td>
+                                <td>{{ reservation.client }}</td>
+                                <td><a class="btn btn-success" href="/reservation/confirm/{{ reservation.id }}">Confirmer</a></td>
+                                <td><a class="btn btn-danger" href="/reservation/decline/{{ reservation.id }}">Decliner</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

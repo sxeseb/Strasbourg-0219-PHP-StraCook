@@ -121,4 +121,28 @@ class ReservationController extends AbstractController
             return -1;
         }
     }
+
+    public function confirm($id)
+    {
+        $reservationManager = new ReservationManager();
+        if ($reservationManager->confirm($id)) {
+            $this->reservations();
+        }
+    }
+
+    public function reservations()
+    {
+        $resaManager = new ReservationManager();
+        $datas = $resaManager->reservationOverview();
+        foreach ($datas as $key => $data) {
+            $date = new \DateTime($data['date_resa']);
+            $time = $date->format('H:i');
+            $date = $date->format('d-m-Y');
+            $datas[$key]['date'] = $date;
+            $datas[$key]['arrival'] = $time;
+        }
+
+
+        return $this->twig->render('Admin/reservations.html.twig', ['reservations' => $datas]);
+    }
 }

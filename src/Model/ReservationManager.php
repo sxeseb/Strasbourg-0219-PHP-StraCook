@@ -57,4 +57,19 @@ class ReservationManager extends AbstractManager
 
         return $statement->execute();
     }
+
+    public function reservationOverview()
+    {
+        $statement = $this->pdo->query("SELECT r.id id, 
+            date_booked date_resa, 
+            SUM(o.quantity) guests, 
+            concat(zip, ' ', city) place, 
+            concat(lastname, ' ', firstname) client 
+            FROM user u 
+            JOIN reservation r ON u.id = r.user_id 
+            JOIN orders o ON o.reservation_id = r.id 
+            GROUP BY r.id;");
+
+        return $statement->fetchAll();
+    }
 }
