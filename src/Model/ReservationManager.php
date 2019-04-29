@@ -58,7 +58,7 @@ class ReservationManager extends AbstractManager
         return $statement->execute();
     }
 
-    public function reservationPending()
+    public function reservationPending() :array
     {
         $statement = $this->pdo->query("SELECT r.id id, 
             date_booked date_resa, 
@@ -76,7 +76,7 @@ class ReservationManager extends AbstractManager
         return $statement->fetchAll();
     }
 
-    public function reservationConfirmed()
+    public function reservationConfirmed() :array
     {
         $statement = $this->pdo->query("SELECT r.id id, 
             date_booked date_resa, 
@@ -94,18 +94,37 @@ class ReservationManager extends AbstractManager
         return $statement->fetchAll();
     }
 
-    public function reservationDetails($id) :array
+    public function reservationOrderDetails($id) :array
     {
         $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity 
             FROM orders o 
             JOIN reservation r ON r.id = o.reservation_id 
             JOIN menus m ON m.id = o.menus_id 
-            JOIN price p on p.id = o.price_id;
-            WHERE r.id = :id");
+            JOIN price p on p.id = o.price_id
+            WHERE r.id = :id
+            ORDER BY categorie");
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
 
         if ($statement->execute()) {
             return $statement->fetchAll();
+        }
+    }
+
+    public function reservationDetails(int $id) :array
+    {
+        $statement = $this->pdo->prepare("SELECT r.id id, 
+            date_booked date_resa, 
+            concat(lastname, ' ', firstname) client, 
+            adress, zip, city, phone, email, status
+            FROM user u 
+            JOIN reservation r ON u.id = r.user_id 
+            JOIN email e ON e.id = u.email_id 
+            WHERE r.id = :id
+            ;");
+
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        if ($statement->execute()) {
+            return $statement->fetch();
         }
     }
 }

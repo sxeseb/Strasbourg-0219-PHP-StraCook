@@ -27,4 +27,11 @@ class OrdersManager extends AbstractManager
             return (int)$this->pdo->lastInsertId();
         }
     }
+
+    public function delete($id) :void
+    {
+        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id= :id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+    }
 }

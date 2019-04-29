@@ -134,11 +134,12 @@ class ReservationController extends AbstractController
             $overviewsPending[$key]['arrival'] = $time;
         }
 
-        if (isset($id)) {
-            $details = $resaManager->reservationDetails($id);
+        if (isset($id) && is_int($id)) {
+            $clientDetails = $resaManager->reservationDetails($id);
+            $orderDetails = $resaManager->reservationOrderDetails($id);
             return $this->twig->render(
                 'Admin/reservations.html.twig',
-                ['pending' => $overviewsPending, 'details' => $details]
+                ['pending' => $overviewsPending, 'orderDetails' => $orderDetails, 'clientDetails' => $clientDetails]
             );
         }
 
@@ -153,7 +154,7 @@ class ReservationController extends AbstractController
         }
     }
 
-    /*
+
     public function decline(int $id) :void
     {
         $ordersManager = new OrdersManager();
@@ -161,5 +162,5 @@ class ReservationController extends AbstractController
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
         header('location: /reservation/reservations');
-    } */
+    }
 }
