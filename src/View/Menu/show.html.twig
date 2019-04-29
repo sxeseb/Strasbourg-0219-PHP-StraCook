@@ -19,7 +19,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="tab-content col-xl-12" id="myTabContent">
                     <div class="tab-pane fade active show" id="dinner" role="tabpanel" aria-labelledby="dinner-tab">
@@ -52,6 +51,21 @@
                         </div>
                     </div>
                 </div>
+                {% if images is not empty %}
+               <!-- <div class="row">
+                    <a href="/reservation/reserver" class="btn"><span class="btn-inner">Réservation</span></a>
+                    <div class="container">
+                        <h2>Our  Partners/ Our Clients</h2>
+                        <section class="images_menu slider">
+                        {% for image in images %}
+                            <div class="slide"><img src="{{ image.img_src }}"></div>
+                            {% endfor %}
+                        </section>
+
+                        <h2><a href="http://www.webcoderskull.com" target="_blank">http://www.webcoderskull.com</a></h2>
+                    </div>
+                </div> --!>
+                {% endif %}
             </div>
         </div>
     </section>
