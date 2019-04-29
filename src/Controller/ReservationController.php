@@ -122,27 +122,46 @@ class ReservationController extends AbstractController
         }
     }
 
-    public function confirm($id)
-    {
-        $reservationManager = new ReservationManager();
-        if ($reservationManager->confirm($id)) {
-            $this->reservations();
-        }
-    }
-
-    public function reservations()
+    public function reservations(int $id = null)
     {
         $resaManager = new ReservationManager();
-        $datas = $resaManager->reservationOverview();
-        foreach ($datas as $key => $data) {
+        $overviewsPending = $resaManager->reservationPending();
+
+        // formatage des données date et heure
+        foreach ($overviewsPending as $key => $data) {
             $date = new \DateTime($data['date_resa']);
             $time = $date->format('H:i');
             $date = $date->format('d-m-Y');
-            $datas[$key]['date'] = $date;
-            $datas[$key]['arrival'] = $time;
+            $overviewsPending[$key]['date'] = $date;
+            $overviewsPending[$key]['arrival'] = $time;
         }
 
+        if (isset($id)) {
+            $details = $resaManager->reservationDetails($id);
+            return $this->twig->render(
+                'Admin/reservations.html.twig',
+                ['pending' => $overviewsPending, 'details' => $details]
+            );
+        }
 
-        return $this->twig->render('Admin/reservations.html.twig', ['reservations' => $datas]);
+        return $this->twig->render('Admin/reservations.html.twig', ['pending' => $overviewsPending]);
     }
+
+    public function confirm(int $id) :void
+    {
+        $reservationManager = new ReservationManager();
+        if ($reservationManager->confirm($id)) {
+            header('location: /reservation/reservations');
+        }
+    }
+
+    /*
+    public function decline(int $id) :void
+    {
+        $ordersManager = new OrdersManager();
+        $ordersManager->delete($id);
+        $reservationManager = new ReservationManager();
+        $reservationManager->decline($id);
+        header('location: /reservation/reservations');
+    } */
 }

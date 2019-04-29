@@ -45,20 +45,20 @@ class ReservationManager extends AbstractManager
 
 
     /**
-     * @param array $reservation
+     * @param int $id
      * @return bool
      */
-    public function confirm(array $reservation):bool
+    public function confirm(int $id):bool
     {
         // prepared request
-        $statement = $this->pdo->prepare("UPDATE $this->table SET `title` = :title WHERE id=:id");
-        $statement->bindValue('id', $reservation['id'], \PDO::PARAM_INT);
-        $statement->bindValue('title', $reservation['title'], \PDO::PARAM_STR);
+        $statement = $this->pdo->prepare("UPDATE $this->table SET `status` = :status WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_STR);
+        $statement->bindValue('status', true, \PDO::PARAM_BOOL);
 
         return $statement->execute();
     }
 
-    public function reservationOverview()
+    public function reservationPending()
     {
         $statement = $this->pdo->query("SELECT r.id id, 
             date_booked date_resa, 
@@ -68,8 +68,44 @@ class ReservationManager extends AbstractManager
             FROM user u 
             JOIN reservation r ON u.id = r.user_id 
             JOIN orders o ON o.reservation_id = r.id 
-            GROUP BY r.id;");
+            WHERE r.status != 1
+            GROUP BY r.id 
+            ORDER BY date_resa ASC
+            ;");
 
         return $statement->fetchAll();
+    }
+
+    public function reservationConfirmed()
+    {
+        $statement = $this->pdo->query("SELECT r.id id, 
+            date_booked date_resa, 
+            SUM(o.quantity) guests, 
+            concat(zip, ' ', city) place, 
+            concat(lastname, ' ', firstname) client 
+            FROM user u 
+            JOIN reservation r ON u.id = r.user_id 
+            JOIN orders o ON o.reservation_id = r.id 
+            WHERE r.status == 1
+            GROUP BY r.id 
+            ORDER BY date_resa ASC
+            ;");
+
+        return $statement->fetchAll();
+    }
+
+    public function reservationDetails($id) :array
+    {
+        $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity 
+            FROM orders o 
+            JOIN reservation r ON r.id = o.reservation_id 
+            JOIN menus m ON m.id = o.menus_id 
+            JOIN price p on p.id = o.price_id;
+            WHERE r.id = :id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+
+        if ($statement->execute()) {
+            return $statement->fetchAll();
+        }
     }
 }
