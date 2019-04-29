@@ -8,6 +8,7 @@ use App\Model\ReservationManager;
 use App\Model\UsersManager;
 use App\Service\CartService;
 use App\Service\ValidationService;
+use App\Model\OrdersManager;
 
 class ReservationController extends AbstractController
 {
@@ -100,16 +101,13 @@ class ReservationController extends AbstractController
         $resaManager = new ReservationManager();
         $resaId = $resaManager->insert($resaDatas, $userId);
 
-
-        /*
         // insertion orders
-        $orderManager = new OrderManager();
-        $orderId = $orderManager->insert($orderDatas, $resaID, $userId);
+        $orderManager = new OrdersManager();
 
-        if ($userId && $resaId && $orderId) {
-            header('location: /reservation/success');
+        foreach ($_SESSION['cart'] as $order) {
+            $orderId = $orderManager->insert($order, $resaId);
         }
-        */
+
 
         if ($emailId && $userId && $resaId) {
             unset($_SESSION['cart']);
