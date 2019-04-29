@@ -31,19 +31,6 @@ class MenuManager extends AbstractManager
         }
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function delete(int $id): void
-    {
-        // prepared request
-        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id=:id");
-        $statement->bindValue('id', $id, \PDO::PARAM_INT);
-        $statement->execute();
-    }
-
-
     /**
      * @param array $item
      * @return bool
@@ -81,5 +68,35 @@ class MenuManager extends AbstractManager
         images.menus_id where menus.id = $id");
 
         return $statement = $statement ->fetch();
+    }
+
+    public function delete(int $id): bool
+    {
+        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function deleteAllImage(int $id):bool
+    {
+        $statement = $this->pdo->prepare("DELETE FROM images WHERE menus_id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function updateMenu(array $item):bool
+    {
+        $statement = $this->pdo->prepare("UPDATE $this->table SET (`name`, `starter`, `main_course`, `dessert`
+, `img_src`, `description`) VALUES (:name, :starter, :main_course, :dessert, :dessert, :img_src, :description) JOIN 
+menu ON menus.id = images.menus_id");
+        $statement->bindValue('name', $item['name'], \PDO::PARAM_STR);
+        $statement->bindValue('starter', $item['starter'], \PDO::PARAM_STR);
+        $statement->bindValue('main_course', $item['main_course'], \PDO::PARAM_STR);
+        $statement->bindValue('dessert', $item['dessert'], \PDO::PARAM_STR);
+        $statement->bindValue('img_source', $item['img_source'], \PDO::PARAM_STR);
+        $statement->bindValue('description', $item['description'], \PDO::PARAM_STR);
+        if ($statement->execute()) {
+            return (int)$this->pdo->lastInsertId();
+        }
     }
 }

@@ -30,4 +30,30 @@ class MenuController extends AbstractController
 
         return $this->twig->render('Menu/list.html.twig', ['menus' => $menus]);
     }
+
+    public function adminmenu()
+    {
+        $adminmenu = new MenuManager();
+        $menus = $adminmenu ->selectAll();
+        return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
+    }
+
+    public function delete(int $id):void
+    {
+
+        $deletemenu = new MenuManager();
+        $deletemenu->deleteAllImage($id);
+        if ($deletemenu ->delete($id)) {
+            header('location: /menu/adminmenu/');
+        }
+    }
+
+    public function update(array $item):bool
+    {
+        $updatemenu = new MenuManager();
+        $menus = $updatemenu ->updateMenu($item);
+        if ($updatemenu ->update($item)) {
+            return $this->twig->render('Admin/menuedit.html.twig', ['menus' => $menus]);
+        }
+    }
 }
