@@ -48,7 +48,7 @@ class MenuController extends AbstractController
         }
     }
 
-    public function update(array $item):bool
+    public function update(array $item)
     {
         $updatemenu = new MenuManager();
         $menus = $updatemenu ->updateMenu($item);

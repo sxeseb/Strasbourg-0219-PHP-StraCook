@@ -84,7 +84,7 @@ class MenuManager extends AbstractManager
         return $statement->execute();
     }
 
-    public function updateMenu(array $item):bool
+    public function updateMenu(array $item)
     {
         $statement = $this->pdo->prepare("UPDATE $this->table SET (`name`, `starter`, `main_course`, `dessert`
 , `img_src`, `description`) VALUES (:name, :starter, :main_course, :dessert, :dessert, :img_src, :description) JOIN 
