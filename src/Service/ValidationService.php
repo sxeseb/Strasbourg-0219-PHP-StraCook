@@ -15,7 +15,7 @@ class ValidationService
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['user_lastname']) || empty($_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez renseigner votre nom';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_lastname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez saisir un nom valide';
             } else {
                 $userDatas['lastname'] = $this->testInput($_POST['user_lastname']);
@@ -23,7 +23,7 @@ class ValidationService
 
             if (!isset($_POST['user_firstname']) || empty($_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez renseigner votre prénom';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_firstname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez saisir un prénom valide';
             } else {
                 $userDatas['firstname'] = $this->testInput($_POST['user_firstname']);
@@ -50,7 +50,7 @@ class ValidationService
 
             if (!isset($_POST['user_adress']) || empty($_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez renseigner le champs adresse';
-            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_adress'])) {
+            } elseif (!preg_match("/^([a-zA-Z0-9' éèêà]+)$/", $_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez saisir une adresse valide';
             } else {
                 $userDatas['adress'] = $this->testInput($_POST['user_adress']);
@@ -66,7 +66,7 @@ class ValidationService
 
             if (!isset($_POST['user_city']) || empty($_POST['user_city'])) {
                 $errors['city'] ='Veuillez renseigner la ville';
-            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_city'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_city'])) {
                 $errors['city'] = 'Veuillez saisir une ville valide';
             } else {
                 $userDatas['city'] = $this->testInput($_POST['user_city']);
@@ -98,6 +98,15 @@ class ValidationService
                     $errors['arrival'] = 'Erreur format de l\'heure d\'arrivée';
                 } else {
                     $resaDatas['arrival'] = $this->testInput($_POST['arrival_time']);
+                }
+            }
+
+            $resaDatas['comment'] = "";
+            if (isset($_POST['comment']) && !empty($_POST['comment'])) {
+                if (!preg_match('/^([a-zA-Z\' éëèêàù,.!?]+)$/', $_POST['comment'])) {
+                    $errors['comment'] = "Caractères non valides utilisés";
+                } else {
+                    $resaDatas['comment'] = $this->testInput($_POST['comment']);
                 }
             }
         }
