@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} menu admin {% endblock %}
+
+{% block content %}
+<h2>Menus</h2>
+<section> 
+            <div class="card mb-3 col-sm-12">
+               <div class="row no-gutters">
+                {% for menu in menus %}
+                   <div class="media">                 
+                        <img src={{menu.img_src}} class="align-self-start mr-3" alt="About us" height="150"/>
+                        <div class="media-body">
+                          <h5 class="mt-0"></h5>
+                          <h5 class="card-title"> {{ menu.name }}</h5>
+                          <p class="card-text">{{ menu.description }}</p>
+                         </div>
+                    </div>
+                    <div class="MenuAdmBtn">
+                      <a href="/Admin/ItemManagement"> <button type="button" align="right" class="btn btn-primary">éditer</button> </a>
+                      <a href="/Admin/ItemManagement"> <button type="button" align="right" class="btn btn-danger">suprimer</button> </a>
+                    </div>                   
+                {% endfor %}
+                </div>
+            </div>
+            <div class="MenuAdmBtnCreate">
+              <a href="/Admin/ItemManagement"> <button type="button" align="center" class="btn btn-primary">nouveau menu</button> </a>
+            </div>  
+</section>
+{%  endblock %}
