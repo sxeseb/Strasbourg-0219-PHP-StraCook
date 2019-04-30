@@ -50,7 +50,7 @@ class ValidationService
 
             if (!isset($_POST['user_adress']) || empty($_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez renseigner le champs adresse';
-            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_adress'])) {
+            } elseif (!preg_match("/^([a-zA-Z0-9' éèêà]+)$/", $_POST['user_adress'])) {
                 $errors['adress'] = 'Veuillez saisir une adresse valide';
             } else {
                 $userDatas['adress'] = $this->testInput($_POST['user_adress']);
@@ -98,6 +98,15 @@ class ValidationService
                     $errors['arrival'] = 'Erreur format de l\'heure d\'arrivée';
                 } else {
                     $resaDatas['arrival'] = $this->testInput($_POST['arrival_time']);
+                }
+            }
+
+            $resaDatas['comment'] = "";
+            if (isset($_POST['comment']) && !empty($_POST['comment'])) {
+                if (!preg_match('/^([a-zA-Z\' éëèêàù,.!?]+)$/', $_POST['comment'])) {
+                    $errors['comment'] = "Caractères non valides utilisés";
+                } else {
+                    $resaDatas['comment'] = $this->testInput($_POST['comment']);
                 }
             }
         }

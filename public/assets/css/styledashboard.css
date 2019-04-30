@@ -1,0 +1,119 @@
+body
+{
+    background-color: seashell;
+}
+.alert {
+    height: 100px;
+    letter-spacing: 1px;
+    margin-bottom: 0px;
+
+
+}
+.container
+{
+    position: relative;
+
+}
+
+
+nav
+{
+    background-color: #067c06;
+    color: seashell;
+    letter-spacing: 1px;
+}
+
+footer
+{
+    background-image: linear-gradient(to bottom right, #31363e, #171c22);
+    color: seashell;
+}
+footer p
+{
+    color: seashell;
+}
+
+footer .nav-link
+{
+    color: seashell;
+    transition: ease-in-out .25s;
+}
+
+footer .nav-link:hover
+{
+    color: rgba(0, 0, 0, 0.35);
+}
+
+header .nav-link
+{
+    color: #ffffff;
+    transition: ease-in-out .25s;
+}
+
+header .nav-link:hover
+{
+    color: #7fc80a;
+}
+.dropdown-menu
+{
+    background-color: #171c22;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dropdown-item
+{
+    color: seashell;
+    transition: ease-in-out .25s;
+}
+
+.dropdown-item:hover
+{
+    color: #ebc1a8;
+    background-color: #171c22;
+}
+
+.menu{
+    background-image: url(../images/background_menu.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.titre_index{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+}
+
+.titre_menu{
+    font-family: "delimax";
+    src: url("../typo/Delimax.ttf");
+    color: seashell;
+}
+
+.navbar-toggler-icon
+{
+    color: white;
+}
+
+.insta
+{
+    width: 75px;
+    height: 75px;
+}
+
+.logo
+{
+    width: 150px;
+    height: 150px;
+}
+
+.logotop
+{
+    width: 80px ;
+    height: 80px;
+}
+
+.logotop2
+{
+    width: 80px ;
+    height: 80px;
+}
