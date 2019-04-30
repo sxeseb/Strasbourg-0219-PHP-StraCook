@@ -8,6 +8,35 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet"/>
+    <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
+
+    <!-- PLUGINS CSS STYLE -->
+    <link href="/assets/plugins/toaster/toastr.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/nprogress/nprogress.css" rel="stylesheet" />
+    <link href="/assets/plugins/flag-icons/css/flag-icon.min.css" rel="stylesheet"/>
+    <link href="/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
+    <link href="/assets/plugins/ladda/ladda.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+
+    <!-- SLEEK CSS -->
+    <link id="sleek-css" rel="stylesheet" href="/assets/css/sleek.css" />
+
+
+
+    <!-- FAVICON -->
+    <link href="/public/assets/img/favicon.png" rel="shortcut icon" />
+
+    <!--
+      HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="assets/plugins/nprogress/nprogress.js"></script>
 
     <title>{% block title %}{% endblock %}</title>
 
@@ -25,13 +54,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse justify-content-center navbar-right" id="navbarSupportedContent">
+            <ul class="navbar-nav nav">
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/dashboard/">Dashboard<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/reservation/">Réservations</a>
+                    <a class="nav-link" href="/admin/reservations/">Réservations</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/menus/">Menus</a>
@@ -41,6 +70,75 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/statistiques/">Statistiques</a>
+                </li>
+
+                <div class="collapse navbar-collapsenavbar-right" id="navbarSupportedContent">
+                <li class="dropdown notifications-menu">
+                    <button class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="mdi mdi-bell-outline"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">Vous avez 5 notifications</li>
+                        <li>
+                            <a href="#">
+                                <i class="mdi mdi-account-plus"></i> Nouveau client registered
+                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="mdi mdi-chart-areaspline"></i> Sales report is ready
+                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 12 PM</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="mdi mdi-account-supervisor"></i> New client
+                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="mdi mdi-server-network-off"></i> Server overloaded
+                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 05 AM</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-footer">
+                            <a class="text-center" href="#"> View All </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- User Account -->
+                <li class="dropdown user-menu">
+                    <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <img src="/assets/images/user.png" class="user-image" alt="User Image" />
+                        <span class="d-none d-lg-inline-block">Gille SAMUEL</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <!-- User image -->
+                        <li class="dropdown-header">
+                            <img src="/assets/images/user.png" class="img-circle" alt="User Image" />
+                            <div class="d-inline-block">
+                                Gilles SALUEL <small class="pt-1">gillesamuel@gmail.com</small>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="profile.html">
+                                <i class="mdi mdi-account"></i> Mon Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"> <i class="mdi mdi-diamond-stone"></i> Menus </a>
+                        </li>
+                        <li>
+                            <a href="#"> <i class="mdi mdi-settings"></i> Account Setting </a>
+                        </li>
+
+                        <li class="dropdown-footer">
+                            <a href="signin.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -55,6 +153,7 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>2</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
     </div>
+
 </header>
 
 {% block content %}{% endblock %}

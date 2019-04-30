@@ -23,7 +23,7 @@ class HomeController extends AbstractController
     {
         $menumanager = new MenuManager();
         $menus = $menumanager->selectAllMenus();
-        return $this->twig->render('Home/index.html.twig', ['menus' => $menus]);
+        return $this->twig->render('Home/dashboard.html.twig', ['menus' => $menus]);
     }
 
     public function about()
