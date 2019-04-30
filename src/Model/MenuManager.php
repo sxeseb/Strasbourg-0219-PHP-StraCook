@@ -64,8 +64,10 @@ class MenuManager extends AbstractManager
 
     public function selectOneMenus(int $id): array
     {
-        $statement = $this->pdo->query("SELECT * FROM $this->table menus JOIN images ON menus.id = 
-        images.menus_id where menus.id = $id");
+        $statement = $this->pdo->query("SELECT m.id, name, starter, main_course, dessert, img_src, description  
+        FROM $this->table m 
+        JOIN images i ON m.id = i.menus_id 
+        where m.id = $id");
 
         return $statement = $statement->fetch();
     }
@@ -84,18 +86,18 @@ class MenuManager extends AbstractManager
         return $statement->execute();
     }
 
-    public function updateMenu(array $item)
+    public function updateMenu(array $item, $id)
     {
-        $statement = $this->pdo->prepare("UPDATE FROM $this->table SET (`name`, `starter`, `main_course`, 
-`dessert`, `description`) VALUES (:name, :starter, :main_course, :dessert, :dessert, :description)");
-        $statement->bindValue('name', $item['name'], \PDO::PARAM_STR);
-        $statement->bindValue('starter', $item['starter'], \PDO::PARAM_STR);
-        $statement->bindValue('main_course', $item['main_course'], \PDO::PARAM_STR);
-        $statement->bindValue('dessert', $item['dessert'], \PDO::PARAM_STR);
-        $statement->bindValue('description', $item['description'], \PDO::PARAM_STR);
-        if ($statement->execute()) {
-            return (int)$this->pdo->lastInsertId();
-        }
+        $statement = $this->pdo->prepare("UPDATE $this->table SET `name` = :name, `starter` = :starter, 
+        `main_course` = :main_course, `dessert` = :dessert, `description` = :description  
+        WHERE id=:id");
+        $statement->bindValue('name', $item['menu_name'], \PDO::PARAM_STR);
+        $statement->bindValue('starter', $item['menu_starter'], \PDO::PARAM_STR);
+        $statement->bindValue('main_course', $item['menu_main_course'], \PDO::PARAM_STR);
+        $statement->bindValue('dessert', $item['menu_dessert'], \PDO::PARAM_STR);
+        $statement->bindValue('description', $item['menu_description'], \PDO::PARAM_STR);
+        $statement->bindvalue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
     }
 
     public function updateImage($img_src)

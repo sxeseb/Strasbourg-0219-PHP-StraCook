@@ -155,6 +155,7 @@ class ValidationService
             } else {
                 $userDatas['menu_dessert'] = $this->testInput($_POST['menu_dessert']);
             }
+
             if (!isset($_POST['menu_description']) || empty($_POST['menu_description'])) {
                 $errors['menu_description'] = 'Veuillez renseigner votre description';
             } elseif (!preg_match("/^([a-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_description'])) {
