@@ -1,48 +1,82 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Sylvain
+ * Date: 2019-04-30
+ * Time: 11:14
+ */
 
 namespace App\Controller;
 
-use App\Model\AdminMenuManager;
+use App\Model\OrdersManager;
+use App\Model\ReservationManager;
+use App\Service\DateService;
 
 class AdminController extends AbstractController
 {
-    private $menumanager;
-    public function AdminMenu()
+    public function dashboard()
     {
-        $menumanager = new AdminMenuManager();
-        $menus = $menumanager ->selectAllMenus();
-        return $this->twig->render('Admin/AdminMenu.html.twig',['menus' => $menus]);
-    }
-    public function ItemManagement()
-    {
-        return $this->twig->render('Admin/ItemManagement.html.twig');
+        return $this->twig->render('Admin/dashboard.html.twig');
     }
 
-    public function Datatreatment()
+    public function reservations(int $id = null)
     {
-        $menumanager = new AdminMenuManager();
+        $resaManager = new ReservationManager();
+        $overviewsPending = $resaManager->reservationPending();
+        $confirmed = $resaManager->reservationConfirmed();
+        $dateService = new DateService();
 
-        $NomMenu=$_POST["nom_menu"];
-        $starter=$_POST["entree"];
-        $mainCourse=$_POST["plat"];
-        $dessert=$_POST["dessert"];
-        $desc=$_POST["description"];
-        $url="";
-        if(isset($_POST["fileToUpload"]) && !empty($_POST["fileToUpload"]))
-        {
-         $url=$_POST["fileToUpload"];
-         $url2=$url;
-         $urlSplit=explode("/",$url);
-         $imgName=end($urlSplit);
-      
-        copy($url, '/home/julien/Bureau/projet2/Strasbourg-0219-PHP-StraCook/public/assets/images/menus/'.$imgName);
+        // formatage des données date et heure
+        $overviewsPending = $dateService->setToFormat($overviewsPending);
+        $confirmed = $dateService->setToFormat($confirmed);
+
+        if (isset($id) && is_int($id)) {
+            $clientDetails = $resaManager->reservationDetails($id);
+            $clientDetails['daysToDate'] = $dateService->daysToNow($clientDetails['date_resa']);
+            list($date, $time) = $dateService->formatFromDb($clientDetails['date_resa']);
+            $clientDetails['date'] = $date;
+            $clientDetails['time'] = $time;
+            $orderDetails = $resaManager->reservationOrderDetails($id);
+
+
+            return $this->twig->render(
+                'Admin/reservations.html.twig',
+                ['pending' => $overviewsPending,
+                    'orderDetails' => $orderDetails, 'clientDetails' => $clientDetails, 'confirmed' => $confirmed]
+            );
         }
-      if($menumanager ->insert($NomMenu,$starter,$mainCourse,$dessert,$desc,$url)==1)
-        {
-            $this->AdminMenu();
-        }  
-        else{
-            echo "L'insert a échoué...";
+
+        return $this->twig->render(
+            'Admin/reservations.html.twig',
+            ['pending' => $overviewsPending, 'confirmed' => $confirmed]
+        );
+    }
+
+    public function confirm(int $id) :void
+    {
+        $reservationManager = new ReservationManager();
+        if ($reservationManager->confirm($id)) {
+            header('location: /reservation/reservations');
         }
+    }
+
+    // refus de la réservation :  envoi d'un email de refus
+    public function decline(int $id) :void
+    {
+        $ordersManager = new OrdersManager();
+        $ordersManager->delete($id);
+        $reservationManager = new ReservationManager();
+        $reservationManager->decline($id);
+        header('location: /reservation/reservations');
+    }
+
+    // annulation de la réservation : email d'annulation et proposition d'autres dates
+    public function cancel(int $id) :void
+    {
+        $ordersManager = new OrdersManager();
+        $ordersManager->delete($id);
+        $reservationManager = new ReservationManager();
+        $reservationManager->decline($id);
+        header('location: /reservation/reservations');
     }
 }

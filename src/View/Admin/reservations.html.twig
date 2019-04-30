@@ -1,0 +1,162 @@
+{% extends 'layoutAdmin.html.twig' %}
+
+{% block content %}
+    <section>
+        <div class="container py-5">
+            <div class="row mb-4">
+                <div class="card col-8">
+                    <div class="card-body">
+                        <h4 class="card-title">Réservations en attentes</h4>
+                        {% if (pending is not defined or pending is empty) %}
+                            <div class="card-text">
+                                <p>Pas de réservations en attente</p>
+                            </div>
+                        {% else %}
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Couverts</th>
+                                    <th scope="col">Arrivée</th>
+                                    <th scope="col">Localité</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Confirmer</th>
+                                    <th scope="col">Décliner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reservation in pending %}
+                                <tr>
+                                    <td>{{ reservation.date }}</td>
+                                    <td>{{ reservation.guests }}</td>
+                                    <td>{{ reservation.arrival }}</td>
+                                    <td>{{ reservation.place }}</td>
+                                    <td>{{ reservation.client }}</td>
+                                    <td><a class="btn btn-success" href="/admin/confirm/{{ reservation.id }}">Confirmer</a></td>
+                                    <td><a class="btn btn-danger" href="/admin/decline/{{ reservation.id }}">Decliner</a></td>
+                                    <td><a href="/admin/reservations/{{ reservation.id }}">plus d'infos</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card col-4">
+
+                </div>
+            </div>
+            {% if confirmed is defined %}
+            <div class="card row mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Prochaines réservations</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Nombre de couverts</th>
+                            <th scope="col">Arrivée</th>
+                            <th scope="col">Localité</th>
+                            <th scope="col">Client</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for reservation in confirmed %}
+                            {% if reservation.status == 1 %}
+                            <tr>
+                                <td>{{ reservation.date }}</td>
+                                <td>{{ reservation.guests }}</td>
+                                <td>{{ reservation.arrival }}</td>
+                                <td>{{ reservation.place }}</td>
+                                <td>{{ reservation.client }}</td>
+                                <td><a href="/admin/reservations/{{ reservation.id }}">plus d'infos</a></td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if orderDetails is defined %}
+                <div class="row mb-4">
+                    <div class="card col-12">
+                        <div class="card-body row">
+                           <div class="col-2">
+                               <h4 class=""> {{ clientDetails.date }}</h4>
+                               <p class="card-text font-weight-bold"> dans {{ clientDetails.daysToDate }} jours</p>
+                               <h4 class="card-title">Repas</h4>
+                                <table class="table table-borderless align-self-middle my-5">
+                                    <tbody>
+                                    {% for menu in orderDetails %}
+                                        <tr>
+                                            <td>{{ menu.name }}</td>
+                                            <td>{{ menu.categorie }}</td>
+                                            <td>{{ menu.quantity }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                           </div>
+                            <div class="col-9 offset-1">
+                               <h4 class="card-title">Informations réservation</h4>
+                               <div class="card-body">
+                                   <h4>Adresse</h4>
+                                   <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Client</th>
+                                                <th>Adresse</th>
+                                                <th>Code postal</th>
+                                                <th>Ville</th>
+                                            </tr>
+                                        </thead>
+                                       <tbody>
+                                            <tr>
+                                                <td>{{ clientDetails.client }}</td>
+                                                <td>{{ clientDetails.adress }}</td>
+                                                <td>{{ clientDetails.zip }}</td>
+                                                <td>{{ clientDetails.city }}</td>
+                                            </tr>
+                                       </tbody>
+                                   </table>
+                                   <div class="row">
+                                       <div class="col-6">
+                                           <h4>Contacts</h4>
+                                               <ul class="list-group">
+                                                   <a class="list-group-item list-group-item-action disabled">Téléphone : {{ clientDetails.phone }}</a>
+                                                   <a href="mailto:{{clientDetails.email }}" target="_blank" class="list-group-item list-group-item-action">Adresse email : {{ clientDetails.email }} </a>
+                                               </ul>
+                                       </div>
+                                       <div class="col-6">
+                                       {% if clientDetails.status == 0 %}
+                                           <div class="row justify-content-center mt-5 ">
+                                               <p class="card-text text-center">Cette réservation est en attente de validation.</p>
+                                               <a class="btn btn-success col-3 offset-3" href="/admin/confirm/{{ clientDetails.id }}">Confirmer</a>
+                                               <a class="btn btn-danger col-3 offset-1" href="/admin/decline/{{ clientDetails.id }}">Decliner</a>
+                                           </div>
+                                       {% else %}
+                                           <div class="row mt-5 text-center justify-content-center">
+                                               <a class="btn btn-danger col-3 offset-1" href="/admin/cancel/{{ clientDetails.id }}">Annuler</a>
+                                           </div>
+                                       {% endif %}
+                                       </div>
+                                   </div>
+                                   {% if clientDetails.commentaires is not empty %}
+                                       <div class="mt-4">
+                                           <h4 class="card-title">Commentaires</h4>
+                                           <div class="card-body">
+                                               <p class="card-text">{{ clientDetails.commentaires }}</p>
+                                           </div>
+                                       </div>
+                                   {% endif %}
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 {% block title %} Stras'Cook - Reserver une prestation {% endblock %}
 {% block stylesheet %}<link href="/assets/css/cart.css" rel="stylesheet" type="text/css"> {% endblock %}
+{% block image_url %}/assets/images/banner.jpg{%  endblock %}
 
 {% block content %}
     <section>
@@ -120,10 +121,12 @@
                                     <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
                                     {% endif %}
                                 </div>
-                                <hr>
-                                <div class="col-12">
+                                <div class="col-12 d-flex justify-content-end">
                                     <p>Total : <span id="total_cart">{{ count.total }}</span> €</p>
                                 </div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <textarea class="form-control" rows="3" name="comment" placeholder="laisser un message au chef... (optionnel)"></textarea>
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn btn-warning" name="submit">Valider ma réservation</button>
