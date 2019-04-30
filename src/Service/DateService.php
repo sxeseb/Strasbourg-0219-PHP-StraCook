@@ -13,4 +13,16 @@ class DateService extends \DateTime
 
         return array($date, $time);
     }
+
+    public function setToFormat(array $arr) :array
+    {
+        foreach ($arr as $key => $data) {
+            $output = $this->formatFromDb($data['date_resa']);
+            list($date, $time) = $output;
+            $arr[$key]['date'] = $date;
+            $arr[$key]['arrival'] = $time;
+        }
+
+        return $arr;
+    }
 }

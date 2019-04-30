@@ -129,19 +129,8 @@ class ReservationController extends AbstractController
         $dateService = new DateService();
 
         // formatage des données date et heure
-        foreach ($overviewsPending as $key => $data) {
-            $output = $dateService->formatFromDb($data['date_resa']);
-            list($date, $time) = $output;
-            $overviewsPending[$key]['date'] = $date;
-            $overviewsPending[$key]['arrival'] = $time;
-        }
-
-        foreach ($confirmed as $key => $data) {
-            $output = $dateService->formatFromDb($data['date_resa']);
-            list($date, $time) = $output;
-            $confirmed[$key]['date'] = $date;
-            $confirmed[$key]['arrival'] = $time;
-        }
+        $overviewsPending = $dateService->setToFormat($overviewsPending);
+        $confirmed = $dateService->setToFormat($confirmed);
 
         if (isset($id) && is_int($id)) {
             $clientDetails = $resaManager->reservationDetails($id);
