@@ -31,24 +31,11 @@ class MenuManager extends AbstractManager
         }
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function delete(int $id): void
-    {
-        // prepared request
-        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id=:id");
-        $statement->bindValue('id', $id, \PDO::PARAM_INT);
-        $statement->execute();
-    }
-
-
     /**
      * @param array $item
      * @return bool
      */
-    public function update(array $item):bool
+    public function update(array $item): bool
     {
 
         // prepared request
@@ -77,9 +64,62 @@ class MenuManager extends AbstractManager
 
     public function selectOneMenus(int $id): array
     {
-        $statement = $this->pdo->query("SELECT * FROM $this->table menus JOIN images ON menus.id = 
-        images.menus_id where menus.id = $id");
+        $statement = $this->pdo->query("SELECT m.id, name, starter, main_course, dessert, img_src, description  
+        FROM $this->table m 
+        JOIN images i ON m.id = i.menus_id 
+        where m.id = $id");
 
-        return $statement = $statement ->fetch();
+        return $statement = $statement->fetch();
+    }
+
+    public function delete(int $id): bool
+    {
+        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function deleteAllImage(int $id): bool
+    {
+        $statement = $this->pdo->prepare("DELETE FROM images WHERE menus_id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function updateMenu(array $item, $id)
+    {
+        $statement = $this->pdo->prepare("UPDATE $this->table SET `name` = :name, `starter` = :starter, 
+        `main_course` = :main_course, `dessert` = :dessert, `description` = :description  
+        WHERE id=:id");
+        $statement->bindValue('name', $item['menu_name'], \PDO::PARAM_STR);
+        $statement->bindValue('starter', $item['menu_starter'], \PDO::PARAM_STR);
+        $statement->bindValue('main_course', $item['menu_main_course'], \PDO::PARAM_STR);
+        $statement->bindValue('dessert', $item['menu_dessert'], \PDO::PARAM_STR);
+        $statement->bindValue('description', $item['menu_description'], \PDO::PARAM_STR);
+        $statement->bindvalue('id', $id, \PDO::PARAM_INT);
+        return $statement->execute();
+    }
+
+    public function addMenu(array $item)
+    {
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (`name`, `starter`, `main_course`, 
+        `dessert`, `description`) 
+        VALUES (:name, :starter, :main_course, :dessert, :description)");
+        $statement->bindValue('name', $item['menu_name'], \PDO::PARAM_STR);
+        $statement->bindValue('starter', $item['menu_starter'], \PDO::PARAM_STR);
+        $statement->bindValue('main_course', $item['menu_main_course'], \PDO::PARAM_STR);
+        $statement->bindValue('dessert', $item['menu_dessert'], \PDO::PARAM_STR);
+        $statement->bindValue('description', $item['menu_description'], \PDO::PARAM_STR);
+
+        if ($statement->execute()) {
+            return (int)$this->pdo->lastInsertId();
+        }
+    }
+
+    public function updateImage($img_src)
+    {
+        $statement = $this->pdo->prepare("UPDATE FROM images SET(`img_src`) VALUES (:img_src) WHERE menus_id=:id");
+        $statement->bindValue('img_src', $img_src, \PDO::PARAM_STR);
+        return $statement->execute();
     }
 }
