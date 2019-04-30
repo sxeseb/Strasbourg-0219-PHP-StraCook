@@ -102,7 +102,8 @@ class MenuManager extends AbstractManager
 
     public function addMenu(array $item)
     {
-        $statement = $this->pdo->prepare("INSERT INTO $this->table (`name`, `starter`, `main_course`, `dessert`, `description`) 
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (`name`, `starter`, `main_course`, 
+        `dessert`, `description`) 
         VALUES (:name, :starter, :main_course, :dessert, :description)");
         $statement->bindValue('name', $item['menu_name'], \PDO::PARAM_STR);
         $statement->bindValue('starter', $item['menu_starter'], \PDO::PARAM_STR);
