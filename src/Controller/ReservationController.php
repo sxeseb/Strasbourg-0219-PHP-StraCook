@@ -7,6 +7,7 @@ use App\Model\MenuManager;
 use App\Model\ReservationManager;
 use App\Model\UsersManager;
 use App\Service\CartService;
+use App\Service\DateService;
 use App\Service\ValidationService;
 use App\Model\OrdersManager;
 
@@ -125,14 +126,21 @@ class ReservationController extends AbstractController
         $resaManager = new ReservationManager();
         $overviewsPending = $resaManager->reservationPending();
         $confirmed = $resaManager->reservationConfirmed();
+        $dateService = new DateService();
 
         // formatage des données date et heure
         foreach ($overviewsPending as $key => $data) {
-            $date = new \DateTime($data['date_resa']);
-            $time = $date->format('H:i');
-            $date = $date->format('d-m-Y');
+            $output = $dateService->formatFromDb($data['date_resa']);
+            list($date, $time) = $output;
             $overviewsPending[$key]['date'] = $date;
             $overviewsPending[$key]['arrival'] = $time;
+        }
+
+        foreach ($confirmed as $key => $data) {
+            $output = $dateService->formatFromDb($data['date_resa']);
+            list($date, $time) = $output;
+            $confirmed[$key]['date'] = $date;
+            $confirmed[$key]['arrival'] = $time;
         }
 
         if (isset($id) && is_int($id)) {
