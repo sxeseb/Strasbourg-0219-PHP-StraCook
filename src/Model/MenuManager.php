@@ -100,6 +100,21 @@ class MenuManager extends AbstractManager
         return $statement->execute();
     }
 
+    public function addMenu(array $item)
+    {
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (`name`, `starter`, `main_course`, `dessert`, `description`) 
+        VALUES (:name, :starter, :main_course, :dessert, :description)");
+        $statement->bindValue('name', $item['menu_name'], \PDO::PARAM_STR);
+        $statement->bindValue('starter', $item['menu_starter'], \PDO::PARAM_STR);
+        $statement->bindValue('main_course', $item['menu_main_course'], \PDO::PARAM_STR);
+        $statement->bindValue('dessert', $item['menu_dessert'], \PDO::PARAM_STR);
+        $statement->bindValue('description', $item['menu_description'], \PDO::PARAM_STR);
+
+        if ($statement->execute()) {
+            return (int)$this->pdo->lastInsertId();
+        }
+    }
+
     public function updateImage($img_src)
     {
         $statement = $this->pdo->prepare("UPDATE FROM images SET(`img_src`) VALUES (:img_src) WHERE menus_id=:id");

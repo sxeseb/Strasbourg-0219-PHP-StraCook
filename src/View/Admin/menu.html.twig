@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-dark">
+                <table class="table table-hover table-dark">
                     <thead>
                     <tr>
                         <th scope="col">Menu</th>
@@ -29,7 +29,7 @@
                     {% for menu in menus %}
                     <tr>
                         <th scope="row">{{ menu.id }}</th>
-                        <td><img src="{{menu.img_src}}" alt=""></td>
+                        <td><img src="{{menu.img_src}}" alt="image_menu" height="100" width="100"></td>
                         <td>{{ menu.name }}</td>
                         <td>{{ menu.description }}</td>
                         <td><a type="button" class="btn btn-outline-light" href="/Menu/updateMenu/{{ menu.id }}">Edit</a></td>
@@ -38,6 +38,11 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row pb-3 pt-3">
+            <div class="col-md-12">
+                <a type="button" class="btn btn-secondary" href="/Menu/addMenu/">Ajouter</a>
             </div>
         </div>
     </div>

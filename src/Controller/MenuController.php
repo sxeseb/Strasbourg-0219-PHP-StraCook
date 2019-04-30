@@ -35,7 +35,7 @@ class MenuController extends AbstractController
     public function adminmenu()
     {
         $adminmenu = new MenuManager();
-        $menus = $adminmenu ->selectAll();
+        $menus = $adminmenu ->selectAllMenus();
         return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
     }
 
@@ -73,6 +73,7 @@ class MenuController extends AbstractController
                 // appel du controller de reservation pour lancer la procédure d'insertion
                 $menuManager = new MenuManager();
                 if ($menuManager -> updateMenu($menuDatas, $id)) {
+                    unset($_POST);
                     header('location: /menu/adminmenu');
                 }
             }
@@ -87,5 +88,30 @@ class MenuController extends AbstractController
         if ($updateimage ->updateImage($img_src)) {
             header('location: /menu/editmenu/');
         }
+    }
+
+    public function addMenu()
+    {
+        $addmenu = new MenuManager();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validator = new ValidationService();
+            $output = $validator->checkMenu();
+            list($errors, $menuDatas) = $output;
+            if (!empty($errors)) {
+                return $this->twig->render(
+                    'Admin/menuadd.html.twig',
+                    ['errors' => $errors, 'menu' => $menuDatas]
+                );
+            } else {
+                // appel du controller de reservation pour lancer la procédure d'insertion
+                $menuManager = new MenuManager();
+                if ($menuManager -> addmenu($menuDatas)) {
+                    unset($_POST);
+                    header('location: /menu/adminmenu');
+                }
+            }
+        }
+
+        return $this->twig->render('Admin/menuadd.html.twig');
     }
 }
