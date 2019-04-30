@@ -3,19 +3,22 @@ body
     background-color: seashell;
 }
 .alert {
-    height: 250px;
+    height: 100px;
     letter-spacing: 1px;
+    margin-bottom: 0px;
+
 
 }
 .container
 {
     position: relative;
+
 }
 
 
-header
+nav
 {
-    background-color: #171c22;
+    background-color: #067c06;
     color: seashell;
     letter-spacing: 1px;
 }
@@ -38,18 +41,18 @@ footer .nav-link
 
 footer .nav-link:hover
 {
-    color: #ebc1a8;
+    color: rgba(0, 0, 0, 0.35);
 }
 
 header .nav-link
 {
-    color: seashell;
+    color: #ffffff;
     transition: ease-in-out .25s;
 }
 
 header .nav-link:hover
 {
-    color: #ebc1a8;
+    color: #7fc80a;
 }
 
 /*
@@ -125,6 +128,12 @@ header .nav-link:hover::after
 
 .logotop
 {
-    width: 250px ;
-    height: 75px;
+    width: 80px ;
+    height: 80px;
+}
+
+.logotop2
+{
+    width: 80px ;
+    height: 80px;
 }
