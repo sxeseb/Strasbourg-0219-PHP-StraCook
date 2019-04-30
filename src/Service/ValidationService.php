@@ -15,7 +15,7 @@ class ValidationService
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['user_lastname']) || empty($_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez renseigner votre nom';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_lastname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù]+)$/", $_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez saisir un nom valide';
             } else {
                 $userDatas['lastname'] = $this->testInput($_POST['user_lastname']);
@@ -23,7 +23,7 @@ class ValidationService
 
             if (!isset($_POST['user_firstname']) || empty($_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez renseigner votre prénom';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['user_firstname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù]+)$/", $_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez saisir un prénom valide';
             } else {
                 $userDatas['firstname'] = $this->testInput($_POST['user_firstname']);
@@ -125,42 +125,42 @@ class ValidationService
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['menu_name']) || empty($_POST['menu_name'])) {
-                $errors['name'] = 'Veuillez renseigner le nom du menu';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_name'])) {
-                $errors['name'] = 'Veuillez saisir un nom de menu valide';
+                $errors['menu_name'] = 'Veuillez renseigner le nom du menu';
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_name'])) {
+                $errors['menu_name'] = 'Veuillez saisir un nom de menu valide';
             } else {
-                $userDatas['name'] = $this->testInput($_POST['menu_name']);
+                $userDatas['menu_name'] = $this->testInput($_POST['menu_name']);
             }
 
             if (!isset($_POST['menu_starter']) || empty($_POST['menu_starter'])) {
-                $errors['starter'] = 'Veuillez renseigner votre entrée';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_starter'])) {
-                $errors['starter'] = 'Veuillez saisir une entrée valide';
+                $errors['menu_starter'] = 'Veuillez renseigner votre entrée';
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_starter'])) {
+                $errors['menu_starter'] = 'Veuillez saisir une entrée valide';
             } else {
-                $userDatas['starter'] = $this->testInput($_POST['menu_starter']);
+                $userDatas['menu_starter'] = $this->testInput($_POST['menu_starter']);
             }
 
             if (!isset($_POST['menu_main_course']) || empty($_POST['menu_main_course'])) {
-                $errors['main_course'] = 'Veuillez renseigner votre plat';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_main_course'])) {
-                $errors['main_course'] = 'Veuillez saisir un plat valide';
+                $errors['menu_main_course'] = 'Veuillez renseigner votre plat';
+            } elseif (!preg_match("/^([aa-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_main_course'])) {
+                $errors['menu_main_course'] = 'Veuillez saisir un plat valide';
             } else {
-                $userDatas['main_course'] = $this->testInput($_POST['menu_main_course']);
+                $userDatas['menu_main_course'] = $this->testInput($_POST['menu_main_course']);
             }
 
             if (!isset($_POST['menu_dessert']) || empty($_POST['menu_dessert'])) {
-                $errors['dessert'] = 'Veuillez renseigner votre dessert';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_dessert'])) {
-                $errors['dessert'] = 'Veuillez saisir un dessert valide';
+                $errors['menu_dessert'] = 'Veuillez renseigner votre dessert';
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_dessert'])) {
+                $errors['menu_dessert'] = 'Veuillez saisir un dessert valide';
             } else {
-                $userDatas['dessert'] = $this->testInput($_POST['menu_dessert']);
+                $userDatas['menu_dessert'] = $this->testInput($_POST['menu_dessert']);
             }
             if (!isset($_POST['menu_description']) || empty($_POST['menu_description'])) {
-                $errors['description'] = 'Veuillez renseigner votre description';
-            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_description'])) {
-                $errors['description'] = 'Veuillez saisir une description valide';
+                $errors['menu_description'] = 'Veuillez renseigner votre description';
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù,.!?]+)$/", $_POST['menu_description'])) {
+                $errors['menu_description'] = 'Veuillez saisir une description valide';
             } else {
-                $userDatas['description'] = $this->testInput($_POST['menu_description']);
+                $userDatas['menu_description'] = $this->testInput($_POST['menu_description']);
             }
         }
         return array($errors, $userDatas);

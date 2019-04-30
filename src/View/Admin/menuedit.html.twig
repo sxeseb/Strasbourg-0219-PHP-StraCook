@@ -6,17 +6,20 @@
 
 {% block content %}
     <div class="container p-5">
-    <form method= "post" action="/menu/updateMenu/">
+    <form method= "post" action="/menu/updateMenu/{{ menu.id }} ">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="menu_name">Nom du menu</label>
-                <input type="text" class="form-control" id="menu_name" placeholder="{{ menu.name }}">
+                <input name="menu_name" type="text" class="form-control" id="menu_name"
+                       value="{% if menu.name %}{{ menu.name }}{% endif %}">
+                {% if errors.menu_name %}
+                    <small id="menu_name_help" class="form-text text-danger">{{ errors.menu_name }}</small>
+                {% endif %}
             </div>
+
             <div class="form-group col-md-6">
-                <form action="" method="post" enctype="multipart/form-data">
                     <input type="file" name="fichier[]" multiple="multiple"/>
                     <input type="submit" name="submit" id="submit" value="Upload" />
-                </form>
 
                 <div class="container pt-2">
                     <div class="row">
@@ -27,7 +30,8 @@
                                 <div class = "caption pt-2">
                                     <form method="POST" action="">
                                         <input type="hidden" name="image" value="<?= $value; ?>">
-                                        <button type="submit" name="delete" class="btn btn-outline-warning">Supprimer</button>
+                                        <button type="submit" name="delete"
+                                                class="btn btn-outline-warning">Supprimer</button>
                                     </form>
                                 </div>
                             </div>
@@ -40,26 +44,43 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="entree">Entrée</label>
-                <input type="text" class="form-control" id="entree" placeholder="{{ menu.starter }}">
+                <input name="menu_starter" type="text" class="form-control" id="entree"
+                       value="{% if menu.starter %}{{ menu.starter }}{% endif %}">
+                {% if errors.menu_starter %}
+                    <small id="menu_starter_help" class="form-text text-danger">{{ errors.menu_starter }}</small>
+                {% endif %}
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="plat">Plat</label>
-                <input type="text" class="form-control" id="plat" placeholder="{{ menu.main_course }}">
+                <input name="menu_main_course" type="text" class="form-control" id="plat"
+                       value="{% if menu.main_course %}{{ menu.main_course }}{% endif %}">
+                {% if errors.menu_main_course %}
+                    <small id="menu_main_course_help" class="form-text text-danger">{{ errors.menu_main_course }}</small>
+                {% endif %}
             </div>
             <div class="form-group col-md-6">
                 <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" placeholder="{{ menu.description }}">
-            </div>
+                <input name="menu_description" type="text" class="form-control" id="description"
+                                 value="{% if menu.description %}{{ menu.description }}{% endif %}">
+                {% if errors.menu_description %}
+                    <small id="menu_menu_description_help" class="form-text text-danger">{{ errors.menu_description }}</small>
+                {% endif %}
+        </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="dessert">Dessert</label>
-                <input type="text" class="form-control" id="dessert" placeholder="{{ menu.dessert }}">
+                <input name="menu_dessert" type="text" class="form-control" id="dessert"
+                       value="{% if menu.dessert %}{{ menu.dessert }}{% endif %}">
+                {% if errors.menu_dessert %}
+                    <small id="menu_menu_dessert_help" class="form-text text-danger">{{ errors.menu_dessert }}</small>
+                {% endif %}
             </div>
         </div>
         <button type="submit" class="btn btn-primary" href="/menu/updateMenu/{{ menu.id }}">Editer</button>
     </form>
     </div>
+
 {% endblock %}
