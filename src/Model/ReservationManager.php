@@ -97,7 +97,7 @@ class ReservationManager extends AbstractManager
 
     public function reservationOrderDetails($id) :array
     {
-        $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity 
+        $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity, r.date_booked 
             FROM orders o 
             JOIN reservation r ON r.id = o.reservation_id 
             JOIN menus m ON m.id = o.menus_id 

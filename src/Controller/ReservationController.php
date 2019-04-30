@@ -134,7 +134,13 @@ class ReservationController extends AbstractController
 
         if (isset($id) && is_int($id)) {
             $clientDetails = $resaManager->reservationDetails($id);
+            $clientDetails['daysToDate'] = $dateService->daysToNow($clientDetails['date_resa']);
+            list($date, $time) = $dateService->formatFromDb($clientDetails['date_resa']);
+            $clientDetails['date'] = $date;
+            $clientDetails['time'] = $time;
             $orderDetails = $resaManager->reservationOrderDetails($id);
+
+
             return $this->twig->render(
                 'Admin/reservations.html.twig',
                 ['pending' => $overviewsPending,
@@ -156,8 +162,18 @@ class ReservationController extends AbstractController
         }
     }
 
-
+    // refus de la réservation :  envoi d'un email de refus
     public function decline(int $id) :void
+    {
+        $ordersManager = new OrdersManager();
+        $ordersManager->delete($id);
+        $reservationManager = new ReservationManager();
+        $reservationManager->decline($id);
+        header('location: /reservation/reservations');
+    }
+
+    // annulation de la réservation : email d'annulation et proposition d'autres dates
+    public function cancel(int $id) :void
     {
         $ordersManager = new OrdersManager();
         $ordersManager->delete($id);

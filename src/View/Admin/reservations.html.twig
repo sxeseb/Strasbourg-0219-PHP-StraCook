@@ -84,6 +84,8 @@
                     <div class="card col-12">
                         <div class="card-body row">
                            <div class="col-2">
+                               <h4 class=""> {{ clientDetails.date }}</h4>
+                               <p class="card-text font-weight-bold"> dans {{ clientDetails.daysToDate }} jours</p>
                                <h4 class="card-title">Repas</h4>
                                 <table class="table table-borderless align-self-middle my-5">
                                     <tbody>
@@ -131,13 +133,15 @@
 
 
                                        {% if clientDetails.status == 0 %}
-                                           <p class="card-text text-center mt-5">Cette réservation est en attente de validation.</p>
-                                           <div class="row">
+                                           <div class="row justify-content-center mt-5 ">
+                                               <p class="card-text text-center">Cette réservation est en attente de validation.</p>
                                                <a class="btn btn-success col-3 offset-3" href="/reservation/confirm/{{ clientDetails.id }}">Confirmer</a>
                                                <a class="btn btn-danger col-3 offset-1" href="/reservation/decline/{{ clientDetails.id }}">Decliner</a>
                                            </div>
                                        {% else %}
-                                           <p class="card-text"></p>
+                                           <div class="row mt-5 text-center justify-content-center">
+                                               <a class="btn btn-danger col-3 offset-1" href="/reservation/cancel/{{ clientDetails.id }}">Annuler</a>
+                                           </div>
                                        {% endif %}
                                        </div>
                                    </div>
