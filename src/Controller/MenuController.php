@@ -63,7 +63,7 @@ class MenuController extends AbstractController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationService();
             $output = $validator->checkMenu();
-            list($errors, $userDatas) = $output;
+            list($errors, $menuDatas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
                     'Admin/menuedit.html.twig',
@@ -72,7 +72,7 @@ class MenuController extends AbstractController
             } else {
                 // appel du controller de reservation pour lancer la procédure d'insertion
                 $menuManager = new MenuManager();
-                if ($menuManager -> updateMenu($userDatas, $id)) {
+                if ($menuManager -> updateMenu($menuDatas, $id)) {
                     header('location: /menu/adminmenu');
                 }
             }
