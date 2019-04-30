@@ -5,41 +5,61 @@
 {% endblock %}
 
 {% block content %}
-    <form>
+    <div class="container p-5">
+    <form method= "post" action="/menu/updateMenu/">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="menu_name">Nom du menu</label>
                 <input type="text" class="form-control" id="menu_name" placeholder="{{ menu.name }}">
             </div>
             <div class="form-group col-md-6">
-                <label for="image">Photo</label>
-                <input type="image" class="form-control" id="image" src="{{ menu.img_src }}">
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="file" name="fichier[]" multiple="multiple"/>
+                    <input type="submit" name="submit" id="submit" value="Upload" />
+                </form>
+
+                <div class="container pt-2">
+                    <div class="row">
+                        {% for menu in menus %}
+                        <div class="col-md-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="{{ menu.img_src }}" class="img-thumbnail" alt="img_menu">
+                                <div class = "caption pt-2">
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="image" value="<?= $value; ?>">
+                                        <button type="submit" name="delete" class="btn btn-outline-warning">Supprimer</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="inputAddress">Entrée</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-        <div class="form-group">
-            <label for="inputAddress2">Plat</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="form-group">
-            <label for="inputAddress2">Dessert</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="form-group">
-            <label for="inputAddress2">Description</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="entree">Entrée</label>
+                <input type="text" class="form-control" id="entree" placeholder="{{ menu.starter }}">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="plat">Plat</label>
+                <input type="text" class="form-control" id="plat" placeholder="{{ menu.main_course }}">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" placeholder="{{ menu.description }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="dessert">Dessert</label>
+                <input type="text" class="form-control" id="dessert" placeholder="{{ menu.dessert }}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" href="/menu/updateMenu/{{ menu.id }}">Editer</button>
     </form>
+    </div>
 {% endblock %}

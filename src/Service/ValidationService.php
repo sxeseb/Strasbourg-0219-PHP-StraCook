@@ -65,7 +65,7 @@ class ValidationService
             }
 
             if (!isset($_POST['user_city']) || empty($_POST['user_city'])) {
-                $errors['city'] ='Veuillez renseigner la ville';
+                $errors['city'] = 'Veuillez renseigner la ville';
             } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_city'])) {
                 $errors['city'] = 'Veuillez saisir une ville valide';
             } else {
@@ -85,8 +85,8 @@ class ValidationService
                 $errors['date'] = 'Veuillez selectionner une date pour votre réservation';
             } else {
                 if ($this->checkDate($_POST['selected_date'])) {
-                 /*   $errors['date'] = 'Date indisponible';
-                } else {*/
+                    /*   $errors['date'] = 'Date indisponible';
+                   } else {*/
                     $resaDatas['date'] = $this->testInput($_POST['selected_date']);
                 }
             }
@@ -116,5 +116,53 @@ class ValidationService
         $input = htmlspecialchars($input);
 
         return $input;
+    }
+
+    public function checkMenu()
+    {
+        $errors = [];
+        $userDatas = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['menu_name']) || empty($_POST['menu_name'])) {
+                $errors['name'] = 'Veuillez renseigner le nom du menu';
+            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_name'])) {
+                $errors['name'] = 'Veuillez saisir un nom de menu valide';
+            } else {
+                $userDatas['name'] = $this->testInput($_POST['menu_name']);
+            }
+
+            if (!isset($_POST['menu_starter']) || empty($_POST['menu_starter'])) {
+                $errors['starter'] = 'Veuillez renseigner votre entrée';
+            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_starter'])) {
+                $errors['starter'] = 'Veuillez saisir une entrée valide';
+            } else {
+                $userDatas['starter'] = $this->testInput($_POST['menu_starter']);
+            }
+
+            if (!isset($_POST['menu_main_course']) || empty($_POST['menu_main_course'])) {
+                $errors['main_course'] = 'Veuillez renseigner votre plat';
+            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_main_course'])) {
+                $errors['main_course'] = 'Veuillez saisir un plat valide';
+            } else {
+                $userDatas['main_course'] = $this->testInput($_POST['menu_main_course']);
+            }
+
+            if (!isset($_POST['menu_dessert']) || empty($_POST['menu_dessert'])) {
+                $errors['dessert'] = 'Veuillez renseigner votre dessert';
+            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_dessert'])) {
+                $errors['dessert'] = 'Veuillez saisir un dessert valide';
+            } else {
+                $userDatas['dessert'] = $this->testInput($_POST['menu_dessert']);
+            }
+            if (!isset($_POST['menu_description']) || empty($_POST['menu_description'])) {
+                $errors['description'] = 'Veuillez renseigner votre description';
+            } elseif (!preg_match("/^([a-zA-Z' ]+)$/", $_POST['menu_description'])) {
+                $errors['description'] = 'Veuillez saisir une description valide';
+            } else {
+                $userDatas['description'] = $this->testInput($_POST['menu_description']);
+            }
+        }
+        return array($errors, $userDatas);
     }
 }

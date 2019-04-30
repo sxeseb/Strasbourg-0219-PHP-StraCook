@@ -48,12 +48,48 @@ class MenuController extends AbstractController
         }
     }
 
-    public function update(array $item)
+    public function editmenu()
     {
+        $adminmenu = new MenuManager();
+        $menus = $adminmenu ->selectAll();
+        return $this->twig->render('Admin/menuedit.html.twig', ['menus' => $menus]);
+    }
+
+    public function updateMenu()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validator = new checkMenu();
+            $output = $validator->checkMenu();
+            list($errors, $userDatas) = $output;
+            if (!empty($errors)) {
+                return $this->twig->render(
+                    'Admin/menuedit.html.twig',
+                    ['errors' => $errors, 'datas' => $userDatas]
+                );
+            } else {
+                // appel du controller de reservation pour lancer la procédure d'insertion
+                $insertController = new MenuController();
+                if ($insertController->checkMenu($userDatas)) {
+                    return $this->twig->render('Admin/menuedit.html.twig');
+                } else {
+                    $adminmenu = new MenuManager();
+                    $menus = $adminmenu ->selectAll();
+                    return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
+                }
+            }
+        }
+        return $this->twig->render('Admin/menuedit.html.twig');
         $updatemenu = new MenuManager();
-        $menus = $updatemenu ->updateMenu($item);
-        if ($updatemenu ->update($item)) {
-            return $this->twig->render('Admin/menuedit.html.twig', ['menus' => $menus]);
+        if ($updatemenu ->updateMenu()) {
+            return $this->twig->render('Admin/menuedit.html.twig');
+        }
+    }
+
+    public function updateImage(str $img_src)
+    {
+        $updateimage = new MenuManager();
+        if ($updateimage ->updateImage($img_src)) {
+            header('location: /menu/editmenu/');
         }
     }
 }
