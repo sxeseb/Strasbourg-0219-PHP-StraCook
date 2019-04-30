@@ -19,11 +19,12 @@ class ReservationManager extends AbstractManager
     public function insert(array $reservation, int $user_id): int
     {
         // prepared request
-        $statement = $this->pdo->prepare("INSERT INTO $this->table (status, user_id, date_booked) VALUES (
-            :status, :user_id, :date_booked)");
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (status, user_id, date_booked, commentaires) VALUES (
+            :status, :user_id, :date_booked, :commentaire)");
         $statement->bindValue(':status', false, \PDO::PARAM_BOOL);
         $statement->bindValue(':user_id', $user_id, \PDO::PARAM_INT);
         $statement->bindValue(':date_booked', $reservation['date_booked'], \PDO::PARAM_STR);
+        $statement->bindValue('commentaire', $reservation['comment'], \PDO::PARAM_STR);
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
         }
@@ -97,7 +98,7 @@ class ReservationManager extends AbstractManager
 
     public function reservationOrderDetails($id) :array
     {
-        $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity, r.date_booked 
+        $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity, r.date_booked
             FROM orders o 
             JOIN reservation r ON r.id = o.reservation_id 
             JOIN menus m ON m.id = o.menus_id 
@@ -116,7 +117,7 @@ class ReservationManager extends AbstractManager
         $statement = $this->pdo->prepare("SELECT r.id id, 
             date_booked date_resa, 
             concat(lastname, ' ', firstname) client, 
-            adress, zip, city, phone, email, status
+            adress, zip, city, phone, email, status, r.commentaires 
             FROM user u 
             JOIN reservation r ON u.id = r.user_id 
             JOIN email e ON e.id = u.email_id 

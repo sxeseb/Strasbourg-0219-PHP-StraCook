@@ -32,9 +32,9 @@
                                     <td>{{ reservation.arrival }}</td>
                                     <td>{{ reservation.place }}</td>
                                     <td>{{ reservation.client }}</td>
-                                    <td><a class="btn btn-success" href="/reservation/confirm/{{ reservation.id }}">Confirmer</a></td>
-                                    <td><a class="btn btn-danger" href="/reservation/decline/{{ reservation.id }}">Decliner</a></td>
-                                    <td><a href="/reservation/reservations/{{ reservation.id }}">plus d'infos</a></td>
+                                    <td><a class="btn btn-success" href="/admin/confirm/{{ reservation.id }}">Confirmer</a></td>
+                                    <td><a class="btn btn-danger" href="/admin/decline/{{ reservation.id }}">Decliner</a></td>
+                                    <td><a href="/admin/reservations/{{ reservation.id }}">plus d'infos</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -69,7 +69,7 @@
                                 <td>{{ reservation.arrival }}</td>
                                 <td>{{ reservation.place }}</td>
                                 <td>{{ reservation.client }}</td>
-                                <td><a href="/reservation/reservations/{{ reservation.id }}">plus d'infos</a></td>
+                                <td><a href="/admin/reservations/{{ reservation.id }}">plus d'infos</a></td>
                             </tr>
                             {% endif %}
                         {% endfor %}
@@ -130,22 +130,27 @@
                                                </ul>
                                        </div>
                                        <div class="col-6">
-
-
                                        {% if clientDetails.status == 0 %}
                                            <div class="row justify-content-center mt-5 ">
                                                <p class="card-text text-center">Cette réservation est en attente de validation.</p>
-                                               <a class="btn btn-success col-3 offset-3" href="/reservation/confirm/{{ clientDetails.id }}">Confirmer</a>
-                                               <a class="btn btn-danger col-3 offset-1" href="/reservation/decline/{{ clientDetails.id }}">Decliner</a>
+                                               <a class="btn btn-success col-3 offset-3" href="/admin/confirm/{{ clientDetails.id }}">Confirmer</a>
+                                               <a class="btn btn-danger col-3 offset-1" href="/admin/decline/{{ clientDetails.id }}">Decliner</a>
                                            </div>
                                        {% else %}
                                            <div class="row mt-5 text-center justify-content-center">
-                                               <a class="btn btn-danger col-3 offset-1" href="/reservation/cancel/{{ clientDetails.id }}">Annuler</a>
+                                               <a class="btn btn-danger col-3 offset-1" href="/admin/cancel/{{ clientDetails.id }}">Annuler</a>
                                            </div>
                                        {% endif %}
                                        </div>
                                    </div>
-
+                                   {% if clientDetails.commentaires is not empty %}
+                                       <div class="mt-4">
+                                           <h4 class="card-title">Commentaires</h4>
+                                           <div class="card-body">
+                                               <p class="card-text">{{ clientDetails.commentaires }}</p>
+                                           </div>
+                                       </div>
+                                   {% endif %}
                                </div>
                             </div>
                         </div>
