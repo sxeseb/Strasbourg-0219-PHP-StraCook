@@ -1,0 +1,65 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} menu admin {% endblock %}
+
+{% block content %}
+</br>
+<form method="post" action="/Admin/Datatreatment">
+    <div class="row">
+        <div class="col-3">
+            <div>
+                <img src="https://www.arabamerica.com/wp-content/themes/arabamerica/assets/img/thumbnail-default.jpg" height=150 width=auto />
+            </div>
+            <div>
+                    <input type="file" name="fileToUpload" class="form-control" placeholder="First name">
+            </div>
+        </div>
+
+        <div class="col-5">
+            <div>
+                <label for="exampleFormControlTextarea1">Nom Menu</label>
+                <input type="text" name="nom_menu" required  class="form-control" placeholder="nom menu">
+            </div>
+            <div>
+                <label for="exampleFormControlTextarea1">Entre</label>
+                <textarea class="form-control" required name="entree" rows="3"></textarea>
+            </div>
+            <div>
+                <label for="exampleFormControlTextarea1">Plat</label>
+                <textarea class="form-control" required name="plat" rows="3"></textarea>
+            </div>
+            <div>
+                <label for="exampleFormControlTextarea1">Dessert</label>
+                <textarea class="form-control" required name="dessert" rows="3"></textarea>
+            </div>
+        </div>
+
+    
+        <div class="col-4">
+            <div>
+                <label for="exampleFormControlTextarea1">Descrption</label>
+                <textarea class="form-control" required name="description" id="descrption" rows="3"></textarea>
+            </div>
+            <p>tarifs</p>
+            <div class="row">
+            <div class="col-3">
+                <div>
+                    <label for="exampleFormControlTextarea1">Classique</label>
+                </div>
+                <div>
+                    <label for="exampleFormControlTextarea1">Local</label>
+                </div>
+            </div>
+            <div class="col-3">
+                <div>
+                    <label for="exampleFormControlTextarea1" class="borderTarifs">20€</label>
+                </div>
+                <div>
+                 <label for="exampleFormControlTextarea1" class="borderTarifs">30€</label>
+                </div>
+            </div>
+            </div>
+        </div>
+        <input type="submit" align="center" class="btn btn-primary" value="Valider le menu"/>
+</form>
+{%  endblock %}
