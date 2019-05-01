@@ -41,6 +41,7 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link rel="stylesheet" href="/assets/css/styledashboard.css">
+
     {% block stylesheet %}{% endblock %}
     <link rel="icon" href="/assets/images/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display" rel="stylesheet">
@@ -72,39 +73,24 @@
                     <a class="nav-link" href="/admin/statistiques/">Statistiques</a>
                 </li>
 
-                <div class="collapse navbar-collapsenavbar-right" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
                 <li class="dropdown notifications-menu">
                     <button class="dropdown-toggle" data-toggle="dropdown">
                         <i class="mdi mdi-bell-outline"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header">Vous avez 5 notifications</li>
+                        <li class="dropdown-header">Vous avez 2 notifications</li>
                         <li>
                             <a href="#">
-                                <i class="mdi mdi-account-plus"></i> Nouveau client registered
+                                <i class="mdi mdi-account-plus"></i> Nouvelle réservation
                                 <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <i class="mdi mdi-chart-areaspline"></i> Sales report is ready
-                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 12 PM</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="mdi mdi-account-supervisor"></i> New client
+                                <i class="mdi mdi-account-supervisor"></i> Nouveau client
                                 <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 10 AM</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="mdi mdi-server-network-off"></i> Server overloaded
-                                <span class=" font-size-12 d-inline-block float-right"><i class="mdi mdi-clock-outline"></i> 05 AM</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-footer">
-                            <a class="text-center" href="#"> View All </a>
                         </li>
                     </ul>
                 </li>
@@ -125,35 +111,21 @@
 
                         <li>
                             <a href="profile.html">
-                                <i class="mdi mdi-account"></i> Mon Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"> <i class="mdi mdi-diamond-stone"></i> Menus </a>
-                        </li>
-                        <li>
-                            <a href="#"> <i class="mdi mdi-settings"></i> Account Setting </a>
-                        </li>
-
+                           <i class="mdi mdi-diamond-stone"></i> Menus </a>
                         <li class="dropdown-footer">
                             <a href="signin.html"> <i class="mdi mdi-logout"></i> Log Out </a>
                         </li>
                     </ul>
                 </li>
+                </div>
             </ul>
         </div>
     </nav>
-
     <div class="alert alert-primary alert-dismissible text-center">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
-        <strong>Ce soir, vous avez </strong> <a href="#" class="alert-link">une reservation !</a>
-    </div>
-    <div class="alert alert-warning alert-dismissible text-center no-gutters">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>2</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
-    </div>
-
+        1 Repas<a href="#" class="alert-link"><strong> ce soir !</strong></a>
+        </div>
 </header>
 
 {% block content %}{% endblock %}
