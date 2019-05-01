@@ -1,12 +1,35 @@
-{% extends 'layout.html.twig' %}
+{% extends 'layoutAdmin.html.twig' %}
 
 {% block title %}
     EditMenu
 {% endblock %}
 
 {% block content %}
+    <section></section>
+    {{ dump(images) }}
     <div class="container p-5">
-    <form method= "post" action="/menu/updateMenu/{{ menu.id }} ">
+        <form action="/menu/addImage/{{ menu.id }}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                    <input type="file" name="image_menu" multiple="multiple"/>
+                    <input type="submit" name="submit" id="submit" value="Nouvelle image" />
+
+            </div>
+            {% for image in images %}
+            <div class="col-md-2">
+                <img src="{{ image.img_src }}" class="thumbnail" alt="image">
+                <input type="checkbox" aria-label="Checkbox">
+                <button type="submit" name="image_menu" id="submit" class="btn btn-secondary"
+                        href="/menu/updateImage/{{ image.id }}">Modifier</button>
+                <button type="submit" class="btn btn-secondary" href="/menu/deleteOneImage/{{ image.id }}">Supprimer</button>
+            </div>
+            {% endfor %}
+        </div>
+        </form>
+    </div>
+
+    <div class="container p-5">
+    <form method= "post" action="/menu/updateMenu/{{ menu.id }}">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="menu_name">Nom du menu</label>
@@ -15,30 +38,6 @@
                 {% if errors.menu_name %}
                     <small id="menu_name_help" class="form-text text-danger">{{ errors.menu_name }}</small>
                 {% endif %}
-            </div>
-
-            <div class="form-group col-md-6">
-                    <input type="file" name="fichier[]" multiple="multiple"/>
-                    <input type="submit" name="submit" id="submit" value="Upload" />
-
-                <div class="container pt-2">
-                    <div class="row">
-                        {% for menu in menus %}
-                        <div class="col-md-6 col-md-4">
-                            <div class="thumbnail">
-                                <img src="{{ menu.img_src }}" class="img-thumbnail" alt="img_menu">
-                                <div class = "caption pt-2">
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="image" value="<?= $value; ?>">
-                                        <button type="submit" name="delete"
-                                                class="btn btn-outline-warning">Supprimer</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
             </div>
         </div>
         <div class="form-row">
@@ -78,7 +77,7 @@
                 {% endif %}
         </div>
         </div>
-        <button type="submit" class="btn btn-primary" href="/menu/updateMenu/{{ menu.id }}">Editer</button>
+        <button type="submit" class="btn btn-secondary" href="/menu/updateMenu/{{ menu.id }}">Editer</button>
     </form>
     </div>
 

@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Model\ImageManager;
 use App\Model\MenuManager;
 use App\Service\ValidationService;
 
@@ -49,17 +50,25 @@ class MenuController extends AbstractController
         }
     }
 
-    public function editmenu()
+    public function deleteOneImage(int $id)
     {
         $adminmenu = new MenuManager();
-        $menus = $adminmenu ->selectAll();
-        return $this->twig->render('Admin/menuedit.html.twig', ['menus' => $menus]);
+        $menus = $adminmenu ->selectOneMenus($id);
+        $imagesmenu = new ImageManager();
+        $images = $imagesmenu -> selectAllImages($id);
+        $deletemenu = new ImageManager();
+        $deletemenu->deleteOneImage($id);
+        if ($deletemenu ->deleteOneImage($id)) {
+            return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
+        }
     }
 
     public function updateMenu(int $id)
     {
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectOneMenus($id);
+        $imagesmenu = new ImageManager();
+        $images = $imagesmenu -> selectAllImages($id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationService();
             $output = $validator->checkMenu();
@@ -70,7 +79,6 @@ class MenuController extends AbstractController
                     ['errors' => $errors, 'menu' => $menus]
                 );
             } else {
-                // appel du controller de reservation pour lancer la procédure d'insertion
                 $menuManager = new MenuManager();
                 if ($menuManager -> updateMenu($menuDatas, $id)) {
                     unset($_POST);
@@ -79,15 +87,31 @@ class MenuController extends AbstractController
             }
         }
 
-        return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus]);
+        return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
     }
 
-    public function updateImage($img_src)
+    public function updateImage(int $id)
     {
-        $updateimage = new MenuManager();
-        if ($updateimage ->updateImage($img_src)) {
-            header('location: /menu/editmenu/');
+        $imagesmenu = new ImageManager();
+        $images = $imagesmenu -> selectAllImages($id);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validatorImage = new ValidationService();
+            $outputimage = $validatorImage->checkImage();
+            list($imageErrors, $imageDatas) = $outputimage;
+            if (!empty($imagesErrors)) {
+                return $this->twig->render(
+                    'Admin/menuedit.html.twig',
+                    ['errors' => $imageErrors, 'image' => $imageDatas]
+                );
+            } else {
+                $imageManager = new ImageManager();
+                if ($imageManager->updateImage($outputimage, $id)) {
+                    unset($_POST);
+                    header('location: /menu/menuedit');
+                }
+            }
         }
+        return $this->twig->render('Admin/menuedit.html.twig', ['image' => $images]);
     }
 
     public function addMenu()
@@ -103,7 +127,6 @@ class MenuController extends AbstractController
                     ['errors' => $errors, 'menu' => $menuDatas]
                 );
             } else {
-                // appel du controller de reservation pour lancer la procédure d'insertion
                 $menuManager = new MenuManager();
                 if ($menuManager -> addmenu($menuDatas)) {
                     unset($_POST);
@@ -113,5 +136,28 @@ class MenuController extends AbstractController
         }
 
         return $this->twig->render('Admin/menuadd.html.twig');
+    }
+
+    public function addImage()
+    {
+        $addimage = new ImageManager();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validatorImage = new ValidationService();
+            $outputimage = $validatorImage->checkImage();
+            list($imageErrors, $imageDatas) = $outputimage;
+            if (!empty($imageErrors)) {
+                return $this->twig->render(
+                    'Admin/menuedit.html.twig',
+                    ['errors' => $imageErrors, 'image' => $imageDatas]
+                );
+            } else {
+                $imageManager = new ImageManager();
+                if ($imageManager->addImage($imageDatas)) {
+                    unset($_POST);
+                    header('location: /menu/adminmenu');
+                }
+            }
+        }
+        return $this->twig->render('Admin/menuedit.html.twig', ['image' => $addimage]);
     }
 }

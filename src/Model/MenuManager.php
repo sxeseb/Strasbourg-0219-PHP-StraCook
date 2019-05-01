@@ -115,11 +115,4 @@ class MenuManager extends AbstractManager
             return (int)$this->pdo->lastInsertId();
         }
     }
-
-    public function updateImage($img_src)
-    {
-        $statement = $this->pdo->prepare("UPDATE FROM images SET(`img_src`) VALUES (:img_src) WHERE menus_id=:id");
-        $statement->bindValue('img_src', $img_src, \PDO::PARAM_STR);
-        return $statement->execute();
-    }
 }

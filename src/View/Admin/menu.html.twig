@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'layoutAdmin.html.twig' %}
 
 {% block title %}
     AdminMenu
@@ -29,7 +29,7 @@
                     {% for menu in menus %}
                     <tr>
                         <th scope="row">{{ menu.id }}</th>
-                        <td><img src="{{menu.img_src}}" alt="image_menu" height="100" width="100"></td>
+                        <td><img class="thumbnail" src="{{menu.img_src}}" alt="image_menu"></td>
                         <td>{{ menu.name }}</td>
                         <td>{{ menu.description }}</td>
                         <td><a type="button" class="btn btn-outline-light" href="/Menu/updateMenu/{{ menu.id }}">Edit</a></td>

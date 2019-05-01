@@ -113,20 +113,6 @@ class ValidationService
         return array($errors, $resaDatas);
     }
 
-    public function checkDate($selected)
-    {
-        return 1;
-    }
-
-    public function testInput($input)
-    {
-        $input = trim($input);
-        $input = stripcslashes($input);
-        $input = htmlspecialchars($input);
-
-        return $input;
-    }
-
     public function checkMenu()
     {
         $errors = [];
@@ -174,5 +160,34 @@ class ValidationService
             }
         }
         return array($errors, $menuDatas);
+    }
+
+    public function checkImage()
+    {
+        $imageErrors = [];
+        $imageDatas = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['image_menu']) || empty($_POST['image_menu'])) {
+                $imageErrors['image_menu'] = 'Veuillez sélectionner une image';
+            } else {
+                $imageDatas['image_menu'] = $this->testInput($_POST['image_menu']);
+            }
+        }
+        return array($imageErrors, $imageDatas);
+    }
+
+    public function checkDate($selected)
+    {
+        return 1;
+    }
+
+    public function testInput($input)
+    {
+        $input = trim($input);
+        $input = stripcslashes($input);
+        $input = htmlspecialchars($input);
+
+        return $input;
     }
 }
