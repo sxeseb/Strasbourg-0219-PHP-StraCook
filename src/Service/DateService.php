@@ -28,7 +28,7 @@ class DateService extends \DateTime
         $date = new \DateTime($date);
         $diff = $now->diff($date);
 
-        return $diff->format('%d');
+        return $diff->format('%a');
     }
 
     public function setToFormat(array $arr) :array
