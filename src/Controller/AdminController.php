@@ -11,16 +11,53 @@ namespace App\Controller;
 use App\Model\OrdersManager;
 use App\Model\ReservationManager;
 use App\Service\DateService;
+use App\Service\ValidationService;
 
 class AdminController extends AbstractController
 {
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validator = new ValidationService();
+            $output = $validator->checkAdmin();
+            list($errors, $datas) = $output;
+
+            if (!empty($errors)) {
+                return $this->twig->render('Admin/login.html.twig', ['errors' => $errors]);
+            } else {
+                $_SESSION['admin'] = $datas['user'];
+                header('location: /admin/dashboard');
+            }
+        }
+
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin']) || $_SESSION['admin'] != 'admin') {
+            return $this->twig->render('Admin/login.html.twig');
+        } else {
+            header('location: /admin/dashboard');
+        }
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['admin']);
+        header('location: /admin/login');
+    }
+
     public function dashboard()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         return $this->twig->render('Admin/dashboard.html.twig');
     }
 
     public function reservations(int $id = null)
     {
+
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
+
         $resaManager = new ReservationManager();
         $overviewsPending = $resaManager->reservationPending();
         $confirmed = $resaManager->reservationConfirmed();
