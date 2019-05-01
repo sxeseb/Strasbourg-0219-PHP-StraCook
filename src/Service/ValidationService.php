@@ -105,7 +105,7 @@ class ValidationService
 
             $resaDatas['comment'] = "";
             if (isset($_POST['comment']) && !empty($_POST['comment'])) {
-                if (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['comment'])) {
+                if (!preg_match("/^([a-zA-Z0-9' éëèêàùç,.!?]+)$/", $_POST['comment'])) {
                     $errors['comment'] = "Caractères non valides utilisés";
                 } else {
                     $resaDatas['comment'] = $this->testInput($_POST['comment']);
