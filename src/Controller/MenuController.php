@@ -50,16 +50,11 @@ class MenuController extends AbstractController
         }
     }
 
-    public function deleteOneImage(int $id)
+    public function deleteOneImage(int $id):void
     {
-        $adminmenu = new MenuManager();
-        $menus = $adminmenu ->selectOneMenus($id);
-        $imagesmenu = new ImageManager();
-        $images = $imagesmenu -> selectAllImages($id);
-        $deletemenu = new ImageManager();
-        $deletemenu->deleteOneImage($id);
-        if ($deletemenu ->deleteOneImage($id)) {
-            return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
+        $deleteimage = new ImageManager();
+        if ($deleteimage ->deleteOneImage($id)) {
+            header('location: /menu/adminmenu/');
         }
     }
 
@@ -105,13 +100,13 @@ class MenuController extends AbstractController
                 );
             } else {
                 $imageManager = new ImageManager();
-                if ($imageManager->updateImage($outputimage, $id)) {
+                if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
                     header('location: /menu/menuedit');
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig', ['image' => $images]);
+        return $this->twig->render('Admin/menuedit.html.twig', ['images' => $images]);
     }
 
     public function addMenu()
@@ -158,6 +153,6 @@ class MenuController extends AbstractController
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig', ['image' => $addimage]);
+        return $this->twig->render('Admin/menuedit.html.twig');
     }
 }

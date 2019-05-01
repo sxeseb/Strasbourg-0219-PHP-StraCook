@@ -31,14 +31,10 @@ class ImageManager extends AbstractManager
         }
     }
 
-    /**
-     * @param array $item
-     * @return bool
-     */
-
-    public function selectAllImages(int $id): array
+    public function selectAllImages(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT * FROM $this->table i JOIN menus m on m.id = i.menus_id 
+        $statement = $this->pdo->prepare("SELECT i.id id, img_src, thumb, menus_id 
+        FROM $this->table i JOIN menus m on m.id = i.menus_id 
         WHERE m.id=:id;");
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
         $statement->execute();
@@ -54,15 +50,15 @@ class ImageManager extends AbstractManager
 
     public function deleteOneImage(int $id): bool
     {
-        $statement = $this->pdo->prepare("DELETE FROM $this->table WHERE menus_id=:id");
+        $statement = $this->pdo->prepare("DELETE FROM $this->table
+        WHERE id=:id");
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
         return $statement->execute();
     }
 
     public function updateImage(array $item, $id)
     {
-        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb
-        JOIN menus m on m.id = i.menus_id  
+        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb 
         WHERE id=:id");
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);
@@ -72,10 +68,11 @@ class ImageManager extends AbstractManager
 
     public function addImage(array $item)
     {
-        $statement = $this->pdo->prepare("INSERT INTO $this->table (`img_src`, `thumb`)
-        VALUES (:img_src, :thumb)");
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (`img_src`, `thumb`, `menu_id`)
+        VALUES (:img_src, :thumb, :menu_id) WHERE id=:id");
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);
+        $statement->bindValue('menu_id', $item['menu_menu_id'], \PDO::PARAM_INT);
 
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
