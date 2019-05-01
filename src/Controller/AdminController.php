@@ -16,7 +16,17 @@ class AdminController extends AbstractController
 {
     public function dashboard()
     {
-        return $this->twig->render('Admin/dashboard.html.twig');
+        $resaManager = new ReservationManager();
+        $resaPending = $resaManager-> reservationPending();
+        $confirmed = $resaManager->reservationConfirmed();
+        $dateService = new DateService();
+        $confirmed = $dateService ->setToFormat($confirmed);
+
+
+
+
+
+        return $this->twig->render('Admin/dashboard.html.twig', ['test'=>$confirmed]);
     }
 
     public function reservations(int $id = null)

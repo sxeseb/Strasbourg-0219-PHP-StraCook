@@ -1,0 +1,9 @@
+{% extends 'layoutAdmin.html.twig' %}
+{% block content %}
+    {% if test.daysToDate < 1%}
+        <div class="Alert"> Alert Alert</div>
+        {% endif %}
+    {% for resa in test %}
+        {% if resa.daysToDate < 7 %}
+            <div class="menu">
+{% endblock %}
