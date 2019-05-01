@@ -86,9 +86,9 @@ class ValidationService
             if (!isset($_POST['selected_date']) || empty($_POST['selected_date'])) {
                 $errors['date'] = 'Veuillez selectionner une date pour votre réservation';
             } else {
-                if ($this->checkDate($_POST['selected_date'])) {
-                 /*   $errors['date'] = 'Date indisponible';
-                } else {*/
+                if ($this->checkDate($_POST['selected_date']) == 1) {
+                    $errors['date'] = 'Date indisponible';
+                } else {
                     $resaDatas['date'] = $this->testInput($_POST['selected_date']);
                 }
             }
@@ -117,7 +117,18 @@ class ValidationService
 
     public function checkDate($selected)
     {
-        return 1;
+        $reservationManager = new ReservationManager();
+        $dateService = new DateService();
+
+        $selected = $dateService->dateFromDb($selected);
+        $confirmed = $reservationManager->getAllConfirmedDates();
+        foreach ($confirmed as $resa) {
+            if ($dateService->dateFromDb($resa['date_resa']) == $selected) {
+                return 1;
+            }
+        }
+
+        return -1;
     }
 
     public function testInput($input)

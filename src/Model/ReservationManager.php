@@ -91,7 +91,7 @@ class ReservationManager extends AbstractManager
             FROM user u 
             JOIN reservation r ON u.id = r.user_id 
             JOIN orders o ON o.reservation_id = r.id 
-            
+            WHERE status = 1
             GROUP BY r.id 
             ORDER BY date_resa ASC, guests DESC
             ;");
@@ -144,7 +144,7 @@ class ReservationManager extends AbstractManager
     public function getAllConfirmedDates()
     {
         $statement = $this->pdo->query("SELECT date_booked date_resa, date_passed, status 
-            FROM $this->table WHERE status != 0");
+            FROM $this->table WHERE status = 1");
 
         return $statement->fetchAll();
     }
