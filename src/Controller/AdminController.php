@@ -55,9 +55,24 @@ class AdminController extends AbstractController
     public function confirm(int $id) :void
     {
         $reservationManager = new ReservationManager();
-        if ($reservationManager->confirm($id)) {
-            header('location: /reservation/reservations');
+        $dateService = new DateService();
+
+        // confirmation de la réservation dans la table
+        $confirmed = $reservationManager->confirm($id);
+        $confirmed = $confirmed['date_resa'];
+
+        // on vérifie si d'autres reservations en attentes sont prévues pour la même date
+        // si oui, on les refuse
+        $dateConfirmed = $dateService->dateFromDb($confirmed);
+        $pendingResa = $reservationManager->reservationPending();
+
+        foreach ($pendingResa as $resa) {
+            if ($dateService->dateFromDb($resa['date_resa']) == $dateConfirmed) {
+                $this->decline($resa['id']);
+            }
         }
+
+        header('location: /admin/reservations');
     }
 
     // refus de la réservation :  envoi d'un email de refus
@@ -67,7 +82,7 @@ class AdminController extends AbstractController
         $ordersManager->delete($id);
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
-        header('location: /reservation/reservations');
+        header('location: /admin/reservations');
     }
 
     // annulation de la réservation : email d'annulation et proposition d'autres dates
@@ -77,6 +92,6 @@ class AdminController extends AbstractController
         $ordersManager->delete($id);
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
-        header('location: /reservation/reservations');
+        header('location: /admin/reservations');
     }
 }
