@@ -67,7 +67,6 @@ class AdminController extends AbstractController
 
             $confirmed[$key]['day']=$days;
             $confirmed[$key]['month']=$month;
-
         }
 
 
