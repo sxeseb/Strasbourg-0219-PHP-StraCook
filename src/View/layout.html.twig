@@ -42,7 +42,7 @@
                     Menu
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% for menu in menus %}
+                    {% for menu in session.menusList %}
                     <a class="dropdown-item" href="/menu/show/{{ menu.id }}">{{ menu.name }}</a>
                     {% endfor %}
                 </div>
