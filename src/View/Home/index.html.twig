@@ -41,10 +41,10 @@
         </div>
 
         <div class="row py-5">
-            {% for menu in menus %}
+            {% for menu in session.menusList %}
             <div class="col-md-2 mx-auto">
                 <div class="card">
-                    <a href="/menu/show/{{ menu.id }}"><img class="menusimage" src="{{ menu.img_src }}" class="card-img-top" alt="menus"></a>
+                    <a href="/menu/show/{{ menu.id }}"><img class="menusimage card-img-top" src="{{ menu.img_src }}" alt="menus"></a>
                 </div>
             </div>
             {% endfor %}
