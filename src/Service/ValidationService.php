@@ -174,9 +174,9 @@ class ValidationService
                 $imageDatas['image_menu'] = $this->testInput($_POST['image_menu']);
             }
             if (isset($_POST['image_thumb']) && $_POST['image_thumb'] == "Value") {
-                $imageDatas = 1;
+                $imageDatas['image_thumb'] = 1;
             } else {
-                $imageDatas = 0;
+                $imageDatas['image_thumb'] = 0;
             }
         }
         return array($imageErrors, $imageDatas);

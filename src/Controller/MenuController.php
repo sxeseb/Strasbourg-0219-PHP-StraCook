@@ -33,13 +33,6 @@ class MenuController extends AbstractController
         return $this->twig->render('Menu/list.html.twig', ['menus' => $menus]);
     }
 
-    public function adminmenu()
-    {
-        $adminmenu = new MenuManager();
-        $menus = $adminmenu ->selectAllMenus();
-        return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
-    }
-
     public function delete(int $id):void
     {
 
@@ -70,14 +63,14 @@ class MenuController extends AbstractController
             list($errors, $menuDatas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
-                    'Admin/menuedit.html.twig',
+                    'menu/menuedit.html.twig',
                     ['errors' => $errors, 'menu' => $menus]
                 );
             } else {
                 $menuManager = new MenuManager();
                 if ($menuManager -> updateMenu($menuDatas, $id)) {
                     unset($_POST);
-                    header('location: /menu/adminmenu');
+                    header('location: /admin/adminmenu');
                 }
             }
         }
@@ -96,7 +89,7 @@ class MenuController extends AbstractController
             if (!empty($imagesErrors)) {
                 return $this->twig->render(
                     'Admin/menuedit.html.twig',
-                    ['errors' => $imageErrors, 'image' => $imageDatas]
+                    ['errors' => $imageErrors, 'images' => $imageDatas]
                 );
             } else {
                 $imageManager = new ImageManager();

@@ -58,7 +58,7 @@ class ImageManager extends AbstractManager
 
     public function updateImage(array $item, $id)
     {
-        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb 
+        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb, `id` = :id
         WHERE id=:id");
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);

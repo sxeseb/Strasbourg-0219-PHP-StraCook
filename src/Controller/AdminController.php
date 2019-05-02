@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Model\OrdersManager;
+use App\Model\MenuManager;
 use App\Model\ReservationManager;
 use App\Service\DateService;
 
@@ -78,5 +79,12 @@ class AdminController extends AbstractController
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
         header('location: /reservation/reservations');
+    }
+
+    public function adminmenu()
+    {
+        $adminmenu = new MenuManager();
+        $menus = $adminmenu ->selectAllMenus();
+        return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
     }
 }
