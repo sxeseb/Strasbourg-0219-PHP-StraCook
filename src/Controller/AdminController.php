@@ -50,6 +50,10 @@ class AdminController extends AbstractController
 
     public function dashboard()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
+
         $resaManager = new ReservationManager();
         $resaPending = $resaManager-> reservationPending();
         $confirmed = $resaManager->reservationConfirmed();
@@ -60,10 +64,8 @@ class AdminController extends AbstractController
 
 
 
-        return $this->twig->render('Admin/dashboard.html.twig', ['test'=>$confirmed]);
-        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
-            header('location: /admin/login');
-        }
+        return $this->twig->render('Admin/dashboard.html.twig', ['menutoday'=>$confirmed,
+            'menupending'=>$resaPending]);
     }
 
     public function reservations($id = null)
