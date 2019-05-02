@@ -1,0 +1,21 @@
+{% extends 'layoutAdmin.html.twig' %}
+{% block content %}
+
+    {% if menutoday.daysToDate < 1%}
+    <div class="alert alert-primary alert-dismissible text-center">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
+        <strong>Ce soir, vous avez </strong> <a href="/admin/reservations" class="alert-link">une reservation !</a>
+    </div>
+    {% endif %}
+
+    {% if menupending|length > 0%}
+
+    <div class="alert alert-warning alert-dismissible text-center no-gutters">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{ menupending|length }}</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
+    </div>
+
+    {% endif %}
+
+{% endblock %}

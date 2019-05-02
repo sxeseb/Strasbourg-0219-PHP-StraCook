@@ -6,7 +6,6 @@ namespace App\Service;
 use App\Model\AdminManager;
 use App\Model\ReservationManager;
 
-
 class ValidationService
 {
 
