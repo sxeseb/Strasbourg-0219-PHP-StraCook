@@ -167,7 +167,7 @@ class AdminController extends AbstractController
         $deletemenu = new MenuManager();
         $deletemenu->deleteAllImage($id);
         if ($deletemenu ->delete($id)) {
-            header('location: /menu/adminmenu/');
+            header('location: /menu/menus/');
         }
     }
 
@@ -200,7 +200,7 @@ class AdminController extends AbstractController
                 $menuManager = new MenuManager();
                 if ($menuManager -> updateMenu($menuDatas, $id)) {
                     unset($_POST);
-                    header('location: /admin/adminmenu');
+                    header('location: /admin/menus');
                 }
             }
         }
@@ -255,7 +255,7 @@ class AdminController extends AbstractController
                 $menuManager = new MenuManager();
                 if ($menuManager -> addmenu($menuDatas)) {
                     unset($_POST);
-                    header('location: /Admin/adminmenu');
+                    header('location: /Admin/menus');
                 }
             }
         }
@@ -289,6 +289,6 @@ class AdminController extends AbstractController
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig');
+        return $this->twig->render('Admin/menus.html.twig');
     }
 }
