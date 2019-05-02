@@ -68,7 +68,7 @@ class AdminController extends AbstractController
             'menupending'=>$resaPending]);
     }
 
-    public function reservations($id = null)
+    public function reservations(int $id = null)
     {
 
         if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
