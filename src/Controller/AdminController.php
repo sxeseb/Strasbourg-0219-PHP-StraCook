@@ -62,12 +62,26 @@ class AdminController extends AbstractController
         $dateService = new DateService();
         $confirmed = $dateService ->setToFormat($confirmed);
 
+        foreach ($confirmed as $key => $resa) {
+            $date = new \DateTime($resa['date']);
+            $days= $date->format('d');
+            $month = $date->format('M');
+
+            $confirmed[$key]['day']=$days;
+            $confirmed[$key]['month']=$month;
+        }
+
+
+
+
+
+
 
 
 
 
         return $this->twig->render('Admin/dashboard.html.twig', ['menutoday'=>$confirmed,
-            'menupending'=>$resaPending]);
+            'menupending'=>$resaPending,]);
     }
 
     public function reservations(int $id = null)
