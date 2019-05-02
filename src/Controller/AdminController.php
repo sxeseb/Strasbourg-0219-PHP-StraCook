@@ -151,7 +151,9 @@ class AdminController extends AbstractController
         header('location: /admin/reservations');
     }
 
-    public function adminmenu()
+    // gestion menus
+
+    public function menus()
     {
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectAllMenus();
@@ -164,7 +166,7 @@ class AdminController extends AbstractController
         $deletemenu = new MenuManager();
         $deletemenu->deleteAllImage($id);
         if ($deletemenu ->delete($id)) {
-            header('location: /menu/adminmenu/');
+            header('location: /admin/menus/');
         }
     }
 
@@ -172,7 +174,7 @@ class AdminController extends AbstractController
     {
         $deleteimage = new ImageManager();
         if ($deleteimage ->deleteOneImage($id)) {
-            header('location: /menu/adminmenu/');
+            header('location: /admin/menus/');
         }
     }
 
@@ -188,14 +190,14 @@ class AdminController extends AbstractController
             list($errors, $menuDatas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
-                    'menu/menuedit.html.twig',
+                    'Admin/menuedit.html.twig',
                     ['errors' => $errors, 'menu' => $menus]
                 );
             } else {
                 $menuManager = new MenuManager();
                 if ($menuManager -> updateMenu($menuDatas, $id)) {
                     unset($_POST);
-                    header('location: /admin/adminmenu');
+                    header('location: /admin/menus');
                 }
             }
         }
@@ -220,7 +222,7 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
-                    header('location: /admin/adminmenu');
+                    header('location: /admin/menus');
                 }
             }
         }
@@ -243,7 +245,7 @@ class AdminController extends AbstractController
                 $menuManager = new MenuManager();
                 if ($menuManager -> addmenu($menuDatas)) {
                     unset($_POST);
-                    header('location: /menu/adminmenu');
+                    header('location: /admin/menus');
                 }
             }
         }
@@ -270,7 +272,7 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->addImage($imageDatas)) {
                     unset($_POST);
-                    header('location: /menu/adminmenu');
+                    header('location: /admin/menus');
                 }
             }
         }

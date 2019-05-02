@@ -193,7 +193,7 @@ class ValidationService
                             echo "Fichier trop volumineux.";
                         }
                     } else {
-                        "Il y a une erreur de téléchargement.";
+                        echo "Il y a une erreur de téléchargement.";
                     }
                 } else {
                     echo "Le type de fichier n'est pas bon.";
@@ -223,19 +223,19 @@ class ValidationService
                 $fileError = $_FILES['menu_img_src']['error'];
                 $fileExt = explode('.', $filename);
                 $fileActualExt = strtolower(end($fileExt));
-                $allowed = array('jpg','png');
+                $allowed = array('jpg', 'png');
                 if (in_array($fileActualExt, $allowed)) {
                     if ($fileError === 0) {
                         if ($fileSize <= 1000000) {
-                            $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
-                            $fileDestination = './assets/images/menus/'.$fileNameNew;
-                            $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
+                            $fileNameNew = uniqid('menu_img_src', true) . "." . $fileActualExt;
+                            $fileDestination = './assets/images/menus/' . $fileNameNew;
+                            $imageDatas['menu_img_src'] = '/assets/images/menus/' . $fileNameNew;
                             move_uploaded_file($fileTmpName, $fileDestination);
                         } else {
                             echo "Fichier trop volumineux.";
                         }
                     } else {
-                        "Il y a une erreur de téléchargement.";
+                        echo "Il y a une erreur de téléchargement.";
                     }
                 } else {
                     echo "Le type de fichier n'est pas bon.";
@@ -248,6 +248,7 @@ class ValidationService
             }
         }
         return array($imageErrors, $imageDatas);
+    }
       
     public function checkAdmin() :array
     {
