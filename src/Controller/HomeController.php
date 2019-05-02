@@ -22,14 +22,12 @@ class HomeController extends AbstractController
     public function index()
     {
         $menumanager = new MenuManager();
-        $menus = $menumanager->selectAllMenus();
-        return $this->twig->render('Home/index.html.twig', ['menus' => $menus]);
+        $_SESSION['menusList'] = $menumanager->selectAllMenus();
+        return $this->twig->render('Home/index.html.twig');
     }
 
     public function about()
     {
-        $menumanager = new MenuManager();
-        $menus = $menumanager->selectAllMenus();
-        return $this->twig->render('Home/propos.html.twig', ['menus' => $menus]);
+        return $this->twig->render('Home/propos.html.twig');
     }
 }
