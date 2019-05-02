@@ -1,0 +1,31 @@
+{% extends 'layoutAdmin.html.twig' %}
+{% block content %}
+
+    {% if menutoday.daysToDate < 1%}
+    <div class="alert alert-primary alert-dismissible text-center">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
+        <strong>Ce soir, vous avez </strong> <a href="/admin/reservations" class="alert-link">une reservation !</a>
+    </div>
+    {% endif %}
+
+    {% if menupending|length > 0%}
+
+    <div class="alert alert-warning alert-dismissible text-center no-gutters">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{ menupending|length }}</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
+    </div>
+
+    {% endif %}
+
+
+    {% if menutoday.daysToDate < 1%}
+        <div class="card border-info mb-3" style="max-width: 18rem;">
+            <div class="card-header">Header</div>
+            <div class="card-body text-info">
+                <h5 class="card-title">Info card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -61,8 +61,7 @@ class ReservationManager extends AbstractManager
             }
         };
     }
-
-    public function reservationPending() :array
+    public function reservationPending(): array
     {
         $statement = $this->pdo->query("SELECT r.id id, 
             date_booked date_resa, 
@@ -79,8 +78,7 @@ class ReservationManager extends AbstractManager
 
         return $statement->fetchAll();
     }
-
-    public function reservationConfirmed() :array
+    public function reservationConfirmed(): array
     {
         $statement = $this->pdo->query("SELECT r.id id, 
             status,
@@ -98,8 +96,7 @@ class ReservationManager extends AbstractManager
 
         return $statement->fetchAll();
     }
-
-    public function reservationOrderDetails($id) :array
+    public function reservationOrderDetails($id): array
     {
         $statement = $this->pdo->prepare("SELECT m.name, p.cat_name categorie, price, quantity, r.date_booked
             FROM orders o 
@@ -114,8 +111,7 @@ class ReservationManager extends AbstractManager
             return $statement->fetchAll();
         }
     }
-
-    public function reservationDetails(int $id) :array
+    public function reservationDetails(int $id): array
     {
         $statement = $this->pdo->prepare("SELECT r.id id, 
             date_booked date_resa, 
@@ -131,6 +127,14 @@ class ReservationManager extends AbstractManager
         if ($statement->execute()) {
             return $statement->fetch();
         }
+    }
+    public function getCountReservations(): array
+    {
+        $statement = $this->pdo->query("SELECT COUNT(*) pendingReservations 
+        FROM $this->table
+        WHERE status != 1");
+
+        return $statement->fetchAll();
     }
 
     public function getAllPendingDates()
