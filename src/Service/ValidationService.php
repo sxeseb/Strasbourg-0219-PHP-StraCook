@@ -3,7 +3,9 @@
 
 namespace App\Service;
 
+use App\Model\AdminManager;
 use App\Model\ReservationManager;
+
 
 class ValidationService
 {
@@ -113,6 +115,48 @@ class ValidationService
             }
         }
         return array($errors, $resaDatas);
+    }
+
+    public function checkAdmin() :array
+    {
+        $adminManager = new AdminManager();
+        $errors = [];
+        $datas = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['admin_login']) || empty($_POST['admin_login'])) {
+                $errors['login'] = "Veuillez renseigner votre login";
+            } else {
+                if (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['admin_login'])) {
+                    $errors['login'] = "Caractères interdits detectés";
+                } else {
+                    $datas['login'] = $this->testInput($_POST['admin_login']);
+                }
+            }
+
+            if (!isset($_POST['admin_pass']) || empty($_POST['admin_pass'])) {
+                $errors['pass'] = "Veuillez renseigner votre mot de passe";
+            } else {
+                if (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['admin_pass'])) {
+                    $errors['pass'] = "Caractères interdits detectés";
+                } else {
+                    $datas['pass'] = $this->testInput($_POST['admin_pass']);
+                }
+            }
+
+            if (empty($errors)) {
+                if (!$loginToCheck = $adminManager->selectOneByLogin($datas['login'])) {
+                    $errors['login'] = "Ce nom d'utilisateur n'est pas enregistré";
+                } else {
+                    if (!password_verify($datas['pass'], $loginToCheck['pass'])) {
+                        $errors['pass'] = "Le mot de passe ne correspond pas";
+                    } else {
+                        $datas['user'] = 'admin';
+                    }
+                }
+            }
+        }
+
+        return array($errors, $datas);
     }
 
     public function checkDate($selected)
