@@ -3,6 +3,8 @@
 
 namespace App\Service;
 
+use App\Model\ReservationManager;
+
 class ValidationService
 {
 
@@ -84,9 +86,9 @@ class ValidationService
             if (!isset($_POST['selected_date']) || empty($_POST['selected_date'])) {
                 $errors['date'] = 'Veuillez selectionner une date pour votre réservation';
             } else {
-                if ($this->checkDate($_POST['selected_date'])) {
-                 /*   $errors['date'] = 'Date indisponible';
-                } else {*/
+                if ($this->checkDate($_POST['selected_date']) == 1) {
+                    $errors['date'] = 'Date indisponible';
+                } else {
                     $resaDatas['date'] = $this->testInput($_POST['selected_date']);
                 }
             }
@@ -103,7 +105,7 @@ class ValidationService
 
             $resaDatas['comment'] = "";
             if (isset($_POST['comment']) && !empty($_POST['comment'])) {
-                if (!preg_match('/^([a-zA-Z\' éëèêàù,.!?]+)$/', $_POST['comment'])) {
+                if (!preg_match("/^([a-zA-Z0-9' éëèêàùç,.!?]+)$/", $_POST['comment'])) {
                     $errors['comment'] = "Caractères non valides utilisés";
                 } else {
                     $resaDatas['comment'] = $this->testInput($_POST['comment']);
@@ -115,7 +117,18 @@ class ValidationService
 
     public function checkDate($selected)
     {
-        return 1;
+        $reservationManager = new ReservationManager();
+        $dateService = new DateService();
+
+        $selected = $dateService->dateFromDb($selected);
+        $confirmed = $reservationManager->getAllConfirmedDates();
+        foreach ($confirmed as $resa) {
+            if ($dateService->dateFromDb($resa['date_resa']) == $selected) {
+                return 1;
+            }
+        }
+
+        return -1;
     }
 
     public function testInput($input)

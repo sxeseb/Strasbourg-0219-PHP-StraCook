@@ -14,13 +14,21 @@ class DateService extends \DateTime
         return array($date, $time);
     }
 
+    public function dateFromDb(string $dateToFormat) :string
+    {
+        $date = new \DateTime($dateToFormat);
+        $date = $date->format('d-m-Y');
+
+        return $date;
+    }
+
     public function daysToNow($date)
     {
         $now = new \DateTime('now');
         $date = new \DateTime($date);
         $diff = $now->diff($date);
 
-        return $diff->format('%d');
+        return $diff->format('%a');
     }
 
     public function setToFormat(array $arr) :array
