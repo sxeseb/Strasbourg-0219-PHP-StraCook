@@ -151,8 +151,11 @@ class AdminController extends AbstractController
         header('location: /admin/reservations');
     }
 
-    public function adminmenu()
+    public function menus()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectAllMenus();
         return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
@@ -177,6 +180,9 @@ class AdminController extends AbstractController
 
     public function updateMenu(int $id)
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectOneMenus($id);
         $imagesmenu = new ImageManager();
@@ -203,6 +209,9 @@ class AdminController extends AbstractController
 
     public function updateImage(int $id)
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectOneMenus($id);
         $imagesmenu = new ImageManager();
@@ -229,6 +238,9 @@ class AdminController extends AbstractController
 
     public function addMenu()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $addmenu = new MenuManager();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationService();
@@ -253,6 +265,9 @@ class AdminController extends AbstractController
 
     public function addImage($id)
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validatorImage = new ValidationService();
