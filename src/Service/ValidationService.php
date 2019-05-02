@@ -179,9 +179,9 @@ class ValidationService
                 $fileExt = explode('.', $filename);
                 $fileActualExt = strtolower(end($fileExt));
                 $allowed = array('jpg','png');
-                if (in_array($fileActualExt, $allowed)){
-                    if ($fileError === 0){
-                        if($fileSize <= 1000000){
+                if (in_array($fileActualExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize <= 1000000) {
                             $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
                             $fileDestination = './assets/images/menus/'.$fileNameNew;
                             $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
@@ -189,7 +189,7 @@ class ValidationService
                         } else {
                             echo "Fichier trop volumineux.";
                         }
-                    }else{
+                    } else {
                         "Il y a une erreur de téléchargement.";
                     }
                 } else {
@@ -221,9 +221,9 @@ class ValidationService
                 $fileExt = explode('.', $filename);
                 $fileActualExt = strtolower(end($fileExt));
                 $allowed = array('jpg','png');
-                if (in_array($fileActualExt, $allowed)){
-                    if ($fileError === 0){
-                        if($fileSize <= 1000000){
+                if (in_array($fileActualExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize <= 1000000) {
                             $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
                             $fileDestination = './assets/images/menus/'.$fileNameNew;
                             $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
@@ -231,7 +231,7 @@ class ValidationService
                         } else {
                             echo "Fichier trop volumineux.";
                         }
-                    }else{
+                    } else {
                         "Il y a une erreur de téléchargement.";
                     }
                 } else {

@@ -73,7 +73,7 @@ class ImageManager extends AbstractManager
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);
         $statement->bindValue('menus_id', $item['menu_menu_id'], \PDO::PARAM_INT);
-var_dump($item);
+        var_dump($item);
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
         }
