@@ -62,13 +62,20 @@ class AdminController extends AbstractController
         $dateService = new DateService();
         $confirmed = $dateService ->setToFormat($confirmed);
 
+        // init array des réservations de la semaine
+        $thisWeek = [];
         foreach ($confirmed as $key => $resa) {
             $date = new \DateTime($resa['date']);
             $days= $date->format('d');
             $month = $date->format('M');
-
             $confirmed[$key]['day']=$days;
             $confirmed[$key]['month']=$month;
+
+            if ($resa['daysToDate'] <= 7) {
+                $thisWeek[$key] = $resa;
+                $thisWeek[$key]['day']=$days;
+                $thisWeek[$key]['month']=$month;
+            }
         }
 
 
@@ -81,7 +88,7 @@ class AdminController extends AbstractController
 
 
         return $this->twig->render('Admin/dashboard.html.twig', ['menutoday'=>$confirmed,
-            'menupending'=>$resaPending,]);
+            'menupending'=>$resaPending, 'thisweek' => $thisWeek]);
     }
 
     public function reservations(int $id = null)
@@ -99,6 +106,16 @@ class AdminController extends AbstractController
         // formatage des données date et heure
         $overviewsPending = $dateService->setToFormat($overviewsPending);
         $confirmed = $dateService->setToFormat($confirmed);
+
+        //ajout de formatage supplémentaire pour affichage complémentaire
+        foreach ($confirmed as $key => $resa) {
+            $date = new \DateTime($resa['date']);
+            $days= $date->format('d');
+            $month = $date->format('M');
+
+            $confirmed[$key]['day']=$days;
+            $confirmed[$key]['month']=$month;
+        }
 
         if (isset($id) && is_int($id)) {
             $clientDetails = $resaManager->reservationDetails($id);
