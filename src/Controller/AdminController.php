@@ -15,6 +15,11 @@ use App\Service\ValidationService;
 
 class AdminController extends AbstractController
 {
+    public function admin()
+    {
+        header('location: /admin/dashboard');
+    }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
