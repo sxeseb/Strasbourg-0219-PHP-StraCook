@@ -3,7 +3,9 @@
 
 namespace App\Controller;
 
+use App\Model\ImageManager;
 use App\Model\MenuManager;
+use App\Service\ValidationService;
 
 class MenuController extends AbstractController
 {
@@ -19,7 +21,6 @@ class MenuController extends AbstractController
         $menuManager = new MenuManager();
         $menu = $menuManager->selectOneMenus($id);
         $images = $menuManager->selectAllImages($id);
-
         return $this->twig->render('Menu/show.html.twig', ['menu' => $menu, 'images' => $images]);
     }
 
@@ -27,7 +28,6 @@ class MenuController extends AbstractController
     {
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAll();
-
         return $this->twig->render('Menu/list.html.twig', ['menus' => $menus]);
     }
 }
