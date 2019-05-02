@@ -249,7 +249,7 @@ class ValidationService
         }
         return array($imageErrors, $imageDatas);
     }
-
+      
     public function checkAdmin() :array
     {
         $adminManager = new AdminManager();
@@ -288,7 +288,6 @@ class ValidationService
                 }
             }
         }
-
         return array($errors, $datas);
     }
 
