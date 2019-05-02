@@ -18,6 +18,7 @@
 </head>
 <body>
 <header>
+    {% if session.admin is defined and session.admin is not empty %}
     <nav class="navbar navbar-expand-lg">
         <button class="navbar-toggler navbar-white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 
@@ -28,33 +29,28 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/dashboard/">Dashboard<span class="sr-only"></span></a>
+                    <a class="nav-link" href="/admin/dashboard">Dashboard<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/reservation/">Réservations</a>
+                    <a class="nav-link" href="/admin/reservations">Réservations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/menus/">Menus</a>
+                    <a class="nav-link" href="/admin/menus">Menus</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/newsletter/">Newsletter</a>
+                    <a class="nav-link" href="/admin/newsletter">Newsletter</a>
                 </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="navbar-nav justify-content-end ml-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/statistiques/">Statistiques</a>
+                    <a class="nav-link" href="/admin/logout">Deconnexion</a>
                 </li>
             </ul>
         </div>
     </nav>
-
-    <div class="alert alert-primary alert-dismissible text-center">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
-        <strong>Ce soir, vous avez </strong> <a href="#" class="alert-link">une reservation !</a>
-    </div>
-    <div class="alert alert-warning alert-dismissible text-center no-gutters">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>2</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
-    </div>
+    {% endif %}
 </header>
 
 {% block content %}{% endblock %}
@@ -74,6 +70,7 @@
 
 {% block javascript %}{% endblock %}
 </body>
+
 </html>
 
 
