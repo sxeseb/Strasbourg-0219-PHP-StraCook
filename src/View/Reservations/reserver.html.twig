@@ -78,7 +78,8 @@
                             <div class="col-12 mb-2 ">
                                 <h4>Ma réservation</h4>
                                 <div class="form-group">
-                                    <input class="form-control" name="selected_date" type="date">
+                                    <input class="form-control" name="selected_date" type="date" value="{{ cartDatas.date }}">
+                                    {% if errors is defined and errors is not empty %} <p class="form-text"><small class="text-danger">{{ errors.date }}</small></p> {% endif %}
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control" name="arrival_time">
@@ -88,6 +89,7 @@
                                         <option value="20">20:00</option>
                                         <option value="21">21:00</option>
                                     </select>
+                                    {% if errors is defined and errors is not empty %} <p class="form-text"><small class="text-danger">{{ errors.arrival }}</small></p> {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -121,8 +123,8 @@
                                     <p>Cliquez sur "ajouter au panier" pour rajouter des menus.</p>
                                     {% endif %}
                                 </div>
-                                <div class="col-12 d-flex justify-content-end">
-                                    <p>Total : <span id="total_cart">{{ count.total }}</span> €</p>
+                                <div class="col-12 d-flex justify-content-center">
+                                    <p class="text-warning">Total : <span id="total_cart">{{ count.total }}</span> €</p>
                                 </div>
                             </div>
                             <div class="col-12 mb-4">

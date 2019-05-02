@@ -30,7 +30,6 @@ class ReservationManager extends AbstractManager
         }
     }
 
-
     // Actions admin
 
     /**
@@ -44,19 +43,23 @@ class ReservationManager extends AbstractManager
         $statement->execute();
     }
 
-
     /**
      * @param int $id
-     * @return bool
+     * @return array
      */
-    public function confirm(int $id): bool
+    public function confirm(int $id) :array
     {
         // prepared request
         $statement = $this->pdo->prepare("UPDATE $this->table SET `status` = :status WHERE id=:id");
         $statement->bindValue('id', $id, \PDO::PARAM_STR);
         $statement->bindValue('status', true, \PDO::PARAM_BOOL);
-
-        return $statement->execute();
+        if ($statement->execute()) {
+            $return = $this->pdo->prepare("SELECT date_booked date_resa, id FROM $this->table WHERE id=:id");
+            $return->bindValue('id', $id, \PDO::PARAM_INT);
+            if ($return->execute()) {
+                return $return->fetch();
+            }
+        };
     }
     public function reservationPending(): array
     {
@@ -86,9 +89,9 @@ class ReservationManager extends AbstractManager
             FROM user u 
             JOIN reservation r ON u.id = r.user_id 
             JOIN orders o ON o.reservation_id = r.id 
-            
+            WHERE status = 1
             GROUP BY r.id 
-            ORDER BY date_resa ASC
+            ORDER BY date_resa ASC, guests DESC
             ;");
 
         return $statement->fetchAll();
@@ -130,6 +133,22 @@ class ReservationManager extends AbstractManager
         $statement = $this->pdo->query("SELECT COUNT(*) pendingReservations 
         FROM $this->table
         WHERE status != 1");
+
+        return $statement->fetchAll();
+    }
+
+    public function getAllPendingDates()
+    {
+        $statement = $this->pdo->query("SELECT date_booked date_resa, date_passed, status, id 
+            FROM $this->table WHERE status != 1");
+
+        return $statement->fetchAll();
+    }
+
+    public function getAllConfirmedDates()
+    {
+        $statement = $this->pdo->query("SELECT date_booked date_resa, date_passed, status 
+            FROM $this->table WHERE status = 1");
 
         return $statement->fetchAll();
     }

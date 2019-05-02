@@ -11,9 +11,43 @@ namespace App\Controller;
 use App\Model\OrdersManager;
 use App\Model\ReservationManager;
 use App\Service\DateService;
+use App\Service\ValidationService;
 
 class AdminController extends AbstractController
 {
+    public function admin()
+    {
+        header('location: /admin/dashboard');
+    }
+
+    public function login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $validator = new ValidationService();
+            $output = $validator->checkAdmin();
+            list($errors, $datas) = $output;
+
+            if (!empty($errors)) {
+                return $this->twig->render('Admin/login.html.twig', ['errors' => $errors]);
+            } else {
+                $_SESSION['admin'] = $datas['user'];
+                header('location: /admin/dashboard');
+            }
+        }
+
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin']) || $_SESSION['admin'] != 'admin') {
+            return $this->twig->render('Admin/login.html.twig');
+        } else {
+            header('location: /admin/dashboard');
+        }
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['admin']);
+        header('location: /admin/login');
+    }
+
     public function dashboard()
     {
         $resaManager = new ReservationManager();
@@ -27,10 +61,18 @@ class AdminController extends AbstractController
 
 
         return $this->twig->render('Admin/dashboard.html.twig', ['test'=>$confirmed]);
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
     }
 
     public function reservations($id = null)
     {
+
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
+
         $resaManager = new ReservationManager();
         $overviewsPending = $resaManager->reservationPending();
         $confirmed = $resaManager->reservationConfirmed();
@@ -65,9 +107,24 @@ class AdminController extends AbstractController
     public function confirm(int $id) :void
     {
         $reservationManager = new ReservationManager();
-        if ($reservationManager->confirm($id)) {
-            header('location: /reservation/reservations');
+        $dateService = new DateService();
+
+        // confirmation de la réservation dans la table
+        $confirmed = $reservationManager->confirm($id);
+        $confirmed = $confirmed['date_resa'];
+
+        // on vérifie si d'autres reservations en attentes sont prévues pour la même date
+        // si oui, on les refuse
+        $dateConfirmed = $dateService->dateFromDb($confirmed);
+        $pendingResa = $reservationManager->reservationPending();
+
+        foreach ($pendingResa as $resa) {
+            if ($dateService->dateFromDb($resa['date_resa']) == $dateConfirmed) {
+                $this->decline($resa['id']);
+            }
         }
+
+        header('location: /admin/reservations');
     }
 
     // refus de la réservation :  envoi d'un email de refus
@@ -77,7 +134,7 @@ class AdminController extends AbstractController
         $ordersManager->delete($id);
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
-        header('location: /reservation/reservations');
+        header('location: /admin/reservations');
     }
 
     // annulation de la réservation : email d'annulation et proposition d'autres dates
@@ -87,6 +144,6 @@ class AdminController extends AbstractController
         $ordersManager->delete($id);
         $reservationManager = new ReservationManager();
         $reservationManager->decline($id);
-        header('location: /reservation/reservations');
+        header('location: /admin/reservations');
     }
 }

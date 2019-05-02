@@ -3,6 +3,9 @@
 
 namespace App\Service;
 
+use App\Model\AdminManager;
+use App\Model\ReservationManager;
+
 class ValidationService
 {
 
@@ -84,9 +87,9 @@ class ValidationService
             if (!isset($_POST['selected_date']) || empty($_POST['selected_date'])) {
                 $errors['date'] = 'Veuillez selectionner une date pour votre réservation';
             } else {
-                if ($this->checkDate($_POST['selected_date'])) {
-                 /*   $errors['date'] = 'Date indisponible';
-                } else {*/
+                if ($this->checkDate($_POST['selected_date']) == 1) {
+                    $errors['date'] = 'Date indisponible';
+                } else {
                     $resaDatas['date'] = $this->testInput($_POST['selected_date']);
                 }
             }
@@ -103,7 +106,7 @@ class ValidationService
 
             $resaDatas['comment'] = "";
             if (isset($_POST['comment']) && !empty($_POST['comment'])) {
-                if (!preg_match('/^([a-zA-Z\' éëèêàù,.!?]+)$/', $_POST['comment'])) {
+                if (!preg_match("/^([a-zA-Z0-9' éëèêàùç,.!?]+)$/", $_POST['comment'])) {
                     $errors['comment'] = "Caractères non valides utilisés";
                 } else {
                     $resaDatas['comment'] = $this->testInput($_POST['comment']);
@@ -113,9 +116,62 @@ class ValidationService
         return array($errors, $resaDatas);
     }
 
+    public function checkAdmin() :array
+    {
+        $adminManager = new AdminManager();
+        $errors = [];
+        $datas = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['admin_login']) || empty($_POST['admin_login'])) {
+                $errors['login'] = "Veuillez renseigner votre login";
+            } else {
+                if (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['admin_login'])) {
+                    $errors['login'] = "Caractères interdits detectés";
+                } else {
+                    $datas['login'] = $this->testInput($_POST['admin_login']);
+                }
+            }
+
+            if (!isset($_POST['admin_pass']) || empty($_POST['admin_pass'])) {
+                $errors['pass'] = "Veuillez renseigner votre mot de passe";
+            } else {
+                if (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['admin_pass'])) {
+                    $errors['pass'] = "Caractères interdits detectés";
+                } else {
+                    $datas['pass'] = $this->testInput($_POST['admin_pass']);
+                }
+            }
+
+            if (empty($errors)) {
+                if (!$loginToCheck = $adminManager->selectOneByLogin($datas['login'])) {
+                    $errors['login'] = "Ce nom d'utilisateur n'est pas enregistré";
+                } else {
+                    if (!password_verify($datas['pass'], $loginToCheck['pass'])) {
+                        $errors['pass'] = "Le mot de passe ne correspond pas";
+                    } else {
+                        $datas['user'] = 'admin';
+                    }
+                }
+            }
+        }
+
+        return array($errors, $datas);
+    }
+
     public function checkDate($selected)
     {
-        return 1;
+        $reservationManager = new ReservationManager();
+        $dateService = new DateService();
+
+        $selected = $dateService->dateFromDb($selected);
+        $confirmed = $reservationManager->getAllConfirmedDates();
+        foreach ($confirmed as $resa) {
+            if ($dateService->dateFromDb($resa['date_resa']) == $selected) {
+                return 1;
+            }
+        }
+
+        return -1;
     }
 
     public function testInput($input)
