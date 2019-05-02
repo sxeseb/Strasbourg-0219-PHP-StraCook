@@ -20,7 +20,7 @@
             </div>
             {% for image in images %}
             <div class="col-md-2 pt-3">
-                <form action="/Admin/updateImage/{{ image.id }}" method="post" enctype="multipart/form-data">
+                <form action="/Admin/updateImage/{{ menu.id }}" method="post" enctype="multipart/form-data">
                 <img src="{{ image.img_src }}" class="thumbnail" alt="image">
                 <input type="checkbox" name="menu_thumb" aria-label="Checkbox">
                     <input type="file" name="menu_img_src" id="menu_img_src" multiple="multiple"/>

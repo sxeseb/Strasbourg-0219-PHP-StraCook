@@ -229,7 +229,7 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
-                    return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
+                    header('location: /Admin/updateMenu/'.$id);
                 }
             }
         }
