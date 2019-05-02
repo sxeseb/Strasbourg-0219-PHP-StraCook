@@ -1,9 +1,37 @@
 {% extends 'layoutAdmin.html.twig' %}
 {% block content %}
+
+    {% if test.daysToDate < 1%}
+    <div class="alert alert-primary alert-dismissible text-center">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
+        <strong>Ce soir, vous avez </strong> <a href="#" class="alert-link">une reservation !</a>
+    </div>
+    {% endif %}
+
+    {% if test.daysToDate > 1%}
+
+    <div class="alert alert-warning alert-dismissible text-center no-gutters">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>2</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
+    </div>
+
+
+    <div class="card border-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body text-info">
+            <h5 class="card-title">Info card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
     {% if test.daysToDate < 1%}
         <div class="Alert"> Alert Alert</div>
-        {% endif %}
+    {% endif %}
+
     {% for resa in test %}
-        {% if resa.daysToDate < 7 %}
-            <div class="menu">
+        {% if resa.daysToDate > 7 %}
+
+            <div class="Alert"> Alert 2</div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}

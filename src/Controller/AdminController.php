@@ -29,7 +29,7 @@ class AdminController extends AbstractController
         return $this->twig->render('Admin/dashboard.html.twig', ['test'=>$confirmed]);
     }
 
-    public function reservations(int $id = null)
+    public function reservations($id = null)
     {
         $resaManager = new ReservationManager();
         $overviewsPending = $resaManager->reservationPending();

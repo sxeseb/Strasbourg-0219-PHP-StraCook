@@ -130,5 +130,7 @@ class ReservationManager extends AbstractManager
         $statement = $this->pdo->query("SELECT COUNT(*) pendingReservations 
         FROM $this->table
         WHERE status != 1");
+
+        return $statement->fetchAll();
     }
 }
