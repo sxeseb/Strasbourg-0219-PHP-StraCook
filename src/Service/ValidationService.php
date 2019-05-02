@@ -18,7 +18,7 @@ class ValidationService
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!isset($_POST['user_lastname']) || empty($_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez renseigner votre nom';
-            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_lastname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù]+)$/", $_POST['user_lastname'])) {
                 $errors['lastname'] = 'Veuillez saisir un nom valide';
             } else {
                 $userDatas['lastname'] = $this->testInput($_POST['user_lastname']);
@@ -26,7 +26,7 @@ class ValidationService
 
             if (!isset($_POST['user_firstname']) || empty($_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez renseigner votre prénom';
-            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_firstname'])) {
+            } elseif (!preg_match("/^([a-zA-Z' éèêàù]+)$/", $_POST['user_firstname'])) {
                 $errors['firstname'] = 'Veuillez saisir un prénom valide';
             } else {
                 $userDatas['firstname'] = $this->testInput($_POST['user_firstname']);
@@ -68,8 +68,8 @@ class ValidationService
             }
 
             if (!isset($_POST['user_city']) || empty($_POST['user_city'])) {
-                $errors['city'] ='Veuillez renseigner la ville';
-            } elseif (!preg_match("/^([a-zA-Z' éèêà]+)$/", $_POST['user_city'])) {
+                $errors['city'] = 'Veuillez renseigner la ville';
+            } elseif (!preg_match("/^([a-zA-Z0-9' ]+)$/", $_POST['user_city'])) {
                 $errors['city'] = 'Veuillez saisir une ville valide';
             } else {
                 $userDatas['city'] = $this->testInput($_POST['user_city']);
@@ -116,6 +116,139 @@ class ValidationService
         return array($errors, $resaDatas);
     }
 
+    public function checkMenu()
+    {
+        $errors = [];
+        $menuDatas = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST['menu_name']) || empty($_POST['menu_name'])) {
+                $errors['menu_name'] = 'Veuillez renseigner le nom du menu';
+            } elseif (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['menu_name'])) {
+                $errors['menu_name'] = 'Veuillez saisir un nom de menu valide';
+            } else {
+                $menuDatas['menu_name'] = $this->testInput($_POST['menu_name']);
+            }
+
+            if (!isset($_POST['menu_starter']) || empty($_POST['menu_starter'])) {
+                $errors['menu_starter'] = 'Veuillez renseigner votre entrée';
+            } elseif (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['menu_starter'])) {
+                $errors['menu_starter'] = 'Veuillez saisir une entrée valide';
+            } else {
+                $menuDatas['menu_starter'] = $this->testInput($_POST['menu_starter']);
+            }
+
+            if (!isset($_POST['menu_main_course']) || empty($_POST['menu_main_course'])) {
+                $errors['menu_main_course'] = 'Veuillez renseigner votre plat';
+            } elseif (!preg_match("/^([aa-zA-Z' éëèêàù,.!?]+)$/", $_POST['menu_main_course'])) {
+                $errors['menu_main_course'] = 'Veuillez saisir un plat valide';
+            } else {
+                $menuDatas['menu_main_course'] = $this->testInput($_POST['menu_main_course']);
+            }
+
+            if (!isset($_POST['menu_dessert']) || empty($_POST['menu_dessert'])) {
+                $errors['menu_dessert'] = 'Veuillez renseigner votre dessert';
+            } elseif (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['menu_dessert'])) {
+                $errors['menu_dessert'] = 'Veuillez saisir un dessert valide';
+            } else {
+                $menuDatas['menu_dessert'] = $this->testInput($_POST['menu_dessert']);
+            }
+
+            if (!isset($_POST['menu_description']) || empty($_POST['menu_description'])) {
+                $errors['menu_description'] = 'Veuillez renseigner votre description';
+            } elseif (!preg_match("/^([a-zA-Z' éëèêàù,.!?]+)$/", $_POST['menu_description'])) {
+                $errors['menu_description'] = 'Veuillez saisir une description valide';
+            } else {
+                $menuDatas['menu_description'] = $this->testInput($_POST['menu_description']);
+            }
+        }
+        return array($errors, $menuDatas);
+    }
+
+    public function checkUpdateImage()
+    {
+        $imageErrors = [];
+        $imageDatas = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_FILES['menu_img_src']) || empty($_FILES['menu_img_src'])) {
+                $imageErrors['menu_img_src'] = 'Veuillez sélectionner une image';
+            } else {
+                $fileTmpName = $_FILES['menu_img_src']['tmp_name'];
+
+                $filename = $_FILES['menu_img_src']['name'];
+                $fileSize = $_FILES['menu_img_src']['size'];
+                $fileError = $_FILES['menu_img_src']['error'];
+                $fileExt = explode('.', $filename);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg','png');
+                if (in_array($fileActualExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize <= 1000000) {
+                            $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
+                            $fileDestination = './assets/images/menus/'.$fileNameNew;
+                            $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
+                            move_uploaded_file($fileTmpName, $fileDestination);
+                        } else {
+                            echo "Fichier trop volumineux.";
+                        }
+                    } else {
+                        "Il y a une erreur de téléchargement.";
+                    }
+                } else {
+                    echo "Le type de fichier n'est pas bon.";
+                }
+            }
+            if (!isset($_POST['menu_thumb']) || empty($_POST['menu_thumb'])) {
+                $imageDatas['menu_thumb'] = 0;
+            } else {
+                $imageDatas['menu_thumb'] = 1;
+            }
+        }
+        return array($imageErrors, $imageDatas);
+    }
+
+    public function checkInsertImage()
+    {
+        $imageErrors = [];
+        $imageDatas = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_FILES['menu_img_src']) || empty($_FILES['menu_img_src'])) {
+                $imageErrors['menu_img_src'] = 'Veuillez sélectionner une image';
+            } else {
+                $fileTmpName = $_FILES['menu_img_src']['tmp_name'];
+
+                $filename = $_FILES['menu_img_src']['name'];
+                $fileSize = $_FILES['menu_img_src']['size'];
+                $fileError = $_FILES['menu_img_src']['error'];
+                $fileExt = explode('.', $filename);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg','png');
+                if (in_array($fileActualExt, $allowed)) {
+                    if ($fileError === 0) {
+                        if ($fileSize <= 1000000) {
+                            $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
+                            $fileDestination = './assets/images/menus/'.$fileNameNew;
+                            $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
+                            move_uploaded_file($fileTmpName, $fileDestination);
+                        } else {
+                            echo "Fichier trop volumineux.";
+                        }
+                    } else {
+                        "Il y a une erreur de téléchargement.";
+                    }
+                } else {
+                    echo "Le type de fichier n'est pas bon.";
+                }
+            }
+            if (!isset($_POST['menu_thumb']) || empty($_POST['menu_thumb'])) {
+                $imageDatas['menu_thumb'] = 0;
+            } else {
+                $imageDatas['menu_thumb'] = 1;
+            }
+        }
+        return array($imageErrors, $imageDatas);
+      
     public function checkAdmin() :array
     {
         $adminManager = new AdminManager();

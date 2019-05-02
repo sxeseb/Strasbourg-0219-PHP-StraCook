@@ -117,3 +117,9 @@ header .nav-link:hover
     width: 80px ;
     height: 80px;
 }
+
+.thumbnail
+{
+    width: 100px ;
+    height: 100px;
+}
