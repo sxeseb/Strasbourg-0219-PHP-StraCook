@@ -162,21 +162,86 @@ class ValidationService
         return array($errors, $menuDatas);
     }
 
-    public function checkImage()
+    public function checkUpdateImage()
     {
         $imageErrors = [];
         $imageDatas = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!isset($_POST['image_menu']) || empty($_POST['image_menu'])) {
-                $imageErrors['image_menu'] = 'Veuillez sélectionner une image';
+            if (!isset($_FILES['menu_img_src']) || empty($_FILES['menu_img_src'])) {
+                $imageErrors['menu_img_src'] = 'Veuillez sélectionner une image';
             } else {
-                $imageDatas['image_menu'] = $this->testInput($_POST['image_menu']);
+                $fileTmpName = $_FILES['menu_img_src']['tmp_name'];
+
+                $filename = $_FILES['menu_img_src']['name'];
+                $fileSize = $_FILES['menu_img_src']['size'];
+                $fileError = $_FILES['menu_img_src']['error'];
+                $fileExt = explode('.', $filename);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg','png');
+                if (in_array($fileActualExt, $allowed)){
+                    if ($fileError === 0){
+                        if($fileSize <= 1000000){
+                            $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
+                            $fileDestination = './assets/images/menus/'.$fileNameNew;
+                            $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
+                            move_uploaded_file($fileTmpName, $fileDestination);
+                        } else {
+                            echo "Fichier trop volumineux.";
+                        }
+                    }else{
+                        "Il y a une erreur de téléchargement.";
+                    }
+                } else {
+                    echo "Le type de fichier n'est pas bon.";
+                }
             }
-            if (isset($_POST['image_thumb']) && $_POST['image_thumb'] == "Value") {
-                $imageDatas['image_thumb'] = 1;
+            if (!isset($_POST['menu_thumb']) || empty($_POST['menu_thumb'])) {
+                $imageDatas['menu_thumb'] = 0;
             } else {
-                $imageDatas['image_thumb'] = 0;
+                $imageDatas['menu_thumb'] = 1;
+            }
+        }
+        return array($imageErrors, $imageDatas);
+    }
+
+    public function checkInsertImage()
+    {
+        $imageErrors = [];
+        $imageDatas = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_FILES['menu_img_src']) || empty($_FILES['menu_img_src'])) {
+                $imageErrors['menu_img_src'] = 'Veuillez sélectionner une image';
+            } else {
+                $fileTmpName = $_FILES['menu_img_src']['tmp_name'];
+
+                $filename = $_FILES['menu_img_src']['name'];
+                $fileSize = $_FILES['menu_img_src']['size'];
+                $fileError = $_FILES['menu_img_src']['error'];
+                $fileExt = explode('.', $filename);
+                $fileActualExt = strtolower(end($fileExt));
+                $allowed = array('jpg','png');
+                if (in_array($fileActualExt, $allowed)){
+                    if ($fileError === 0){
+                        if($fileSize <= 1000000){
+                            $fileNameNew = uniqid('menu_img_src', true).".".$fileActualExt;
+                            $fileDestination = './assets/images/menus/'.$fileNameNew;
+                            $imageDatas['menu_img_src'] = '/assets/images/menus/'.$fileNameNew;
+                            move_uploaded_file($fileTmpName, $fileDestination);
+                        } else {
+                            echo "Fichier trop volumineux.";
+                        }
+                    }else{
+                        "Il y a une erreur de téléchargement.";
+                    }
+                } else {
+                    echo "Le type de fichier n'est pas bon.";
+                }
+            }
+            if (!isset($_POST['menu_thumb']) || empty($_POST['menu_thumb'])) {
+                $imageDatas['menu_thumb'] = 0;
+            } else {
+                $imageDatas['menu_thumb'] = 1;
             }
         }
         return array($imageErrors, $imageDatas);

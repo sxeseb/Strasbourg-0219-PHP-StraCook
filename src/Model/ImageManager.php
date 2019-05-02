@@ -58,7 +58,7 @@ class ImageManager extends AbstractManager
 
     public function updateImage(array $item, $id)
     {
-        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb, `id` = :id
+        $statement = $this->pdo->prepare("UPDATE $this->table i SET `img_src` = :img_src, `thumb` = :thumb
         WHERE id=:id");
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);
@@ -68,12 +68,12 @@ class ImageManager extends AbstractManager
 
     public function addImage(array $item)
     {
-        $statement = $this->pdo->prepare("INSERT INTO $this->table (`img_src`, `thumb`, `menu_id`)
-        VALUES (:img_src, :thumb, :menu_id) WHERE id=:id");
+        $statement = $this->pdo->prepare("INSERT INTO $this->table (`img_src`, `thumb`, `menus_id`)
+        VALUES (:img_src, :thumb, :menus_id)");
         $statement->bindValue('img_src', $item['menu_img_src'], \PDO::PARAM_STR);
         $statement->bindValue('thumb', $item['menu_thumb'], \PDO::PARAM_BOOL);
-        $statement->bindValue('menu_id', $item['menu_menu_id'], \PDO::PARAM_INT);
-
+        $statement->bindValue('menus_id', $item['menu_menu_id'], \PDO::PARAM_INT);
+var_dump($item);
         if ($statement->execute()) {
             return (int)$this->pdo->lastInsertId();
         }

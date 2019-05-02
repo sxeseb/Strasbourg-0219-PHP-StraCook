@@ -21,7 +21,6 @@ class MenuController extends AbstractController
         $menuManager = new MenuManager();
         $menu = $menuManager->selectOneMenus($id);
         $images = $menuManager->selectAllImages($id);
-
         return $this->twig->render('Menu/show.html.twig', ['menu' => $menu, 'images' => $images]);
     }
 
@@ -29,7 +28,6 @@ class MenuController extends AbstractController
     {
         $menuManager = new MenuManager();
         $menus = $menuManager->selectAll();
-
         return $this->twig->render('Menu/list.html.twig', ['menus' => $menus]);
     }
 
@@ -84,22 +82,22 @@ class MenuController extends AbstractController
         $images = $imagesmenu -> selectAllImages($id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validatorImage = new ValidationService();
-            $outputimage = $validatorImage->checkImage();
+            $outputimage = $validatorImage->checkInsertImage();
             list($imageErrors, $imageDatas) = $outputimage;
             if (!empty($imagesErrors)) {
                 return $this->twig->render(
-                    'Admin/menuedit.html.twig',
-                    ['errors' => $imageErrors, 'images' => $imageDatas]
+                    'admin/menuedit.html.twig',
+                    ['errors' => $imageErrors, 'images' => $images]
                 );
             } else {
                 $imageManager = new ImageManager();
                 if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
-                    header('location: /menu/menuedit');
+                    header('location: /admin/adminmenu');
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig', ['images' => $images]);
+        return $this->twig->render('Admin/menuedit.html.twig', ['images'=>$images]);
     }
 
     public function addMenu()
@@ -126,12 +124,13 @@ class MenuController extends AbstractController
         return $this->twig->render('Admin/menuadd.html.twig');
     }
 
-    public function addImage()
+    public function addImage($id)
     {
         $addimage = new ImageManager();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validatorImage = new ValidationService();
-            $outputimage = $validatorImage->checkImage();
+            $outputimage = $validatorImage->checkInsertImage();
+
             list($imageErrors, $imageDatas) = $outputimage;
             if (!empty($imageErrors)) {
                 return $this->twig->render(
@@ -139,6 +138,8 @@ class MenuController extends AbstractController
                     ['errors' => $imageErrors, 'image' => $imageDatas]
                 );
             } else {
+                $imageDatas['menu_menu_id'] = $id;
+
                 $imageManager = new ImageManager();
                 if ($imageManager->addImage($imageDatas)) {
                     unset($_POST);

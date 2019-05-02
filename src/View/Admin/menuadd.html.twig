@@ -9,28 +9,31 @@
     <section></section>
     {{ dump(images) }}
     <div class="container p-5">
-        <form action="/menu/addImage/{{ menu.id }}" method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="file" name="image_menu" multiple="multiple"/>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/menu/addImage/{{ menu.id }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="menu_img_src" id="menu_img_src" multiple="multiple"/>
+                    <input type="checkbox" name="menu_thumb" aria-label="Checkbox">
                     <input type="submit" name="submit" id="submit" value="Nouvelle image" />
-
-                </div>
-                {% for image in images %}
-                    <div class="col-md-2">
-                        <img src="{{ image.img_src }}" class="thumbnail" alt="image">
-                        <input type="checkbox" aria-label="Checkbox">
-                        <input type="file" name="image_menu"/>
-
-                        <button type="submit" name="image_menu" id="submit" class="btn btn-secondary"
-                                href="/menu/updateImage/{{ image.id }}">Modifier</button>
-                        <button type="submit" class="btn btn-secondary" href="/menu/deleteOneImage/{{ image.id }}">Supprimer</button>
-                    </div>
-                {% endfor %}
+                    {% if imageErrors.menu_image %}
+                        <small id="menu_name_help" class="form-text text-danger">{{ imageErrors.menu_image }}</small>
+                    {% endif %}
+                </form>
             </div>
-        </form>
+            {% for image in images %}
+                <div class="col-md-2 pt-3">
+                    <form action="/menu/updateImage/{{ image.id }}" method="post" enctype="multipart/form-data">
+                        <img src="{{ image.img_src }}" class="thumbnail" alt="image">
+                        <input type="checkbox" name="menu_thumb" aria-label="Checkbox">
+                        <input type="file" name="menu_img_src" id="menu_img_src" multiple="multiple"/>
+                        <button type="submit" id="submit" class="btn btn-secondary" multiple="multiple"
+                                href="/menu/updateMenu/{{ menu.id }}">Modifier</button>
+                        <a type="submit" class="btn btn-secondary" href="/menu/deleteOneImage/{{ image.id }}">Supprimer</a>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-
 
     <div class="container p-5">
     <form method= "post" action="/menu/addMenu/ ">
