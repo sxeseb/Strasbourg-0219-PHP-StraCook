@@ -64,8 +64,9 @@ class AdminController extends AbstractController
 
 
 
+
         return $this->twig->render('Admin/dashboard.html.twig', ['menutoday'=>$confirmed,
-            'menupending'=>$resaPending]);
+            'menupending'=>$resaPending, 'nextdate'=>$confirmed]);
     }
 
     public function reservations(int $id = null)
