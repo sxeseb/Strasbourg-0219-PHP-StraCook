@@ -31,42 +31,31 @@ class ReservationController extends AbstractController
             $cartService = new CartService();
             $panier = $_SESSION['cart'];
             $count = $cartService->calculTotal($panier);
+            $resaErrors = [];
+            $cartDatas = [];
+            if (isset($_SESSION['errors'])) {
+                $resaErrors = $_SESSION['errors'];
+            }
+            if (isset($_SESSION['cartDatas'])) {
+                $cartDatas = $_SESSION['cartDatas'];
+            }
 
             return $this->twig->render(
                 'Reservations/reserver.html.twig',
-                ['menus' => $menus, 'panier' => $panier, 'count' => $count]
+                ['menus' => $menus, 'panier' => $panier,
+                    'count' => $count, 'errors' => $resaErrors, 'cartDatas' => $cartDatas]
             );
         } else {
             return $this->twig->render('Reservations/reserver.html.twig', ['menus' => $menus]);
         }
     }
 
-    public function list()
-    {
-        $resaManager = new ReservationManager();
-        $reservations = $resaManager->selectAll();
-        return $this->twig->render('Reservations/list.html.twig', ['reservations' => $reservations]);
-    }
-
-    public function show(int $id)
-    {
-        $resaManager = new ReservationManager();
-        $reservation =  $resaManager->selectOneById($id);
-        return $this->twig->render('Reservations/show.html.twig', ['reservation' => $reservation]);
-    }
-
-    public function success()
-    {
-        if (isset($_SESSION['emailConfirmation'])) {
-            $email = $_SESSION['emailConfirmation'];
-            return $this->twig->render('Reservations/success.html.twig', ['email' => $email]);
-        } else {
-            header('location: /reservation/reserver');
-        }
-    }
-
     public function checkCart()
     {
+        if (isset($_SESSION['errors'])) {
+            unset($_SESSION['errors']);
+            unset($_SESSION['cartDatas']);
+        }
         if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
             $validator = new ValidationService();
             $output = $validator->checkCart();
@@ -75,8 +64,12 @@ class ReservationController extends AbstractController
                 $_SESSION['resaDatas'] = $resaDatas;
                 header('location: /users/infos');
             } else {
+                $_SESSION['errors'] = $errors;
+                $_SESSION['cartDatas'] = $resaDatas;
                 header('location: /reservation/reserver');
             }
+        } else {
+            header('location: /reservation/reserver');
         }
     }
 
@@ -117,6 +110,16 @@ class ReservationController extends AbstractController
             return 1;
         } else {
             return -1;
+        }
+    }
+
+    public function success()
+    {
+        if (isset($_SESSION['emailConfirmation'])) {
+            $email = $_SESSION['emailConfirmation'];
+            return $this->twig->render('Reservations/success.html.twig', ['email' => $email]);
+        } else {
+            header('location: /reservation/reserver');
         }
     }
 }

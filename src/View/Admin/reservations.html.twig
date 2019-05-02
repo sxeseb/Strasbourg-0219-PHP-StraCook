@@ -62,7 +62,6 @@
                         </thead>
                         <tbody>
                         {% for reservation in confirmed %}
-                            {% if reservation.status == 1 %}
                             <tr>
                                 <td>{{ reservation.date }}</td>
                                 <td>{{ reservation.guests }}</td>
@@ -71,7 +70,6 @@
                                 <td>{{ reservation.client }}</td>
                                 <td><a href="/admin/reservations/{{ reservation.id }}">plus d'infos</a></td>
                             </tr>
-                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
