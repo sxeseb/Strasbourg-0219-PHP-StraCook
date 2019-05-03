@@ -15,10 +15,7 @@ body
 
 }
 
-nav
-{
-    background-color: #067c06;
-    color: seashell;
+nav{
     letter-spacing: 1px;
 }
 
@@ -34,13 +31,13 @@ footer p
 
 footer .nav-link
 {
-    color: seashell;
+    color: #525252;
     transition: ease-in-out .25s;
 }
 
 footer .nav-link:hover
 {
-    color: rgba(0, 0, 0, 0.35);
+    color: rgba(121, 121, 121, 0.6);
 }
 
 header .nav-link
@@ -51,7 +48,7 @@ header .nav-link
 
 header .nav-link:hover
 {
-    color: #7fc80a;
+    color: rgba(127, 200, 10, 0.39);
 }
 .dropdown-menu
 {
