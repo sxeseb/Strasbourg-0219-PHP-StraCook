@@ -182,10 +182,11 @@ class AdminController extends AbstractController
         header('location: /admin/reservations');
     }
 
-    // gestion menus
-
     public function menus()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectAllMenus();
         return $this->twig->render('Admin/menu.html.twig', ['menus' => $menus]);
@@ -198,19 +199,22 @@ class AdminController extends AbstractController
         $deletemenu->deleteAllImage($id);
         if ($deletemenu ->delete($id)) {
             header('location: /admin/menus/');
+
         }
     }
 
     public function deleteOneImage(int $id):void
     {
         $deleteimage = new ImageManager();
-        if ($deleteimage ->deleteOneImage($id)) {
-            header('location: /admin/menus/');
-        }
+        $idMenu = $deleteimage ->deleteOneImage($id);
+            header('location: /Admin/updateMenu/'.$idMenu);
     }
 
     public function updateMenu(int $id)
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $adminmenu = new MenuManager();
         $menus = $adminmenu ->selectOneMenus($id);
         $imagesmenu = new ImageManager();
@@ -232,12 +236,16 @@ class AdminController extends AbstractController
                 }
             }
         }
-
         return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
     }
 
     public function updateImage(int $id)
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
+        $adminmenu = new MenuManager();
+        $menus = $adminmenu ->selectOneMenus($id);
         $imagesmenu = new ImageManager();
         $images = $imagesmenu -> selectAllImages($id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -253,15 +261,19 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
-                    header('location: /admin/menus');
+                    header('location: /Admin/updateMenu/'.$id);
+
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig', ['images'=>$images]);
+        return $this->twig->render('Admin/menuedit.html.twig', ['menu' => $menus, 'images'=>$images]);
     }
 
     public function addMenu()
     {
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
         $addmenu = new MenuManager();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validator = new ValidationService();
@@ -276,7 +288,8 @@ class AdminController extends AbstractController
                 $menuManager = new MenuManager();
                 if ($menuManager -> addmenu($menuDatas)) {
                     unset($_POST);
-                    header('location: /admin/menus');
+                    header('location: /Admin/menus');
+
                 }
             }
         }
@@ -286,7 +299,10 @@ class AdminController extends AbstractController
 
     public function addImage($id)
     {
-        $addimage = new ImageManager();
+        if (!isset($_SESSION['admin']) || empty($_SESSION['admin'])) {
+            header('location: /admin/login');
+        }
+        $adminmenu = new MenuManager();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $validatorImage = new ValidationService();
             $outputimage = $validatorImage->checkInsertImage();
@@ -303,10 +319,12 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->addImage($imageDatas)) {
                     unset($_POST);
-                    header('location: /admin/menus');
+
+                    header('location: /Admin/updateMenu/'.$id);
+
                 }
             }
         }
-        return $this->twig->render('Admin/menuedit.html.twig');
+        return $this->twig->render('Admin/menus.html.twig');
     }
 }

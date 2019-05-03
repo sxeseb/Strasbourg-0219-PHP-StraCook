@@ -48,12 +48,20 @@ class ImageManager extends AbstractManager
         return $statement->execute();
     }
 
-    public function deleteOneImage(int $id): bool
+
+
+    public function deleteOneImage(int $id)
     {
+        $statement = $this->pdo->prepare("SELECT menus_id FROM $this->table WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+        $idMenu = $statement->fetch();
         $statement = $this->pdo->prepare("DELETE FROM $this->table
         WHERE id=:id");
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
-        return $statement->execute();
+        if ($statement->execute()) {
+            return $idMenu['menus_id'];
+        }
     }
 
     public function updateImage(array $item, $id)
