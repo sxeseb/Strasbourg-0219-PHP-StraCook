@@ -43,7 +43,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class = "row p-3">
+                <div class = "row pl-3 pr-3">
                     <div class="form-group col-md-6">
                         <label for="entree">Entrée</label>
                         <textarea name="menu_starter" type="text" class="form-control" id="entree" rows="3"
@@ -61,7 +61,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class = "row p-3">
+                <div class = "row pl-3 pr-3">
                     <div class="form-group col-md-6">
                             <label for="dessert">Dessert</label>
                             <textarea name="menu_dessert" type="text" class="form-control" id="dessert" rows="3"
@@ -80,7 +80,11 @@
                             <small id="menu_menu_description_help" class="form-text text-danger">{{ errors.menu_description }}</small>
                         {% endif %}
                     </div>
-                <button type="submit" class="btn btn-secondary" href="/Admin/updateMenu/{{ menu.id }}">Editer</button>
+                <div class="row pl-3 pb-3">
+                    <div class="col-md-6">
+                         <button type="submit" class="btn btn-secondary" href="/Admin/updateMenu/{{ menu.id }}">Editer</button>
+                    </div>
+                </div>
             </form>
     </div>
 
