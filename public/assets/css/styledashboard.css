@@ -3,7 +3,7 @@ body
     background-color: seashell;
 }
 .alert {
-    height: 100px;
+
     letter-spacing: 1px;
     margin-bottom: 0px;
 
@@ -14,7 +14,6 @@ body
     position: relative;
 
 }
-
 
 nav
 {

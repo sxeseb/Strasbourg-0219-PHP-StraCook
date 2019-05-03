@@ -193,7 +193,7 @@ class ValidationService
                             echo "Fichier trop volumineux.";
                         }
                     } else {
-                        "Il y a une erreur de téléchargement.";
+                        echo "Il y a une erreur de téléchargement.";
                     }
                 } else {
                     echo "Le type de fichier n'est pas bon.";
@@ -235,7 +235,7 @@ class ValidationService
                             echo "Fichier trop volumineux.";
                         }
                     } else {
-                        "Il y a une erreur de téléchargement.";
+                        echo "Il y a une erreur de téléchargement.";
                     }
                 } else {
                     echo "Le type de fichier n'est pas bon.";

@@ -62,12 +62,26 @@ class AdminController extends AbstractController
         $dateService = new DateService();
         $confirmed = $dateService ->setToFormat($confirmed);
 
+        foreach ($confirmed as $key => $resa) {
+            $date = new \DateTime($resa['date']);
+            $days= $date->format('d');
+            $month = $date->format('M');
+
+            $confirmed[$key]['day']=$days;
+            $confirmed[$key]['month']=$month;
+        }
+
+
+
+
+
+
 
 
 
 
         return $this->twig->render('Admin/dashboard.html.twig', ['menutoday'=>$confirmed,
-            'menupending'=>$resaPending]);
+            'menupending'=>$resaPending,]);
     }
 
     public function reservations(int $id = null)
@@ -167,7 +181,8 @@ class AdminController extends AbstractController
         $deletemenu = new MenuManager();
         $deletemenu->deleteAllImage($id);
         if ($deletemenu ->delete($id)) {
-            header('location: /menu/menus/');
+            header('location: /admin/menus/');
+
         }
     }
 
@@ -193,7 +208,7 @@ class AdminController extends AbstractController
             list($errors, $menuDatas) = $output;
             if (!empty($errors)) {
                 return $this->twig->render(
-                    'menu/menuedit.html.twig',
+                    'Admin/menuedit.html.twig',
                     ['errors' => $errors, 'menu' => $menus]
                 );
             } else {
@@ -230,6 +245,7 @@ class AdminController extends AbstractController
                 if ($imageManager->updateImage($imageDatas, $id)) {
                     unset($_POST);
                     header('location: /Admin/updateMenu/'.$id);
+
                 }
             }
         }
@@ -256,6 +272,7 @@ class AdminController extends AbstractController
                 if ($menuManager -> addmenu($menuDatas)) {
                     unset($_POST);
                     header('location: /Admin/menus');
+
                 }
             }
         }
@@ -285,7 +302,9 @@ class AdminController extends AbstractController
                 $imageManager = new ImageManager();
                 if ($imageManager->addImage($imageDatas)) {
                     unset($_POST);
+
                     header('location: /Admin/updateMenu/'.$id);
+
                 }
             }
         }

@@ -4,7 +4,6 @@
     {% if menutoday.daysToDate < 1%}
     <div class="alert alert-primary alert-dismissible text-center">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <img class = "logotop" src="/assets/images/cloche-icon.png" alt="logo">
         <strong>Ce soir, vous avez </strong> <a href="/admin/reservations" class="alert-link">une reservation !</a>
     </div>
     {% endif %}
@@ -13,19 +12,31 @@
 
     <div class="alert alert-warning alert-dismissible text-center no-gutters">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>{{ menupending|length }}</strong> <a href="#" class="alert-link">reservations en attente de validation !</a>
+        <strong>{{ menupending|length }}</strong> <a href="#" class="alert-link">reservations </a> en attente de validation !
     </div>
 
     {% endif %}
 
 
-    {% if menutoday.daysToDate < 1%}
-        <div class="card border-info mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body text-info">
-                <h5 class="card-title">Info card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-    {% endif %}
+
+{% for menu in menutoday|slice(0,3)%}
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-dark text-center">
+                <div class="card-header">
+                    <h1 class="display-4"><span class="badge badge-secondary">{{ menu.day }} {{ menu.month }}</h1></div>
+                <div class="card-body text-dark">
+                <h3 class="text-uppercase"><strong>{{ menu.guests }} couverts</strong></h3>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ menu.date }}</li>
+                    <li class="list-inline-item"><i class="fa fa-clock-o" aria-hidden="true"></i> {{ menu.arrival}}<li>
+                    <li class="list-inline-item"><i class="fa fa-location-arrow" aria-hidden="true"></i>{{ menu.place }}</li>
+                </ul>
+                <p>{{ menu.client }} </p>
+                </div>
+             </div>
+         </div>
+    </div>
+{% endfor%}
+
 {% endblock %}
