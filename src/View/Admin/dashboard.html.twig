@@ -66,8 +66,42 @@
                     {% endif %}
                 </div>
                 <div class="col-12 col-sm-6">
-                    <div class="card">
+                    <h3 class="card-title">Prochaine réservation</h3>
+                    <div class="card p-5">
+                        <h4 class="card-title">Menu</h4>
+                        {% if orderDetails is not empty %}
+                        <table class="table table-borderless align-self-middle ">
+                            <tbody>
+                        {% for menu in orderDetails %}
+                        <tr>
+                            <td>{{ menu.name }}</td>
+                            <td>{{ menu.categorie }}</td>
+                            <td>{{ menu.quantity }}</td>
+                        </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
 
+                        <div class="row mb-4">
+                            <h4 class="card-title">Contact client</h4>
+                            <div class="col-12">
+                                <ul class="list-group mb-4">
+                                    <a class="list-group-item list-group-item-action disabled">{{ clientDetails.client }}</a>
+                                    <a class="list-group-item list-group-item-action disabled">{{ clientDetails.phone }}</a>
+                                    <a href="mailto:{{clientDetails.email }}" target="_blank" class="list-group-item list-group-item-action text-primary">Adresse email : {{ clientDetails.email }} </a>
+                                </ul>
+                            </div>
+                        </div>
+                        {% if clientDetails.commentaires is not empty %}
+                            <div class="mt-4">
+                                <h4 class="card-title">Commentaires</h4>
+                                <div class="card-body bg-light">
+                                    <p class="card-text">{{ clientDetails.commentaires }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                     </div>
                 </div>
             </div>
